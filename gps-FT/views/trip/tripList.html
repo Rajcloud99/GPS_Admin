@@ -1,0 +1,198 @@
+<div class="" ng-controller="tripListCtrl">
+  <div class="">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="">Trip List</a>
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="report h-set4">
+          <div class="trip-head">
+            <div class="col-sm-2">
+              <div class="input-group input-group-sm inn" >
+                <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+                <input  class="dtt" type="text" ng-model="vehicleNum" placeholder="By Vehicle" title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" typeahead="vehicleImei as vehicleImei.vehicle_no for vehicleImei in aTrips" typeahead-on-select="onSelect($item, $model, $label)" ng-change="remVehicle(vehicleNum)" style="width: 80%;">
+              </div>
+            </div>
+            <div class="col-sm-2 ">
+              <div class="input-group input-group-sm inn">
+                <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                <select class="input-sm" ng-model="status" ng-options="option for option in sAllTripStatus" ng-change="getStatus(status)" style="width: 88%; border: none;">
+                <option value="" style="display: none;">By Status</option>
+                </select>
+              </div>
+            </div>
+            <!-- <div class="col-sm-2 ">
+              <div class="input-group input-group-sm inn" >
+                <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+                <input  class="dtt" type="text" ng-model="vehicleNum" placeholder="Search source" title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" typeahead="vehicleImei as vehicleImei.vehicle_no for vehicleImei in aTrips" typeahead-on-select="onSelect($item, $model, $label)" ng-change="remVehicle(vehicleNum)" style="width: 80%;">
+              </div>
+            </div> -->
+            <div class="col-sm-2 " style="">
+              <div class="input-group input-group-sm inn" >
+                <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+                  <div class="" ng-class="{ 'fg-toggled': opened1 == true }" >
+                    <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+                    <input ng-click="open($event, 'opened1')" type="text" class=" " datepicker-popup="{{format}}" show-weeks="false" ng-model="tDate" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="By start time " ng-change="getNotifi()" style="width: 85%; border: none; padding: 6px;" / >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span>
+              <a ng-click="showDiv = !showDiv;toggle = !toggle;trackAllTrip();" class="btn btn-normal"><span class="glyphicon " ng-class="{'glyphicon-road': !showDiv, 'glyphicon-th-list': showDiv}"></span> {{toggleText}}</a>
+            </span> &nbsp;&nbsp;
+            <span>
+              <a class="btn btn-normal" ng-click="createTrip()"><span class="glyphicon glyphicon-plus"></span> Create Trip</a>
+            </span> &nbsp;&nbsp;
+            <span>
+              <button href="" class="btn btn-normal" ng-disabled="aTrips.length < 1" ng-click="dwnldXlsx(reportData)">Download Report</button>
+            </span> &nbsp;&nbsp;
+            <div ng-show="progressHide" class="fileinput p-r-0" data-provides="fileinput">
+              <span ng-hide="true" class="btn btn-normal btn-file">
+                <span class="fileinput-new" id="upload_btn">Select file</span>
+                <input type="file" id="upload_input">
+              </span>
+              <span class="fileinput-filename" id="file_drop" dropzone="copy"></span>
+            </div>
+
+            <!-- <span popover="Click to download the sample file" popover-placement="left-bottom" popover-trigger="mouseenter" type="button" class=""><a href="files/sample.xlsx" target="_blank"><img src="img/icons/q.png" style="width:14px;"></a></span> -->
+            <!-- <div ng-hide="progressHide" class="rrr">
+              <div class="uploadPercent">{{progress}}%</div>
+              <div class="uploadProgress-bar">
+                <div class="fileUploaded" ng-style="{'width': progress+'%'}"></div>
+              </div>
+            </div> -->
+            <span>
+              <a ng-click="settingColumnOnTrip()" class="pointer" uib-tooltip="Setting Column" tooltip-placement="bottom"><span class="glyphicon glyphicon-cog"></span>&nbsp;Setting</a>
+            </span>
+            <!-- <a href="" class="btn btn-normal">Map</a>
+            <a href="" class="btn btn-normal">List</a> -->
+          </div>
+          <div class="toggle-map" id="map-togg">
+            <div class="" style="height: 450px; overflow: auto;border-top: 1px solid #eee;">
+              <div class="col-sm-2 s-side">
+                <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+                  <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                  <input  class="" type="text" ng-model="vehicleNo" placeholder="Search By  Vehicle Number......" title="Please enter  Vehicle Number" aria-describedby="sizing-addon1" style="border: none; width:66%;padding: 0 5px;">
+                </div>
+                <ul>
+                  <li ng-repeat="device in aTrips | filter: vehicleNo"><a class="pointer">{{device.vehicle_no}}</a></li>
+                </ul>
+              </div>
+              <div class="col-sm-10 bott pull-left">
+                <div class="col-md-12" style="width:100%;height:445px;border:1px solid"  id="tripMap"></div>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-table" ng-show="!showDiv">
+            <div class="table-responsive" style="min-height: 435px;height: 400px;">
+              <table class="table table-condensed unresponsive">
+                <thead>
+                  <tr>
+                    <th ng-if="!(aFieldShow.indexOf('vehicle_no')==-1)">Vehicle</th>
+                    <th ng-if="!(aFieldShow.indexOf('imei')==-1)">IMEI</th>
+                    <th ng-if="!(aFieldShow.indexOf('trip_no')==-1)">Trip No.</th>
+                    <th ng-if="!(aFieldShow.indexOf('trip_id')==-1)">Trip Id</th>
+                    <th ng-if="!(aFieldShow.indexOf('source')==-1)">Source</th>
+                    <th ng-if="!(aFieldShow.indexOf('destination')==-1)">Destination</th>
+                    <!-- <th ng-if="!(aFieldShow.indexOf('journey')==-1)">Journey</th> -->
+                    <th ng-if="!(aFieldShow.indexOf('consignee')==-1)">Consignee</th>
+                    <th ng-if="!(aFieldShow.indexOf('consignor')==-1)">Consignor</th>
+                    <th ng-if="!(aFieldShow.indexOf('manager')==-1)">Manager</th>
+                  <!--  <th ng-if="!(aFieldShow.indexOf('loading')==-1)">Loading</th>
+                    <th ng-if="!(aFieldShow.indexOf('unloading')==-1)">Unloading</th>
+                  -->
+                    <th ng-if="!(aFieldShow.indexOf('status')==-1)">Status</th>
+                    <th ng-if="!(aFieldShow.indexOf('driver')==-1)">Driver</th>
+                    <th ng-if="!(aFieldShow.indexOf('driver_no')==-1)">Driver No.</th>
+                    <th ng-if="!(aFieldShow.indexOf('enabled')==-1)">Enabled</th>
+                    <th ng-if="!(aFieldShow.indexOf('est_dist')==-1)">Estimated Distance</th>
+                    <th ng-if="!(aFieldShow.indexOf('forworder')==-1)">Forworder</th>
+                    <th ng-if="!(aFieldShow.indexOf('etoa')==-1)">ETOA</th>
+                    <th ng-if="!(aFieldShow.indexOf('cur_location')==-1)">Current Location</th>
+                    <th ng-if="!(aFieldShow.indexOf('last_tracking')==-1)">Last Tracking</th>
+                    <th ng-if="!(aFieldShow.indexOf('gps_status')==-1)">Gps Status</th>
+                    <th ng-if="!(aFieldShow.indexOf('start_time')==-1)">Start Time</th>
+                    <th ng-if="!(aFieldShow.indexOf('end_time')==-1)">End Time</th>
+                    <th ng-if="!(aFieldShow.indexOf('created_at')==-1)">Created At</th>
+                    <th ng-if="!(aFieldShow.indexOf('created_by')==-1)">Created By</th>
+                    <th ng-if="!(aFieldShow.indexOf('user_id')==-1)">User Id</th>
+                    <th ng-if="!(aFieldShow.indexOf('alarms')==-1)">Alarm</th>
+                    <th ng-if="!(aFieldShow.indexOf('trip_date')==-1)">Trip Date</th>
+                    <th ng-if="!(aFieldShow.indexOf('remark1')==-1)">Remark 1</th>
+                    <th ng-if="!(aFieldShow.indexOf('remark2')==-1)">Remark 2</th>
+                    <th ng-if="!(aFieldShow.indexOf('remark3')==-1)">Remark 3</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="trip in aTrips" ng-if="aTrips.length > 0">
+                    <td ng-if="!(aFieldShow.indexOf('vehicle_no')==-1)"><a href="" ng-click="showTripDetail(trip)" uib-tooltip="Click for Detail">{{trip.vehicle_no || "NA" }}</a></td>
+                    <td ng-if="!(aFieldShow.indexOf('imei')==-1)">{{trip.imei || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('trip_no')==-1)">{{trip.trip_no || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('trip_id')==-1)">{{trip.trip_id || "NA" }}</td>
+                    <td style="min-width: 160px;" ng-if="!(aFieldShow.indexOf('source')==-1)">{{trip.source || "NA" }}</td>
+                    <td style="min-width: 160px;" ng-if="!(aFieldShow.indexOf('destination')==-1)">{{trip.destination || "NA" }}</td>
+                    <!-- <td ng-if="!(aFieldShow.indexOf('journey')==-1)">{{trip.journey || "NA" }}</td> -->
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('consignee')==-1)">{{trip.consignee || "NA" }}</td>
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('consignor')==-1)">{{trip.consignor || "NA" }}</td>
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('manager')==-1)">{{trip.manager || "NA" }}</td>
+                    <!--
+                    <td ng-if="!(aFieldShow.indexOf('loading')==-1)">{{trip.loading || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('unloading')==-1)">{{trip.unloading || "NA" }}</td>
+                  -->
+                    <td ng-if="!(aFieldShow.indexOf('status')==-1)">{{trip.status || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('driver')==-1)">{{trip.driver || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('driver_no')==-1)">{{trip.driver_no || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('enabled')==-1)">{{trip.enabled || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('est_dist')==-1)">{{trip.est_dist || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('forworder')==-1)">{{trip.forworder || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('etoa')==-1)">{{trip.etoa || "NA" }}</td>
+                    <td style="min-width: 235px;" ng-if="!(aFieldShow.indexOf('cur_location')==-1)">{{trip.cur_location.address || "NA" }}</td>
+                    <td style="min-width: 235px;" ng-if="!(aFieldShow.indexOf('last_tracking')==-1)">{{trip.cur_location.address || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('gps_status')==-1)">{{trip.gps_status || "NA" }}</td>
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('start_time')==-1)">{{trip.start_time_local || "NA" }}</td>
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('end_time')==-1)">{{trip.end_time_local || "NA" }}</td>
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('created_at')==-1)">{{trip.create_time || "NA" }}</td>
+                    <td style="min-width: 140px;" ng-if="!(aFieldShow.indexOf('created_by')==-1)">{{trip.created_by || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('user_id')==-1)">{{trip.user_id || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('alarms')==-1)">{{trip.alarms || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('trip_date')==-1)">{{trip.trip_date || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('remark1')==-1)">{{trip.remark1 || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('remark2')==-1)">{{trip.remark2 || "NA" }}</td>
+                    <td ng-if="!(aFieldShow.indexOf('remark3')==-1)">{{trip.remark3 || "NA" }}</td>
+                  </tr>
+                  <tr ng-if="aTrips.length < 1">
+                    <td colspan="4">No any trip available !!!</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pagin text-center">
+              <pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" items-per-page="13"></pagination>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .fileinput-exists .fileinput-new, .fileinput-new .fileinput-exists{display: block;}
+  .unresponsive thead tr th {
+    min-width: 80px;
+  }
+  /* .report table.table tbody tr td:first-child {min-width: 106px;}
+  .report table.table tbody tr td:nth-child(2) {min-width: 100px;}
+  .report table.table tbody tr td:nth-child(3) {min-width: 100px;}
+  .report table.table tbody tr td:nth-child(4) {min-width: 75px;}
+  .report table.table tbody tr td:nth-child(5) {min-width: 60px;}
+  .report table.table tbody tr td:nth-child(6) {width: 300px;}
+  .report table.table tbody tr td:nth-child(7) {min-width: 150px;}
+  .report table.table tbody tr td:nth-child(8) {min-width: 150px;}
+  .report table.table tbody tr td:nth-child(9) {min-width: 150px;padding-right: 0px;} */
+</style>

@@ -1,0 +1,116 @@
+<div class="my_device">
+    <div class="card-body table-responsive" ng-controller="myDeviceSearchCtrl">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+                <div class="col-sm-6">
+                    <a ng-hide="selectedUser.role == 'user'" class="btn btn-normal" href="" ng-click="allocateDevice($index)" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span>&nbsp;Device Allocation</a> &nbsp;
+                    <a ng-hide="selectedUser.role == 'user'" class="btn btn-normal" href="" ng-click="allocAllDevice($index)" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span>&nbsp;Allocation All</a>
+                </div>
+                <!-- <div class="col-sm-2" ng-hide="selectedUser.role == 'admin' || selectedUser.role == 'dealer'">
+                    <button class="btn btn-primary" ng-click="addVehicle()" tooltip="Pull Vehicle"><span class="glyphicon glyphicon-plus"></span>Add Vehicle</button>
+                </div> -->
+<!--                <div class="col-sm-4 ">-->
+<!--                    <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 5px; width:100%;">-->
+<!--                        <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;-->
+<!--                        <input  class="" type="text" ng-model="deviceImei" placeholder="Search By name and  IMEI" title="Please enter  IMEI Number" aria-describedby="sizing-addon1" style="border: none;width: 90%;">-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="col-sm-2">
+                    <div class="input-group input-group-sm inn">
+                        <span class="glyphicon glyphicon-search"></span>&nbsp;
+                        <input class="dtt" style="width: 80%;" type="text"
+                               ng-model="filter.vehicleNo"
+                               placeholder="Search By Vehicle No." title="Please Enter Here"
+                               aria-describedby="sizing-addon1" typeahead-wait-ms="9">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group input-group-sm inn">
+                        <span class="glyphicon glyphicon-search"></span>&nbsp;
+                        <input class="dtt" style="width: 80%;" type="text"
+                               ng-model="filter.imei"
+                               placeholder="Search By imei No." title="Please Enter Here"
+                               aria-describedby="sizing-addon1" typeahead-wait-ms="9">
+                    </div>
+                </div>
+                <div class="col-md-2 pull-right">
+                    <div class="form-group m-b-0 text-center">
+                        <button class="btn btn-primary p-t-0 p-b-0" ng-disabled="!filter.imei && !filter.vehicleNo"
+                                type="button"
+                                style="margin-bottom: 3px;  font-size: 16px"
+                                uib-tooltip="Search"
+                                ng-click="getDevices()"
+                                tooltip-placement="bottom">
+                            <i class="zmdi zmdi-search zmdi-hc-fw"></i>
+                        </button>
+                        <button class="btn btn-primary p-t-0 p-b-0"
+                                type="button"
+                                style="margin-bottom: 3px;  font-size: 16px"
+                                uib-tooltip="Clear All"
+                                ng-click="filter = {}"
+                                tooltip-placement="bottom">
+                            <i class="zmdi zmdi-close zmdi-hc-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row" ng-hide="selectedUser.role == 'admin'">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+              <div class="col-sm-4">
+                  <label class="checkbox checkbox-inline m-r-20">
+                    <input type="checkbox" ng-model="own" ng-click="toggleOwn(own)" >
+                      <i class="input-helper"></i>
+                      Own
+                  </label>
+                  <label class="checkbox checkbox-inline m-r-20">
+                    <input type="checkbox" ng-model="partner_d" ng-click="togglePart(partner_d)" >
+                      <i class="input-helper"></i>
+                      Partner
+                  </label>
+              </div>
+          </div>
+        </div> -->
+        <div class="table-responsive scroll">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Name</th>
+<!--                    <th>Branch</th>-->
+                     <th ng-hide="localStorageUser.role == 'user'">IMEI</th>
+                    <th ng-hide="localStorageUser.role == 'user'">Type</th>
+                    <th ng-hide="localStorageUser.role == 'user'">Activation Time</th>
+                    <th ng-hide="localStorageUser.role == 'user'">Expired Time</th>
+                    <th>last Modified</th>
+                    <th>Operate</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="device in deviceData">
+                    <td>{{$index+1}}</td>
+                    <td><input type="checkbox" ng-model="device.selected" ng-hide="selectedUser.role == 'user'"> {{device.reg_no || device.name}}</td>
+<!--                    <td>{{device.branch }}</td>-->
+<!--                    <td>{{device.vehicle_type }}</td>-->
+                     <td ng-hide="localStorageUser.role == 'user'">{{device.imei }}   <span ng-if="device.ownership=='partner'" class="own">P</span>
+                     <span ng-if="device.ownership=='owned'" class="own">M</span><span ng-if="device.ownership=='owner'" class="own">M</span>
+                    </td>
+                    <td ng-hide="localStorageUser.role == 'user'">{{device.device_type}}</td>
+                    <td ng-hide="localStorageUser.role == 'user'">{{device.activation_time | date:"dd-MM-yyyy h:mm a"}}</td>
+                    <td ng-hide="localStorageUser.role == 'user'">{{device.expiry_time | date:"dd-MM-yyyy h:mm a"}}</td>
+                    <td>{{device.last_modified | date:"dd-MM-yyyy h:mm a"}}</td>
+                    <td>
+                        <a href="" ng-click="edtDevice(device)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                        <a href="" ng-hide="selectedUser.role == 'user'" ng-click="allocDevice(device)" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span></a>&nbsp;&nbsp;
+                        <!-- <a ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" href="" tooltip="Extension upon expire"><span class="glyphicon glyphicon-time"></span></a>&nbsp;&nbsp;  -->
+                        <a ng-click="trackLive(device)" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-class="{'f-inactive' : device.status == 'inactive', 'f-offlineD' : device.status == 'offline'}"  href="" tooltip="Tracking" ng-disabled="device.status == 'inactive'"><span class="glyphicon glyphicon-road"></span></a>&nbsp;&nbsp;
+                        <!-- <a ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" href="" tooltip="Playback"><span class="glyphicon glyphicon-play-circle"></span></a>&nbsp;&nbsp;  -->
+                        <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="removeGPSGaadi(device)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;
+                        <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="malfunction(device)" tooltip="Malfunction"><i class="zmdi zmdi-bug zmdi-hc-fw f16"></i></a>&nbsp;
+                    </td>
+                </tr></p>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

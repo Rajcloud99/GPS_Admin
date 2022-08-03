@@ -1,0 +1,91 @@
+<div ng-controller="alertCtrl">
+  <div class="row h-set">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 50px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Alerts List</a>
+    <div class="row sub-head">
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 pull-right">
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm inn" >
+            <span class="glyphicon glyphicon-search"></span>&nbsp;
+            <input  class="dtt" type="text" ng-model="vehicleName" placeholder="Search By Vehicle Name" title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" uib-typeahead="vehicleImei as vehicleImei.reg_no for vehicleImei in bVehicle | filter:$viewValue" typeahead-on-select="onSelect($item, $model, $label)" ng-change="removeVeh(vehicleName)" style="width: 90%;">
+          </div>
+        </div>
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm inn">
+            <span class="glyphicon glyphicon-search"></span>
+                  <select class="input-sm" ng-model="selectedAlert" name="searchBy" ng-options="option for option in bAllAlertTypes" ng-change="getAlertType(selectedAlert)" style="width: 92%; border: none;">
+                  <option value="" style="display: none;">Search BY Alert Type</option>
+                  </select>
+          </div>
+        </div>
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm inn">
+            <span class="glyphicon glyphicon-search"></span>
+                  <select class="input-sm" ng-model="status" ng-options="option for option in sAllAlertTypes" ng-change="getStatus(status)" style="width: 92%; border: none;">
+                  <option value="" style="display: none;">Search Status</option>
+                  </select>
+          </div>
+        </div>
+        <!-- <a class="btn btn-primary" href="" ng-click=" " tooltip-placement="bottom" tooltip="Search By Vehicle Name">Vehicle Name</a>
+        <a class="btn btn-primary" href="" ng-click=" " tooltip-placement="bottom" tooltip="Search by Type of Alert" >Type of Alert</a>
+        <a class="btn btn-primary" href="" ng-click=" " tooltip-placement="bottom" tooltip="Search by Status">Status</a>
+        <a class="btn btn-primary" href="" ng-click=" " tooltip-placement="bottom" tooltip="Search by Name" >Name</a> -->
+        <a class="btn btn-primary" ng-click="createAlert()"><span class="glyphicon glyphicon-plus"></span> Create Alert</a>
+      </div>
+    </div>
+    <div class="table-responsive tbl-dsn" style="min-height: 470px;">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+              <!-- <th>#</th> -->
+              <th>Vehicle No.</th>
+              <th>Alert type(Category)</th>
+              <th>Geofence</th>
+              <!-- <th>Geofence name</th> -->
+              <th>Contact</th>
+              <th>Operate</th>
+              <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="alert in aAlerts" ng-if="aAlerts.length > 0">
+              <!-- <td>{{$index+1}}</td> -->
+              <td><b>{{alert.vehicle_no}}</b></td>
+              <td>{{alert.atype}}<span ng-if="alert.category"> ({{alert.category}})</span></td>
+              <td ng-if="alert.atype=='halt'">{{alert.halt_duration}} Minute</td>
+              <td ng-if="alert.atype=='geofence'">{{alert.name}}</td>
+              <td ng-if="alert.atype=='over_speed'">{{alert.over_speed}} Limit</td>
+              <!-- <td>{{alert.name}}</td> -->
+              <td>{{alert.driver_name || 'NA'}}</td>
+              <td>
+                <!-- <a href="" tooltip="See on map"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;  -->
+                <a href="#!/main/createAlert" ng-click="updateAlertFull(alert)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+                <a href="" ng-click="removeAlert(alert)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp; 
+              </td>
+              <td>
+                <div class="toggle-switch" data-ts-color="blue">
+                    <input id="{{$index}}" ng-click="updateAlertToggle(alert)" ng-model="alert.enabled" type="checkbox" hidden="hidden">
+                    <label for="{{$index}}" class="ts-helper"></label>
+                </div>
+              </td>
+          </tr>
+          <tr ng-if="aAlerts.length < 1">
+            <td colspan="4">No any alarm available !!!</td>
+          </tr>
+            
+        </tbody>
+      </table>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="pagin text-center">
+      <ul uib-pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" items-per-page="13"></ul>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .table-hover thead tr th{background: #eee;font-size: 15px;}
+  
+</style>

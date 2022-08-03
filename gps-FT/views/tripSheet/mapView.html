@@ -1,0 +1,369 @@
+<div class="bg-e">
+	<div class="row sub-head">
+		<a class="wavesUrl waves-effect" ng-click="vm.homePage()"
+		   style="height: 16px; margin-left: 15px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+		<a class="wavesUrl waves-effect" ng-click="" style="height: 16px;">Map View</a>
+		<div class="col-lg-10 col-md-10 col-sm-10 pull-right">
+		</div>
+	</div>
+</div>
+
+<div class="card m-b-0 m-t-10 m-l-10 m-r-0"
+	 style="background: none;box-shadow: none;width:98%;padding-bottom: 10px"
+	 id="messages-main">
+	<div class="card" style="height: 600px;margin-left:30%;overflow: auto">
+		<div style="position: relative; height: 100%">
+			<div ng-if="!showMap"
+				 style="height: 100%;"
+				 ui-view>
+			</div>
+			<div style="height: 100%;" ng-show="showMap">
+				<div class="card-body" id="mapViewTracking" style="width:100%; height: 100%; z-index: 1;"></div>
+
+				<div class="card-body absolutePosi zoomCtrls">
+					<div class="pointer icon-wrapper"
+						 style="border-bottom: 1px solid #80808038"
+						 ng-click="mvcVm.zoomIn()">
+						<i class="glyphicon glyphicon glyphicon-plus" ></i>
+					</div>
+					<div class="pointer icon-wrapper"
+						 ng-click="mvcVm.zoomOut()">
+						<i class="glyphicon glyphicon glyphicon-minus" ></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="toolTipDiv" class="mapToolTipDiv hideIt"></div>
+
+<div id="toolTipDivMapWrapper"
+	 style="diplay: none; z-index: 11"
+	 class="mapViewPopup">
+	<div class="addr" style="font-size: 12px;color: black;font-weight: bold;"></div>
+</div>
+
+<style>
+
+	.playbackFullscreen{
+		margin-left: 0% !important;
+		width: 100%;
+	}
+
+	.fs-18{
+		font-size: 18px;
+	}
+
+	.mapToolTipDiv{
+		width: 298px;
+		background: #edecec;
+		height: 298px;
+		border-radius: 6px;
+		visibility: hidden;
+	}
+
+	.hideIt{
+		visibility: hidden;
+		position: absolute !important;
+		left: 0px;
+		top: 0px;
+	}
+
+	.showIt{
+		visibility: visible;
+		position: relative;
+	}
+
+	.mapViewPopup{
+		display: none;
+		width: 300px;
+		background: #edecec;
+		height: 300px;
+		text-align: center;
+		border-radius: 6px;
+		border: 1px solid black;
+		/*padding: 5px 0;*/
+		position: absolute;
+		left: 5px;
+		z-index: 1;
+	}
+
+	.ja-green{
+		color: #00aa22;
+	}
+	.ja-red{
+		color: red;
+	}
+	.ja-grey{
+		color: grey;
+	}
+
+	.g {
+		color: #08E008;
+	}
+
+	.r {
+		color: #F10505;
+	}
+
+	.capitalize{
+		text-transform: capitalize;
+	}
+
+	.absolutePosi{
+		position: absolute;
+	}
+
+	.icon-wrapper{
+		padding: 5px;
+		background: white;
+	}
+
+	.zoomCtrls{
+		z-index: 2;
+		top: 5px;
+		left: 5px;
+	}
+
+	.zoomCtrls span{
+		margin-top: 5px;
+		background: whitesmoke;
+		padding: 10px;
+	}
+
+	.tooltip {
+		position: relative;
+		display: inline-block;
+		border-bottom: 1px dotted black;
+	}
+
+	.tooltip .tooltiptext {
+		visibility: hidden;
+		width: 250px;
+		background-color: white;
+		border: 1px solid #00000030;
+		height: 200px;
+		color: #000;
+		border-radius: 6px;
+		position: absolute;
+		left: -75%;
+		z-index: 1;
+	}
+
+	.bgSelected{
+		background-color: #d8d8d8;
+	}
+
+	.tooltip:hover .tooltiptext {
+		visibility: visible;
+	}
+
+	.unresponsive thead tr th:nth-child(14){
+		min-width: 150px;
+	}
+
+	.unresponsive thead tr th:nth-child(13){
+		min-width: 150px;
+	}
+
+	.unresponsive thead tr th:nth-child(12){
+		min-width: 150px;
+	}
+
+	.unresponsive thead tr th:nth-child(10){
+		min-width: 160px;
+	}
+
+	.unresponsive thead tr th:nth-child(11){
+		min-width: 220px;
+	}
+
+	.dif{
+		display: inline-flex;
+	}
+	.dif h4{
+		margin: 0px !important;
+	}
+
+	.border-b{
+		border-bottom: 1px solid black;
+	}
+
+	.border-r-1{
+		border-right: 1px solid black;
+	}
+
+	.map-popup p {
+		margin: 0px !important;
+		color: #1E85D8;
+		font-weight: bold;
+	}
+
+	.map-popup p.pp-hd{
+		background: #eee;
+		color: #000!important;
+		font-size:15px;
+		border-bottom: 1px solid #000;
+	}
+
+	.map-popup p span {
+		color: #55595D !important;
+		font-weight: normal;
+	}
+
+	.bold{
+		font-weight: bold;
+	}
+
+	.g {
+		color: #00aa22;
+	}
+
+	.r {
+		color: #F10505;
+	}
+
+	.start:before{
+		content: ' ';
+		position: absolute;
+		height: 10px;
+		width: 10px;
+		background: red;
+		top: 10px;
+		left: 0px;
+	}
+
+	.start{
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.dis:before{
+		content: ' ';
+		position: absolute;
+		height: 30px;
+		width: 1px;
+		border: 2px dashed green;
+		top: 0px;
+		left: 3px;
+	}
+
+	.end:before{
+		content: ' ';
+		position: absolute;
+		height: 12px;
+		width: 12px;
+		background: #5fc0fb00;
+		top: 10px;
+		border-radius: 50%;
+		border: 3px solid #3eb4ff;
+		left: 0px;
+	}
+
+	.end{
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.sideTime:before{
+		content: " ";
+		height: 100%;
+		width: 1px;
+		border-left: 1px dashed;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.fs-10{
+		font-size: 10px;
+	}
+
+	.absolutePosi{
+		position: absolute;
+	}
+
+	.icon-wrapper{
+		padding: 5px;
+		background: white;
+	}
+
+	.zoomCtrls{
+		z-index: 2;
+		top: 5px;
+		left: 5px;
+	}
+
+	.zoomCtrls span{
+		margin-top: 5px;
+		background: whitesmoke;
+		padding: 10px;
+	}
+	section.main {
+		width: 100%;
+		float: none;
+		margin: 0;
+	}
+
+	.form-group label {
+		text-align: left;
+	}
+
+	dashboard .container:not(.ja-containter) {
+		width: 100%;
+	}
+
+	.ja-back {
+		position: absolute;
+		right: 40px;
+		top: 10px;
+		z-index: 1;
+	}
+
+	.red {
+		color: red;
+	}
+
+	.fs-25 {
+		font-size: 25px;
+	}
+
+	.ja-fullscreen {
+		position: fixed;
+		z-index: 10;
+		left: 0;
+		top: 40px;
+		width: 100% !important;
+		margin: 0 !important;
+		height: 100vh;
+		background: #0000003d;
+	}
+
+	.ja-fullscreen .card {
+		height: 80% !important;
+		width: 90%;
+		margin: 30px auto;
+		border-radius: 5px;
+	}
+
+	.nvd3-wrapper {
+		height: calc(100% - 40px) !important;
+		width: 100% !important;
+	}
+
+	nvd3, svg {
+		/*height: calc(100% - 40px) !important;*/
+		height: 100% !important;
+		width: 100% !important;
+	}
+
+	.unresponsive thead tr th {
+		min-width: 0 !important;
+		max-width: none !important;
+		padding: 5px 10px !important;
+	}
+
+</style>

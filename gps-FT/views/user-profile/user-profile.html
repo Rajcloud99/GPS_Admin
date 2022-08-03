@@ -1,0 +1,332 @@
+<div class="panel-body" ng-controller="profileCtrl" style="height: 100%">
+  <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+  <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Profile</a>
+  <form name="ProfilePage" style="padding: 0% 3% 17% 9%;" ng-switch="user.isEditing" autocomplete="off">
+    <div class="card-header">
+        <ul class="actions">
+            <li class="dropdown" dropdown is-open="status.isopen">
+              <!--<a href="" dropdown-toggle>
+                  <i class="zmdi zmdi-more-vert"></i>
+              </a>
+                <ul class="dropdown-menu dropdown-menu-right" style="height: auto;">
+                   <li>
+                     <a href="" ng-click="user.isEditing = true" >Edit User Profile</a>
+                   </li>        
+                </ul>-->
+                <a ng-click="user.isEditing = true" ><span class="glyphicon glyphicon-pencil"></span></a>
+            </li>
+        </ul>
+        <!--<a href="" ng-click="user.isEditing = true" >Edit User Profile</a>-->
+    </div>
+    <div class="row" style="box-shadow: 1px 1px 6px 1px #524E4E; padding: 4% 0% 9% 13%;;" ng-switch-default class="editable-text">
+      <div ng-if="user.user_id" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>User ID :</dt>
+            <dd>{{user.user_id}}</dd>
+          </dl>
+      </div>
+      <div class="col-md-6">
+          <dl ng-if="user.name" class="dl-horizontal">
+            <dt>User Name :</dt>
+            <dd>{{user.name}}</dd>
+          </dl>
+      </div>
+      <div ng-if="user.mobile" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Mobile :</dt>
+            <dd> {{user.mobile}}</dd>
+          </dl>
+      </div>
+      <div ng-if="user.type" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Type ：</dt>
+            <dd>{{user.type}}</dd>
+          </dl>
+      </div>
+      <div ng-if="user.email" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Email :</dt>
+            <dd>{{user.email}}</dd>
+          </dl>
+      </div>
+      <div ng-if="user.sub_users.length>0" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Sub User :</dt>
+            <dd>{{user.sub_users.length}}</dd>
+          </dl>
+      </div>
+      <div ng-if="user.pan" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Pan Number :</dt>
+            <dd>{{user.pan}}</dd>
+          </dl>
+      </div>
+      <div ng-if="user.status" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Status</dt>
+            <dd> {{user.status}}</dd>
+          </dl>
+      </div>
+
+      <div style="display: block" class="col-md-12">
+          <h5 style="opacity:0.75;margin-bottom: 15px" >User MIS Preferences</h5>
+          <div class="checkbox m-b-15" class="col-md-4" >
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.daily_activity" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Daily Activity Report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" disabled="disabled">
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.daily_hault" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Daily Halt Report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" disabled="disabled">
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.daily_mileage" disabled="disabled">
+                  <i class="input-helper"></i>
+                    Daily mileage report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" disabled="disabled">
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.daily_over_speed" disabled="disabled">
+                  <i class="input-helper"></i>
+                    Daily over speed report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" disabled="disabled">
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.daily_track_sheet" disabled="disabled">
+                  <i class="input-helper"></i>
+                    Daily tracking sheet
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" >
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.weekly_mileage" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Weekly mileage report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" >
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.weekly_overspeed" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Weekly over-speed report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" >
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.weekly_hault" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Weekly halt report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" >
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.monthly_mileage" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Monthly mileage report
+              </label>
+          </div>
+          <div class="checkbox m-b-15" class="col-md-4" >
+              <label style="cursor:not-allowed">
+                  <input type="checkbox"
+                         ng-model="user_mis_preferences.monthly_hault" disabled="disabled">
+                  <i class="input-helper"></i>
+                  Monthly halt report
+              </label>
+          </div>
+      </div>
+
+    </div>
+
+    <!--**********************************************************************************     ******************************************************************************
+              **************************************************************** -->
+    <div class="row" style="box-shadow: 1px 1px 6px 1px #524E4E; padding: 3% 2% 2% 3%;" ng-switch="user.isEditing" ng-switch-when="true">
+      <!-- <div class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>User ID :</dt>
+            <dd><input placeholder="Enter User Id" class="form-control" ng-model="user.user_id" type="text" ></dd>
+          </dl>
+      </div> -->
+      <div class="text-center" ng-show="localStorageUser.role=='admin' && user.role !='admin'">
+        <!-- <hr class="hr-primary"> -->
+        <div class="n-bg rdo">
+          <label class="radio radio-inline m-r-20" ng-class="{active : registration.role == 'user'}">
+            <input type="radio" name="options" id="option2" ng-model="registration.role" value="user" autocomplete="off" ng-click=setTypeUserValue('typeUser')> 
+              <i class="input-helper"></i>
+             User
+          </label>
+          <label class="radio radio-inline m-r-20" ng-class="{active : registration.role == 'dealer'}">
+            <input type="radio" name="options" id="option3" ng-model="registration.role" value="dealer" autocomplete="off" ng-click=setTypeUserValue('typeDealer') checked>
+              <i class="input-helper"></i>
+              Dealer
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>User Name :</dt>
+            <dd><input placeholder="Enter Name" class="form-control" ng-model="user.name" type="text" ></dd>
+          </dl>
+      </div>
+      <div class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Mobile :</dt>
+            <dd><input placeholder="Enter Mobile" class="form-control" ng-model="user.userMobile" type="number" ng-minlength="10" ng-maxlength="10"></dd>
+          </dl>
+      </div>
+      <div  class="col-md-6" ng-if="typeofDealer">
+          <dl class="dl-horizontal">
+            <dt>Type ：</dt>
+            <dd>
+              <select ng-model="userType" ng-options="option for option in bUserType" class="form-control">
+                <option value="" style="display: none;">Dealer</option>
+              </select></dd>
+          </dl>
+      </div>
+      <div  class="col-md-6" ng-if="subTypeofUser">
+          <dl class="dl-horizontal">
+            <dt>Type ：</dt>
+            <dd>
+              <select ng-model="user.type" ng-options="option for option in aUserType" class="form-control">
+                <option value="" style="display: none;"> Select User Type </option>
+              </select></dd>
+          </dl>
+      </div>
+      <div  class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Email :</dt>
+            <dd><input placeholder="Enter Name" type="email" class="form-control" ng-model="user.email" type="text" ></dd>
+          </dl>
+      </div>
+      <div class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Pan Number :</dt>
+            <dd><div class="form-group fg-line" ng-class="{ 'has-error': ProfilePage.panId.$touched && ProfilePage.panId.$invalid}">
+            <input placeholder="Enter Pan Number" class="form-control" ng-model="user.pan" type="text" pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"></dd>
+          </dl>
+      </div><!-- 
+      <div ng-if="user.status" class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>Status</dt>
+            <dd> {{user.status}}<input placeholder="Enter Name" class="form-control" ng-model="user.name" type="text" ></dd>
+          </dl>
+      </div> -->
+      <br><br><br>
+
+        <div ng-show="localStorageUser.role == 'admin' && user.role =='user'" style="display: block;" class="col-md-12" >
+            <h5 style="opacity:0.75;margin-bottom: 15px" >User MIS Preferences</h5>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.daily_activity" >
+                    <i class="input-helper"></i>
+                    Daily Activity Report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.daily_hault" >
+                    <i class="input-helper"></i>
+                    Daily Halt Report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.daily_mileage" >
+                    <i class="input-helper"></i>
+                    Daily mileage report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.daily_over_speed" >
+                    <i class="input-helper"></i>
+                    Daily over speed report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.daily_track_sheet" >
+                    <i class="input-helper"></i>
+                    Daily tracking sheet
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.weekly_mileage" >
+                    <i class="input-helper"></i>
+                    Weekly mileage report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.weekly_overspeed" >
+                    <i class="input-helper"></i>
+                    Weekly over-speed report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.weekly_hault" >
+                    <i class="input-helper"></i>
+                    Weekly halt report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.monthly_mileage" >
+                    <i class="input-helper"></i>
+                    Monthly mileage report
+                </label>
+            </div>
+            <div class="checkbox m-b-15" class="col-md-4" >
+                <label >
+                    <input type="checkbox"
+                           ng-model="user_mis_preferences.monthly_hault" >
+                    <i class="input-helper"></i>
+                    Monthly halt report
+                </label>
+            </div>
+        </div>
+
+        <div class="col-sm-10" style="margin-left: 75%">
+            <div class="form-group">&nbsp &nbsp &nbsp
+                <button type="submit" class="btn btn-primary" name="user" ng-click="editSave(user)" >Save</button>
+
+                <button class="btn btn-danger btn-sm" ng-click="cancel(user)"
+                        ng-if="user.isEditing"><span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <br>
+  </form>
+</div>

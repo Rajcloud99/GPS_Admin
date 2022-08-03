@@ -1,0 +1,59 @@
+<div class="" ng-controller="geozonesListCtrl">
+  <div class="row h-set">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 50px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Geozones</a>
+    <div class="clearfix"></div>
+    <div class="input-group input-group-sm pull-left" style="border: 1px solid #E8E8E8;padding: 6px; width:30%;margin-left: 50px;margin-top: 10px;">
+      <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+      <input  class="" type="text" ng-model="geoName" placeholder="Search By Name" aria-describedby="sizing-addon1" style="border: none; width:66%;padding: 0 5px;">
+    </div>
+    <div class="head-row">
+      <span>
+        <a class="btn btn-primary" ng-click="createGeo()"><span class="glyphicon glyphicon-plus"></span> Create Geofence</a>
+      </span>
+    </div>
+    <div class="table-responsive" style="min-height:470px;">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+              <!-- <th style="background: #aaefed;">#</th> -->
+              <th style="background: #aaefed;">Name</th>
+              <th style="background: #aaefed;">Latitude</th>
+              <th style="background: #aaefed;">Longitude</th>
+              <th style="background: #aaefed;">Create Time</th>
+              <th style="background: #aaefed;">Operate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="gZone in aGeoZoneList | filter: geoName" ng-if="aGeoZoneList.length > 0">
+              <!-- <td>{{$index+1}}</td> -->
+              <td>{{gZone.name}}</td>
+              <td>{{gZone.geozone[0].latitude}}</td>
+              <td>{{gZone.geozone[0].longitude}}</td>
+              <td>{{gZone.datetime}}</td>
+              <td>
+                <a href="#!/main/createAlert" ng-click="createAlrt(gZone)" tooltip="Create Alert"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
+                <a href="" ng-click="showGeofence(gZone)" tooltip="See on map"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
+                <a href="" ng-click="editGeofence(gZone)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+                <a href="" ng-click="removeGeofence(gZone)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp; 
+              </td>
+          </tr>
+          <tr ng-if="aGeoZoneList.length < 1">
+            <td colspan="4">No any data Available !!!</td>
+          </tr>  
+        </tbody>
+      </table>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="pagin text-center">
+      <ul uib-pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" items-per-page="13"></ul>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .table-hover thead tr th{background: #eee;font-size: 15px;}
+
+</style>

@@ -1,0 +1,39 @@
+<div class="head">
+  <div data-ng-include="'template/header-shareLocations.html'"></div>
+</div>
+<div class="main_page" ng-controller="shareLocationsCntr">
+  <!-- <aside class="sidebar shareLocSidebar" style="">
+    <div class="side_in">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="map-sidePopup" >
+            <p ng-if="deviceInfo.device_id">Device ID: <span> {{devSharedData.device_id }} </span></p>
+            <p>Vehicle No: <span> {{devSharedData.vehicle_no }} </span></p>
+            <p>Speed: <span>{{setValueSidebar.speed }} Km/h </span></p>
+            <p ng-if="acc_high">ACC: <span>{{acc_high }} </span></p>
+            <p>Date Time: <span>{{setValueSidebar.datetime }}</span></p>
+            <p>Position: <span>Lat:{{sLat}}, Long:{{sLng}}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside> -->
+
+  <section class="main">
+    <div class="pmb-block">
+      <div class="row">
+        <div class="">
+          <div class="user">
+            <div class="" style="height: 570px; overflow: auto;padding: 0;">
+              <div class=" bott">
+                <div class="" style="width:100%;height:568px;border:1px solid" id="position_map">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="clearfix"></div>
+</div>

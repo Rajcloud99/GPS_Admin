@@ -1,0 +1,136 @@
+<div class="pmb-block">
+    <div class="row" ng-controller="userCreateCtrl">
+      <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 50px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+      <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Create User</a>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="user" >
+          <form name="userForm" ng-submit="createUser(userForm)" autocomplete="off">
+            <div class="row">
+              <div class="text-center" style="margin-bottom:20px;">
+                <h2 class="section-heading">Register New User</h2>
+                <hr class="hr-primary">
+                <div class="n-bg rdo">
+                  <label class="radio radio-inline m-r-20" ng-class="{active : registration.role == 'dealer'}">
+                    <input type="radio" name="options" id="option3" ng-model="registration.role" value="dealer" autocomplete="off" ng-click=setTypeValue('typeDealer') checked>
+                      <i class="input-helper"></i>
+                      Dealer
+                  </label>
+                  <label class="radio radio-inline m-r-20" ng-class="{active : registration.role == 'user'}">
+                    <input type="radio" name="options" id="option2" ng-model="registration.role" value="user" autocomplete="off" ng-click=setTypeValue('typeUser')> 
+                      <i class="input-helper"></i>
+                     User
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line" ng-class="{ 'has-error': userForm.userId.$touched && userForm.userId.$invalid }">
+                      <label for="userId">User Id <span class="c-red">*</span></label> 
+                      <input ng-model="registration.user_id" name="userId" type="text" id="userId" class="form-control" placeholder="Enter User Id" ng-blur="checkUserID(registration.user_id)" required>
+                      <h5 ng-show ="hasSpace" class="c-red">Space not allowed !!!</h5>
+                      <h5 ng-show = "isAvailable" class="" style="color: #36F45F!important;">{{msg1}}</h5>
+                      <h5 ng-show = "!isAvailable" class="c-red">{{msg2}}</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line" ng-class="{ 'has-error': userForm.name.$touched && userForm.name.$invalid }">
+                      <label for="name">User Name <span class="c-red">*</span></label> 
+                      <input ng-model="registration.name" name="name" 
+                        type="text" id="name" class="form-control"
+                        placeholder="Enter User Name" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class=" fg-line" ng-class="{ 'has-error': userForm.number.$touched && userForm.number.$invalid }">
+                      <label for="number">Mobile Number <span class="c-red">*</span></label> 
+                      <input ng-model="registration.mobile" name="number"
+                        type="number" name ="number" class="form-control"
+                        placeholder="Enter Mobile Number" ng-minlength="10" ng-maxlength="10" required>
+                    </div>
+                    <div class="help-block error" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
+                          <small ng-message="minlength">Your No. is too short.</small>
+                          <small ng-message="maxlength">Your No. is too long.</small>
+                          <!-- <small ng-message="required">This Field is required.</small> -->
+                        </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="subTypeofUser">
+                  <div class="form-group">
+                    <div class=" fg-line">
+                      <label for="">User Type <span class="c-red">*</span></label> 
+                        <select ng-model="user.user_type" ng-options="option for option in aUserType" class="form-control" required="">
+                          <option value="" style="display: none;"> Select User Type </option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="typeofDealer">
+                  <div class="form-group">
+                    <div class=" fg-line">
+                      <label for="">User Type <span class="c-red">*</span></label><br>
+                        <select ng-model="userType" ng-options="option for option in bUserType" class="form-control">
+                          <option value="" style="display: none;">Dealer </option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group fg-line">
+                    <label for="emailId">Email</label>
+                    <input ng-model="registration.email" type="email" class="form-control" placeholder="Enter Email">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line" ng-class="{ 'has-error': userForm.password.$touched && userForm.password.$invalid }">
+                    <label for="passwordId">Password <span class="c-red">*</span></label> 
+                      <input ng-model="registration.password" name="password"
+                        type="password" class="form-control"
+                        placeholder="Enter Password" required>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group fg-line" ng-class="{ 'has-error': userForm.panId.$touched && userForm.panId.$invalid}" >
+                    <label for="panId">Pan Number</label>
+                    <input ng-model="registration.pan"
+                      type="text" id="panId" class="form-control"
+                      placeholder="Enter Pan Number" pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}">
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label for="role">User Role</label>
+                    <div class="controls">
+                      <select class="form-control" name="role" id="role" ng-options="option for option in roles.availableUserRoles" ng-model="registration.role" style="width: 362px;" >
+                      </select>
+                      </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="row" style="padding-top:10px;">
+                <div class="text-center">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg waves-effect" ng-disabled="!((registration.user_id) && (registration.role) && (registration.name) &&(registration.mobile) && (registration.password))">Register</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>

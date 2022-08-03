@@ -1,0 +1,331 @@
+<!--vmvVm-->
+<div class="card m-b-0" style="background: none;box-shadow: none;width:100%;margin: 0;padding-bottom: 0px;height: 535px;"
+     id="messages-main">
+
+    <div style="width:30%;padding-bottom: 60px;height: 100%; float: left">
+        <div class="col-md-12 card p-5 m-t-5 m-l-5 m-r-5 m-b-0" style="width: calc(100% - 10px);">
+            <div class="col-md-12">
+                <div class="col-md-8">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }">
+                            <input ng-click="vmvVm.DatePicker.openDatePicker(this, $event, 'opened1')"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="{{vmvVm.DatePicker.formats[0]}}"
+                                   show-weeks="false"
+                                   ng-model="vmvVm.start.date"
+                                   is-open="opened1"
+                                   datepicker-options="vmvVm.DatePicker.dateSettings"
+                                   close-text="Close"
+                                   placeholder="Start Date"
+                                   style="padding: 0px 4px;height: 34px;"/>
+                        </div>
+                        <span class="input-group-btn">
+							  	<button type="button"
+                                        class="btn btn-default m-t-0 f12"
+                                        ng-click="vmvVm.DatePicker.openDatePicker(this, $event, 'opened1')">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control"
+                            ng-model="vmvVm.start.hour"
+                            ng-options="item as item for item in vmvVm.aHour"
+                            name=""
+                            required>
+                        <option value="" disabled>Hours</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control"
+                            ng-model="vmvVm.start.min"
+                            ng-options="item as item for item in vmvVm.aMin"
+                            name=""
+                            required>
+                        <option value="" disabled>Minutes</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-8">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+                            <input ng-click="vmvVm.DatePicker.openDatePicker(this, $event, 'opened2')"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="{{vmvVm.DatePicker.formats[0]}}"
+                                   show-weeks="false"
+                                   min-date="vmvVm.start.date"
+                                   ng-model="vmvVm.end.date"
+                                   is-open="opened2"
+                                   datepicker-options="vmvVm.DatePicker.dateSettings"
+                                   close-text="Close"
+                                   placeholder="End Date"
+                                   style="padding: 0px 4px;height: 34px;"/>
+                        </div>
+                        <span class="input-group-btn">
+							  	<button type="button"
+                                        class="btn btn-default m-t-0 f12"
+                                        ng-click="vmvVm.DatePicker.openDatePicker(this, $event, 'opened2')">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control"
+                            ng-model="vmvVm.end.hour"
+                            ng-options="item as item for item in vmvVm.aHour"
+                            name=""
+                            required>
+                        <option value="" disabled>Hours</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control"
+                            ng-model="vmvVm.end.min"
+                            ng-options="item as item for item in vmvVm.aMin"
+                            name=""
+                            required>
+                        <option value="" disabled>Minutes</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+<!--                <div class="col-md-7">-->
+<!--                    <select chosen class="form-control"-->
+<!--                            ng-options="item as item for item in vmvVm.aTime"-->
+<!--                            ng-model=""-->
+<!--                            style="line-height: 34px;">-->
+<!--                        <option value="">Halt Duration</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div class="col-md-3 pull-right">
+                    <div class="form-group m-b-0 text-center p-t-10">
+                        <button class="btn btn-primary p-t-0 p-b-0"
+                                style="margin-bottom: 3px;  font-size: 16px"
+                                ng-click="vmvVm.search();">
+                            <i class="zmdi zmdi-search zmdi-hc-fw"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 card m-b-5" style="border-top: 1px solid #e6e6e6; padding: 5px 0 0 0;">
+            <div class="col-md-12 text-center p-0">
+                <div class="col-md-12 border-b">
+                    <div class="col-md-4 border-r-1" style="height: 55px;">
+                        <div class="col-md-12 bold g">Drive</div>
+                        <div class="col-md-12">{{vmvVm.oRes.dur_wo_stop | calHourMinfromSecs}}</div>
+                    </div>
+                    <div class="col-md-4 border-r-1" style="height: 55px;">
+                        <div class="col-md-12 bold">Distance</div>
+                        <div class="col-md-12">{{vmvVm.oRes.tot_dist + ' km'}}</div>
+                    </div>
+                    <div class="col-md-4" style="height: 55px;">
+                        <div class="col-md-12 bold">Max Speed</div>
+                        <div class="col-md-12">{{vmvVm.oRes.top_speed +' km/h'}}</div>
+                    </div>
+                </div>
+                <div class="col-md-12 border-b">
+                    <div class="col-md-4 border-r-1" style="height: 55px;">
+                        <div class="col-md-12 bold r">Stop</div>
+                        <div class="col-md-12">{{vmvVm.oRes.dur_stop|calHourMinfromSecs}}</div>
+                    </div>
+                    <div class="col-md-4 border-r-1" style="height: 55px;">
+                        <div class="col-md-12 bold">Stoppages</div>
+                        <div class="col-md-12">{{vmvVm.oRes.num_stops}}</div>
+                    </div>
+                    <div class="col-md-4" style="height: 55px;">
+                        <div class="col-md-12 bold">Current Stoppage</div>
+                        <div class="col-md-12">
+                            {{vehicle.vehicle.gpsData.status !== 'running'? vehicle.vehicle.gpsData.stoppage_time : '0
+                            min'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="height: calc(100% - 170px);overflow: scroll">
+            <div class="col-md-12 card m-b-5" style="border-top: 1px solid #e6e6e6; padding: 5px 0 0 0;">
+                <div class="col-md-12">
+                    <div ng-repeat="data in vmvVm.oRes.data | orderBy:null:true ">
+                        <div class="col-md-10" ng-if="data.drive">
+                            <div class="col-md-12 start p-5 p-l-15 pointer"
+                                 uib-popover="{{data.start_addr}}"
+                                 popover-trigger="mouseenter">{{data.start_addr}}
+                            </div>
+                            <div class="col-md-12 dis p-5 p-l-15">{{data.distance}} Km in {{data.duration|calHourMin}}
+                            </div>
+                            <div class="col-md-12 end p-5 p-l-15"
+                                 uib-popover="{{data.stop_addr}}"
+                                 popover-trigger="mouseenter">{{data.stop_addr}}
+                            </div>
+                        </div>
+                        <div class="col-md-10 pointer" ng-if="!data.drive" ng-click="data.marker.openPopup()">
+                            <div class="col-md-12 start p-5 p-l-15"
+                                 uib-popover="{{data.start_addr}}"
+                                 popover-trigger="mouseenter">{{data.start_addr}}
+                            </div>
+                            <div class="col-md-12 p-5 p-l-15">STOP {{data.duration|calHourMin}}</div>
+                        </div>
+                        <div class="col-md-2 sideTime" ng-style="{'height': (data.drive ? '80px' : '65px')}">
+                            <div>
+                                <div class="fs-10 r">{{data.start_time_cal|date:'dd MMM'}}</div>
+                                <div class="fs-10 r" ng-style="{'padding-bottom': (data.drive ? '25px' : '10px')}">
+                                    {{data.start_time_cal|date:'H:mm'}}
+                                </div>
+                                <div class="fs-10 g">{{data.end_time_cal|date:'dd MMM'}}</div>
+                                <div class="fs-10 g">{{data.end_time_cal|date:'H:mm'}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 70%; position: relative; height: 100%; float: left;">
+        <div id="mapViewVehicleTrackingModal" style="width:100%; height:100%; z-index: 1;"></div>
+        <div class="absolutePosi zoomCtrls">
+            <div class="pointer icon-wrapper"
+                 style="border-bottom: 1px solid #80808038"
+                 ng-click="vmvVm.zoomIn()">
+                <i class="glyphicon glyphicon glyphicon-plus"></i>
+            </div>
+            <div class="pointer icon-wrapper"
+                 ng-click="vmvVm.zoomOut()">
+                <i class="glyphicon glyphicon glyphicon-minus"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fs-18 {
+        font-size: 18px;
+    }
+
+    .border-b {
+        border-bottom: 1px solid black;
+    }
+
+    .border-r-1 {
+        border-right: 1px solid black;
+    }
+
+    .map-popup p {
+        margin: 0px !important;
+        color: #1E85D8;
+        font-weight: bold;
+    }
+
+    .map-popup p.pp-hd {
+        background: #eee;
+        color: #000 !important;
+        font-size: 15px;
+        border-bottom: 1px solid #000;
+    }
+
+    .map-popup p span {
+        color: #55595D !important;
+        font-weight: normal;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .g {
+        color: #00aa22;
+    }
+
+    .r {
+        color: #F10505;
+    }
+
+    .start:before {
+        content: ' ';
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        background: red;
+        top: 10px;
+        left: 0px;
+    }
+
+    .start {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dis:before {
+        content: ' ';
+        position: absolute;
+        height: 30px;
+        width: 1px;
+        border: 2px dashed green;
+        top: 0px;
+        left: 3px;
+    }
+
+    .end:before {
+        content: ' ';
+        position: absolute;
+        height: 12px;
+        width: 12px;
+        background: #5fc0fb00;
+        top: 10px;
+        border-radius: 50%;
+        border: 3px solid #3eb4ff;
+        left: 0px;
+    }
+
+    .end {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sideTime:before {
+        content: " ";
+        height: 100%;
+        width: 1px;
+        border-left: 1px dashed;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .fs-10 {
+        font-size: 10px;
+    }
+
+    .absolutePosi {
+        position: absolute;
+    }
+
+    .icon-wrapper {
+        padding: 5px;
+        background: white;
+    }
+
+    .zoomCtrls {
+        z-index: 2;
+        top: 5px;
+        left: 5px;
+    }
+
+    .zoomCtrls span {
+        margin-top: 5px;
+        background: whitesmoke;
+        padding: 10px;
+    }
+</style>

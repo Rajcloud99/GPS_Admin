@@ -1,0 +1,71 @@
+<div class="head">
+  <div data-ng-include="'template/header-shareLocations.html'"></div>
+</div>
+<div class="main_page bg-e" ng-controller="sharePlaybackCntr">
+  <div class="h-set3">
+    <div class="col-sm-3 p-r-0 p-l-0">
+      <div class="side-alert">
+        <div class="side-inn">
+          <p><b>Reg. No. :</b> {{sharePlayData.reg_no}}</p>
+          <!-- <p><b>Total Distance :</b> {{totalDistance || '0'}} KM</p> -->
+          <p><b>Total Distance :</b> {{sharePlayData.tot_dist || '0'}} KM</p>
+          <p><b>Distance Running :</b> {{runningDistance || '0'}} KM</p>
+          <p><b>Speed :</b> {{speedChange || '0'}} KM/hr</p>
+          <p><b>Date :</b> {{dateChange || firstLocation.start_time}}</p>
+          <div class="bxxx">
+            <div class="col-sm-2">
+              <img src="img/start.png">
+            </div>
+            <div class="col-sm-10">
+              <p>{{firstLocation.formatedAddr}}</p>
+              <p>{{firstLocation.start_time}}</p>
+            </div>
+            <div class="col-sm-2">
+              <img src="img/stop.png">
+            </div>
+            <div class="col-sm-10">
+              <p>{{lastLocation.formatedAddr}}</p>
+              <p>{{lastLocation.end_time}}</p>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="ply" ng-show="!showDiv">
+            <div class="col-sm-2">
+              <a href="" ng-show="showPlay" class="play" ng-click="play()">
+                <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+              </a>
+              <a href="" ng-show="showStop" class="pause" ng-click="stopFight()">
+                <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+              </a>
+            </div>
+            <div class="col-sm-10">
+              <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" tooltip="Speed Controller"></rzslider>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="btns" ng-show="!showDiv">
+            <a href="" ng-click="line()" class="btn btn-normal"><span class="glyphicon glyphicon-resize-horizontal">&nbsp;Line</span></a> &nbsp; <a href="" ng-click="resetFight()" class="btn btn-normal"><span class="glyphicon glyphicon-repeat">&nbsp;Reset</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-9 p-l-0" style="background: #fff;">
+      <div class="toggle-map">
+        <div class="paly-map labelsss" style="height:540px;margin-bottom:0px;margin-top: 0!important;color: #fff;">
+          <div class="col-md-12" style="width:100%;height:500px;border:1px solid" id="sharePlayMap"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  #map.togg2{display: block;}
+  .toggle-table2{
+        float: left;
+    width: 100%;
+    background: #fff;
+  }
+</style>

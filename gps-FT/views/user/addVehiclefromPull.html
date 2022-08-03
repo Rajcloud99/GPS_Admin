@@ -1,0 +1,54 @@
+<form name="addVehiclePull" class=" form-horizontal" novalidate autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Add Vehicle from Pool</h3>
+  </div>
+    <hr>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="text-center" style="margin-bottom:20px;">
+      <div class="n-bg rdo">
+        <label class="radio radio-inline m-r-20" ng-class="{active : add.type == 'vehicle'}">
+          <input type="radio" name="options" id="option1" ng-click="setAdd('vehicle')" ng-model="add.type" value="vehicle" autocomplete="off">
+            <i class="input-helper"></i>
+            Vehicle
+        </label>
+        <label class="radio radio-inline m-r-20" ng-class="{active : add.type == 'imei'}">
+          <input type="radio" name="options" id="option2" ng-click="setAdd('imei')" ng-model="add.type" value="imei" autocomplete="off">
+            <i class="input-helper"></i>
+            IMEI
+        </label>
+      </div>
+    </div>
+    <div class="form-group" ng-if="byVehicle">
+        <label for="" class="col-sm-4 control-label">Enter Vehicle Number</label>
+        <div class="col-sm-6">
+            <div class="fg-line">
+                <input type="text" class="form-control" class=" input-sm" ng-model="user.vehicle" placeholder="Enter Vehicle Number" style="border-style: groove;width: 82%;">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="form-group" ng-if="byIMEI">
+        <label for="" class="col-sm-4 control-label">Enter IMEI</label>
+        <div class="col-sm-6">
+            <div class="fg-line">
+                <input type="text" class="form-control" class=" input-sm" ng-model="user.imei" placeholder="Enter IMEI Number" style="border-style: groove;width: 82%;">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="modal-footer p-t-0">
+    <button type="button" class="btn btn-success waves-effect"  ng-click="addVehicle()" >Submit</button>
+    <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 50%;}
+</style>

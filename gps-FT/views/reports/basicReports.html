@@ -1,0 +1,438 @@
+<div class="" ng-controller="reportsCtrl">
+    <div class="container h-set">
+        <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="vertical-align:top;">></span>&nbsp;&nbsp;
+        <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Reports</a>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="report">
+                    <h3>Reports</h3>
+                    <div class="sub-h">
+                        <div ng-hide="reportType == 'report_activity_trip'">
+                            <!-- <button ng-model="timeHalf" class="btn btn-normal waves-effect" ng-click="filterMe('Last Hour')">Last Hour</button>&nbsp;&nbsp; -->
+                            <button ng-model="timeNow" class="btn btn-normal waves-effect" ng-click="filterMe('Today')">
+                                Today
+                            </button>&nbsp;&nbsp;
+                            <button ng-model="timeYest" class="btn btn-normal waves-effect"
+                                    ng-click="filterMe('Yesterday')">Yesterday
+                            </button>&nbsp;&nbsp;
+                            <button ng-model="timeL2" class="btn btn-normal waves-effect"
+                                    ng-click="filterMe('Last 2 days')">Last 2 days
+                            </button>&nbsp;&nbsp;
+                            <button ng-model="timeL3" class="btn btn-normal waves-effect"
+                                    ng-click="filterMe('Last 3 days')">Last 3 days
+                            </button>&nbsp;&nbsp;
+                            <button ng-hide="reportType == 'report_combined_halts'" ng-model="timeLW" class="btn btn-normal waves-effect"
+                                    ng-click="filterMe('Last Week')">Last Week
+                            </button>&nbsp;&nbsp;
+
+                            <div ng-if="(reportType == 'report_mileage2')" class="btn-group text-center">
+                                <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened9 == true }"
+                                     style="width: 100%;">
+                                    <div class="" ng-class="{ 'fg-toggled': opened9 == true }">
+                                        <input ng-click="open($event, 'opened9')" type="text" class=" "
+                                               uib-datepicker-popup="MMM yyyy" show-weeks="false" ng-model="tDate"
+                                               is-open="$parent.opened9" placeholder="Select Month"
+                                               datepicker-options="{minMode: 'month'}" close-text="Close"
+                                               max-date="minDate" datepicker-mode="'month'" style="background: #dddddd;"
+                                               ng-change="filterMe('Month Wise', tDate)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <button ng-click="downloadR()"-->
+<!--                                class="btn btn-success pull-right">Generate</button>-->
+                        <!-- <button ng-model="timeLM" class="btn btn-normal waves-effect" ng-click="filterMe('Last Month')">Last Month</button> -->
+                        <button ng-click="generateR(true)" ng-hide="reportType == 'get_trips'"
+                                ng-disabled="!((dateTimeStart) && (dateTimeEnd) && (lst.length>0 || lstRadio || reportType === 'vehicle_exceptions' || selectedUser.role === 'dealer') && (reportType))"
+                                class="btn btn-primary pull-right" style="margin-left: 5px">Download
+                        </button>
+                        <button ng-click="generateR()" ng-hide="reportType == 'get_trips'"
+                                ng-disabled="!((dateTimeStart) && (dateTimeEnd) && (lst.length>0 || lstRadio || reportType === 'vehicle_exceptions' || selectedUser.role === 'dealer') && (reportType))"
+                                class="btn btn-success pull-right">Generate
+                        </button>
+                        <button ng-click="generateR()" ng-show="reportType == 'get_trips'"
+                                ng-disabled="!((dateTimeStart) && (dateTimeEnd) && (reportType))"
+                                class="btn btn-success pull-right">Generate
+                        </button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="row m-t-10">
+                        <div class="col-sm-6">
+                            <div class="r-field">
+                                <!-- apply ng-if or ng-show in below field based on some client configuration-->
+                                <div class="form-group">
+                                    <label for="" class="col-sm-4 control-label">Group</label>
+                                    <div class="col-sm-8">
+                                        <div class="select">
+                                            <select ng-model="vehicle_group"
+                                                    ng-init = "vehicle_group = aGroup[0]"
+                                                    ng-options = "group as group.name for group in aGroup"
+                                                    ng-change= "applyFilter(vehicle_group)"
+                                                    class="form-control" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-4 control-label">Type</label>
+                                    <div class="col-sm-8">
+                                        <div class="select">
+                                            <select ng-model="reportType"
+                                                    ng-options="report.scope as report.name for report in aReportTypes"
+                                                    ng-change="toggleMinMaxDate()"
+                                                    class="form-control" required>
+                                                <option value="" style="display: none;"> Select Report Type</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group" ng-hide="reportType != 'report_parking' && reportType != 'report_combined_halts'">
+                                    <label for="" class="col-sm-4 control-label">Min Time</label>
+                                    <div class="col-sm-4">
+                                        <div class="fg-line">
+                                            <select ng-model="minHours"
+                                                    ng-options="minT.scope as minT.name for minT in aMinHours"
+                                                    class="form-control" ng-change="changeHour()" required>
+                                                <option value="" selected style="display: none;"> Select min hours
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="fg-line">
+                                            <select ng-model="minMinutes"
+                                                    ng-options="minT.scope as minT.name for minT in aMinMinutes"
+                                                    class="form-control" ng-change="changeInMinutes()" required>
+                                                <option value="" selected style="display: none;"> Select min minutes
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group" ng-hide="reportType != 'report_overspeed'">
+                                    <label for="" class="col-sm-4 control-label">Speed Limit (Km/h)</label>
+                                    <div class="col-sm-8">
+                                        <div class="fg-line">
+                                            <input type="number" class="form-control input-sm" ng-model="speedLim"
+                                                   placeholder="ex- 22" min={{getMin()}}>
+                                            <h5 ng-show="!minSpeedWrong" class="c-red">{{minS}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group" ng-hide="reportType != 'day_wise_tag_report'">
+                                    <label for="" class="col-sm-4 control-label">RFID </label>
+                                    <div class="col-xs-8 m-b-8 col-sm-8 col-md-8 col-lg-8">
+                                        <div class="ng-scope sear chosen-row-2">
+                                            <input
+                                                    type="text"
+                                                    class="form-control input-sm"
+                                                    placeholder="RFID Search..."
+                                                    ng-model="rfid"
+                                                    uib-typeahead-wait-ms="10"
+                                                    uib-typeahead="item as item.rfid for item in getAllRfid($viewValue) | limitTo:6"
+                                                    uib-typeahead-on-select="onRfidSelect($item, $model, $label)">
+                                            <i class="lvh-search-close" style="top: 5px;" ng-click="rfid=null;">×</i>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8" ng-if="aRfid.length">
+			                            <span class="btn-lst" ng-repeat="select in aRfid">
+				                        <button class="btn-xs" style="background: black; color: aliceblue;">     {{select.rfid}}&nbsp;
+				                        <a ng-click="removeRfid(select,$index)"> X </a></button>&nbsp;&nbsp;</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group" ng-hide="reportType != 'report_activity_trip'">
+                                    <label for="" class="col-sm-4 control-label">Trip Select</label>
+                                    <div class="col-sm-8">
+                                        <div class="select">
+                                            <select ng-model="trip_full"
+                                                    ng-options="trip as trip.trip_no for trip in aTripsData"
+                                                    class="form-control" ng-change="changeTrip(trip_full)">
+                                                <option value="" selected style="display: none;"> Select Trip</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group" ng-hide="reportType != 'report_activity_interval'">
+                                    <label for="" class="col-sm-4 control-label">Time Interval</label>
+                                    <div class="col-sm-4">
+                                        <div class="fg-line">
+                                            <select ng-model="actMinHours"
+                                                    ng-options="minT.scope as minT.name for minT in aMinHours"
+                                                    class="form-control">
+                                                <option value="" selected style="display: none;"> Select min hours
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="fg-line">
+                                            <select ng-model="actMinMinutes"
+                                                    ng-options="minT.scope as minT.name for minT in aMinMinutes"
+                                                    class="form-control">
+                                                <option value="" selected style="display: none;"> Select min minutes
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <!-- <label for="" class="col-sm-4 control-label">Time Interval(Minutes)</label>
+                                    <div class="col-sm-8">
+                                      <div class="fg-line">
+                                        <input type="number" class="form-control input-sm" ng-model="durationLim" placeholder="ex- 10" min = {{getMinDuration()}}>
+                                        <h5 ng-show = "!minDurationWrong" class="c-red">{{minD}}</h5>
+                                      </div>
+                                    </div>
+                                    <div class="clearfix"></div> -->
+                                </div>
+                            </div>
+                            <div class="time_p">
+                                <!-- <div class="form-group">
+                                  <label for="" class="col-sm-4 control-label">Time From</label>
+                                  <div class="col-sm-8">
+                                    <div class="fg-line">
+                                      <div class="input-group date">
+                                        <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                                          <input mdc-datetime-picker="" date="true" time="true" type="text"
+                                             format="MMMM Do YYYY, h:mm a" max-date="dateTimeEnd" ng-model="dateTimeStart" class=" md-input"
+                                            id="input_0">
+                                        </md-input-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="" class="col-sm-4 control-label">Time To</label>
+                                  <div class="col-sm-8">
+                                    <div class="fg-line">
+                                      <div class="input-group date">
+                                        <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                                          <input mdc-datetime-picker="" date="true" time="true" type="text"
+                                             format="MMMM Do YYYY, h:mm a" min-date="dateTimeStart"="dateTimeEnd" ng-model="dateTimeEnd" class=" md-input" id="input_1">
+                                          </md-input-container>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Time From</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group input-group-sm inn">
+                                            <div class="date-picker input-group dp-blue"
+                                                 ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+                                                <div class="fg-line" style="padding:0;"
+                                                     ng-class="{ 'fg-toggled': opened1 == true }">
+                                                    <input ng-disabled="reportType == 'report_activity_trip'"
+                                                           ng-click="open($event, 'opened1')" type="text" class=" "
+                                                           uib-datepicker-popup="{{format}}" show-weeks="false"
+                                                           ng-model="dateTimeStart" is-open="opened1"
+                                                           datepicker-options="dateOptions1" ng-required="true"
+                                                           close-text="Close"
+                                                           placeholder="Start Date " ng-change="getNoti();toggleMinMaxDate()"
+                                                           style="width: 100%;border: none; padding: 6px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="red" ng-show="wrongDateRange">Start Date must be less than End
+                                            Date </p>
+                                    </div>
+                                    <label class="col-sm-1 control-label">HH</label>
+                                    <div class="col-sm-2">
+                                        <div class="select">
+                                            <select ng-disabled="reportType == 'report_activity_trip'"
+                                                    ng-model="hourSel1"
+                                                    ng-options="sAlert as sAlert for sAlert in aHours"
+                                                    class="form-control" ng-change="getNoti()">
+                                            </select>
+                                        </div>
+                                        <!-- <div class="fg-line">
+                                          <input type="number" ng-model="hourSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                                        </div> -->
+                                    </div>
+                                    <label class="col-sm-1 control-label">MM</label>
+                                    <div class="col-sm-2">
+                                        <div class="select">
+                                            <select ng-disabled="reportType == 'report_activity_trip'"
+                                                    ng-model="minuteSel1"
+                                                    ng-options="sAlert as sAlert for sAlert in aMinutes"
+                                                    class="form-control" ng-change="getNoti()">
+                                            </select>
+                                        </div>
+                                        <!-- <div class="fg-line">
+                                          <input type="number" ng-model="minuteSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                                        </div> -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Time to</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group input-group-sm inn">
+                                            <div class="date-picker input-group dp-blue"
+                                                 ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+                                                <div class="fg-line" style="padding:0;"
+                                                     ng-class="{ 'fg-toggled': opened2 == true }">
+                                                    <input ng-disabled="reportType == 'report_activity_trip'"
+                                                           ng-click="open($event, 'opened2')" type="text" class=""
+                                                           uib-datepicker-popup="{{format}}" show-weeks="false"
+                                                           ng-model="dateTimeEnd" is-open="opened2"
+                                                           datepicker-options="dateOptions2" ng-required="true"
+                                                           close-text="Close"
+                                                    placeholder="End Date" ng-change="getNoti();toggleMinMaxDate()" style="width: 100%
+                                                ;
+                                                    border: none
+                                                ;
+                                                    padding: 6px
+                                                ;"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-1 control-label">HH</label>
+                                    <div class="col-sm-2">
+                                        <div class="select">
+                                            <select ng-disabled="reportType == 'report_activity_trip'"
+                                                    ng-model="hourSel2"
+                                                    ng-options="sAlert as sAlert for sAlert in aHours"
+                                                    class="form-control" ng-change="getNoti()">
+                                            </select>
+                                        </div>
+                                        <!-- <div class="fg-line">
+                                          <input type="number" ng-model="hourSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                                        </div> -->
+                                    </div>
+                                    <label class="col-sm-1 control-label">MM</label>
+                                    <div class="col-sm-2">
+                                        <div class="select">
+                                            <select ng-disabled="reportType == 'report_activity_trip'"
+                                                    ng-model="minuteSel2"
+                                                    ng-options="sAlert as sAlert for sAlert in aMinutes"
+                                                    class="form-control" ng-change="getNoti()">
+                                            </select>
+                                        </div>
+                                        <!-- <div class="fg-line">
+                                          <input type="number" ng-model="minuteSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                                        </div> -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" ng-hide="reportType == 'get_trips'">
+                            <div class="row">
+                                <div class="input-group input-group-sm"
+                                     style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+                                    <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                                    <input class="" type="text" ng-model="deviceNum['reg_no']"
+                                           placeholder="Search By  Vehicle Number......"
+                                           title="Please enter  Vehicle Number" aria-describedby="sizing-addon1"
+                                           style="border: none; width:96%;padding: 0 5px;">
+                                </div>
+                            </div>
+                            <div class="r-truck">
+                                <ul class="list-unstyled">
+                                    <li ng-hide="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac' || reportType == 'details_analysis'|| reportType == 'report_driver_activity_single'">
+                                        <label class="checkbox checkbox-inline m-r-20">
+                                            <input type="checkbox" value="option1" ng-model="selectedAll"
+                                                   ng-click="checkAll()">
+                                            <i class="input-helper"></i>
+                                            Select All {{aCopyTrSheetDevice.length}}
+                                        </label>
+                                    </li>
+                                    <!--ng-if="deviceR.status == 'running' || deviceR.status == 'stopped' || deviceR.status == 'offline'" -->
+                                    <li ng-repeat="deviceR in aCopyTrSheetDevice | filter: deviceNum"
+                                        ng-class="{'active': true == aSelTruck.selected}">
+                                        <label ng-hide="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac' || reportType == 'details_analysis' || reportType == 'report_driver_activity_single'"
+                                               class="checkbox checkbox-inline m-r-20"
+                                               ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                                            <input type="checkbox" value="option1" ng-model="selTruck"
+                                                   ng-change="change(deviceR, selTruck)" ng-checked="deviceR.selected">
+                                            <i class="input-helper"></i>
+                                            {{deviceR.reg_no || deviceR.imei}}
+                                        </label>
+                                        <label ng-show="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac' || reportType == 'details_analysis' || reportType == 'report_driver_activity_single'"
+                                               class="radio radio-inline m-r-20"
+                                               ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                                            <input type="radio" name="rad" value="{{deviceR.reg_no}}" ng-model="selTruck"
+                                                   ng-click="changeRadio(deviceR, selTruck)"
+                                                   ng-checked="deviceR.selected">
+                                            <i class="input-helper"></i>
+                                            {{deviceR.reg_no || deviceR.imei}}
+                                        </label>
+                                    </li>
+                                    <!--<li ng-if="deviceR.status == 'stopped'"
+                                        ng-repeat="deviceR in aTrSheetDevice | filter: deviceNum"
+                                        ng-class="{'active': true == aSelTruck.selected}">
+                                        <label ng-hide="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac'"
+                                               class="checkbox checkbox-inline m-r-20"
+                                               ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                                            <input type="checkbox" value="option1" ng-model="selTruck"
+                                                   ng-change="change(deviceR, selTruck)" ng-checked="deviceR.selected">
+                                            <i class="input-helper"></i>
+                                            {{deviceR.reg_no || deviceR.imei}}
+                                        </label>
+                                        <label ng-show="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac'"
+                                               class="radio radio-inline m-r-20"
+                                               ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                                            <input type="radio" name="rad" value="{{deviceR.reg_no}}" ng-model="selTruck"
+                                                   ng-change="changeRadio(deviceR, selTruck)"
+                                                   ng-checked="deviceR.selected">
+                                            <i class="input-helper"></i>
+                                            {{deviceR.reg_no || deviceR.imei}}
+                                        </label>
+                                    </li>
+                                    <li ng-if="deviceR.status == 'offline'"
+                                        ng-repeat="deviceR in aTrSheetDevice | filter: deviceNum"
+                                        ng-class="{'active': true == aSelTruck.selected}">
+                                        <label ng-hide="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac'"
+                                               class="checkbox checkbox-inline m-r-20"
+                                               ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                                            <input type="checkbox" value="option1" ng-model="selTruck"
+                                                   ng-change="change(deviceR, selTruck)" ng-checked="deviceR.selected">
+                                            <i class="input-helper"></i>
+                                            {{deviceR.reg_no || deviceR.imei}}
+                                        </label>
+                                        <label ng-show="reportType == 'report_activity_interval' || reportType == 'report_activity_trip' || reportType == 'report_ac'"
+                                               class="radio radio-inline m-r-20"
+                                               ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                                            <input type="radio" name="rad" value="{{deviceR.reg_no}}" ng-model="selTruck"
+                                                   ng-change="changeRadio(deviceR, selTruck)"
+                                                   ng-checked="deviceR.selected">
+                                            <i class="input-helper"></i>
+                                            {{deviceR.reg_no || deviceR.imei}}
+                                        </label>
+                                    </li>-->
+                                </ul>
+                            </div>
+                            <span class="btn-lst" ng-repeat="sList in lst">{{sList.reg_no || sList.imei}} <a
+                                    ng-click="removeDeviceArr(sList)"> x </a></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    section.main {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+
+    .form-group label {
+        text-align: left;
+    }
+</style>

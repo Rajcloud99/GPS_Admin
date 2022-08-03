@@ -1,0 +1,24 @@
+<div class="container" ng-controller="reportsBasicCtrl">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="trackSht()">Tracksheet</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Reports Data</a>
+    <div class="report">
+      <div class="u_mid">
+        <uib-tabset>
+          <uib-tab index="1" select="remember(1)">
+            <uib-tab-heading>
+               Activity Report
+            </uib-tab-heading>
+            <div data-ng-include="'views/main/activityReportData.html'"></div>
+          </uib-tab>
+          <uib-tab index="2" select="remember(2)" active="isActive" disabled="openNextTab">
+            <uib-tab-heading>
+               Detailed Activity Report
+            </uib-tab-heading>
+            <div data-ng-include="'views/main/activityDetailData.html'"></div>
+          </uib-tab>
+
+        </uib-tabset>
+      </div>
+    </div>
+</div>

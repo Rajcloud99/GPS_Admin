@@ -1,0 +1,190 @@
+<div ng-controller="otherNotificationCtrl" class="bg-e">
+    <div class="row sub-head">
+        <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()"
+           style="height: 16px; margin-left: 15px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+        <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 16px;">Notifications</a>
+        <div class="col-lg-10 col-md-10 col-sm-10 pull-right">
+            <div class="col-sm-2">
+                <div class="select">
+                    <select
+                            ng-model="notiType"
+                            ng-options="notification as notification.name for notification in aNotifications"
+                            class="form-control"
+                            ng-change="onEventSelect(notiType)" required>
+                        <option value="" style="display: none;"> All Alert</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <span class="glyphicon glyphicon-search"></span>&nbsp;
+                    <input class="dtt" style="width: 80%;" type="text" ng-model="vehicleNum"
+                           placeholder="Search By Vehicle No." title="Please Enter Here"
+                           aria-describedby="sizing-addon1" typeahead-wait-ms="9"
+                           uib-typeahead="vehicleImei as vehicleImei.reg_no for vehicleImei in aVehicle | filter:{reg_no: $viewValue} | limitTo:30"
+                           typeahead-on-select="onVehicleSelect(vehicleNum)">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <span class="glyphicon glyphicon-search"></span>&nbsp;
+                    <input class="dtt" style="width: 80%;" type="text" ng-model="driver"
+                           placeholder="Search By Driver" title="Select Driver"
+                           aria-describedby="sizing-addon1" typeahead-wait-ms="9"
+                           uib-typeahead="driver as driver for driver in aDriver | filter:$viewValue | limitTo:30">
+                </div>
+            </div>
+            <div class="col-sm-3 ">
+                <div class="input-group input-group-sm inn">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }"
+                         style="width: 100%;">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }">
+                            <span class="glyphicon glyphicon-search"></span>&nbsp;
+                            <input ng-click="open($event, 'opened1')" type="text" class=""
+                                   max-date="to_date" uib-datepicker-popup="{{format}}" show-weeks="false"
+                                   ng-model="from_date" is-open="opened1" datepicker-options="dateOptions"
+                                   ng-required="true" close-text="Close" placeholder="Select Alert Start Date "
+                                   style="width: 90%; border: none; padding: 6px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 ">
+                <div class="input-group input-group-sm inn">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }"
+                         style="width: 100%;">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+                            <span class="glyphicon glyphicon-search"></span>&nbsp;
+                            <input ng-click="open($event, 'opened2')" type="text" class="" min-date="from_date"
+                                   uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="to_date"
+                                   is-open="opened2" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="Close" placeholder="Select Alert End Date"
+                                   style="width: 90%; border: none; padding: 6px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 pull-right">
+                <div class="form-group m-b-0">
+                    <button class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Search"
+                            ng-click="getAllAlerts(true)"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-search zmdi-hc-fw"></i>
+                    </button>
+                    <button ng-disabled="!(from_date && to_date)"
+                            class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Download"
+                            ng-click="downloadList(true)"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-download zmdi-hc-fw"></i>
+                    </button>
+                    <button
+                            class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Go Geofence Notification"
+                            ng-click="geofenceNotification()"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-swap zmdi-hc-fw"></i>
+                    </button>
+                    <button
+                            class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;"
+                            ng-click="takeAction()"
+                            tooltip-placement="bottom">
+                        Action
+                    </button>
+                    <button
+                            class="btn btn-danger p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;"
+                            ng-click="resetFilter()"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-close zmdi-hc-fw"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-6 col-sm-12 col-md-12 col-lg-12" ng-if="aVehicleData.length">
+			  <span class="btn-lst" ng-repeat="select in aVehicleData">
+				      {{select.reg_no}}&nbsp;
+				  <a ng-click="removeVehicle(select,$index)"> X </a></span>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8" ng-if="aEventCollection.length">
+			  <span class="btn-lst" ng-repeat="select in aEventCollection">
+				      {{select.name}}&nbsp;
+				  <a ng-click="removeEvent(select,$index)"> X </a></span>
+            </div>
+        </div>
+    </div>
+    <div class="row h-set2" style="min-height: 520px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 435px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="background: #aaefed;">Vehicle</th>
+                            <th style="background: #aaefed;">Time</th>
+                            <th style="background: #aaefed;">Event</th>
+                            <th style="background: #aaefed;">Driver</th>
+                            <th style="background: #aaefed;">Value</th>
+                            <th style="background: #aaefed;">Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="noti in aOtherNotifications"
+                            ng-click="selected.notif = noti"
+                            ng-class="{selected: selected.notif._id === noti._id}"
+                            class="pointer"
+                            ng-if="aOtherNotifications.length > 0">
+                            <td>{{noti.reg_no || "NA" }}</td>
+                            <td>{{noti.datetime | date: "dd-MMM-yyyy 'at' hh:mm a" || "NA" }}</td>
+                            <td>{{noti.code || "NA" }}</td>
+                            <td>{{noti.driver || "NA" }}</td>
+                            <td>{{noti.extra || "NA" }}</td>
+                            <td>{{noti.location && noti.location.address || "NA" }}</td>
+                        </tr>
+                        <tr ng-if="!aOtherNotifications.length">
+                            <td colspan="4">No notification available !!!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="pagin text-center">
+                <ul uib-pagination ng-change="pageChanged()"
+                    total-items="bigTotalItems"
+                    ng-model="bigCurrentPage"
+                    max-size="maxSize" class="pagination-sm"
+                    boundary-link-numbers="true"
+                    items-per-page="10"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    section.main {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+
+    .form-group label {
+        text-align: left;
+    }
+    .pointer{
+        cursor: pointer;
+    }
+    .selected{
+        background: #d8d8d8;
+    }
+
+</style>

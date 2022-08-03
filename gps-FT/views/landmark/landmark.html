@@ -1,0 +1,107 @@
+<div class="" ng-controller="landmarkListCtrl">
+  <div class="row sub-head">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 50px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Landmark List</a>
+    <div class="clearfix"></div>
+    <div class="input-group input-group-sm pull-left" style="border: 1px solid #E8E8E8;padding: 6px; width:30%;margin-left: 50px;margin-top: 10px;">
+      <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+      <input  class="" type="text" ng-model="landName" placeholder="Search By Name" aria-describedby="sizing-addon1" style="border: none; width:66%;padding: 0 5px;">
+    </div>
+      <div class="form-group m-b-0 text-center pull-left" style="margin-bottom: -28px;font-size: 20px;margin: 11px">
+          <button class="btn btn-primary p-t-0 p-b-0"
+                  type="button"
+                  style="margin-bottom: 3px;  font-size: 16px"
+                  uib-tooltip="Search"
+                  ng-click="getLandmark()"
+                  tooltip-placement="bottom">
+              <i class="zmdi zmdi-search zmdi-hc-fw"></i>
+          </button>
+      </div>
+    <div class="head-row">
+<!--      <span>-->
+<!--        <a ng-click="showDiv = !showDiv;toggle = !toggle;seeOnMapAllLandmark();" class="btn btn-normal"><span class="glyphicon " ng-class="{'glyphicon-road': !showDiv, 'glyphicon-th-list': showDiv}"></span> {{toggleText}}</a>-->
+<!--      </span> &nbsp;&nbsp;&nbsp;-->
+      <span>
+        <a class="btn btn-primary" uib-tooltip="Add Landmark" ng-click="upsertLandmark('add')"><span class="glyphicon glyphicon-plus"></span></a>
+      </span> <span>
+        <a class="btn btn-primary" uib-tooltip="download" ng-click="downloadCsvRpt()"><span class="zmdi zmdi-download"></span></a>
+      </span>
+        <span>
+        <a class="btn btn-primary" uib-tooltip="sample file" ng-click="downloadCsv()"><span class="glyphicon glyphicon-download-alt"></span></a>
+      </span>
+        <span>
+        <a class="btn btn-primary" uib-tooltip="Upload Exl" ng-click="uploadFile()"><span class="glyphicon glyphicon-arrow-up"></span></a>
+      </span>
+<!--        <span>-->
+<!--        <a class="btn btn-primary" uib-tooltip="Edit Landmark" ng-click="upsertLandmark('edit')"><span class="glyphicon glyphicon-edit"></span></a>-->
+<!--      </span>-->
+<!--        <span>-->
+<!--        <a class="btn btn-primary" uib-tooltip="View Landmark" ng-click="upsertLandmark('view')"><span class="glyphicon glyphicon-list-alt"></span></a>-->
+<!--      </span>-->
+<!--        <span>-->
+<!--        <a class="btn btn-danger" uib-tooltip="Delete Landmark" ng-click="deleteLandmark()"><span class="glyphicon glyphicon-trash"></span></a>-->
+<!--      </span>-->
+    </div>
+  </div>
+
+    <div class="row h-set2" style="max-height: 100px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 350px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="background: #aaefed;">#</th>
+                        <th style="background: #aaefed;">Name</th>
+                        <th style="background: #aaefed;">Address</th>
+                        <th style="background: #aaefed;">Latitude</th>
+                        <th style="background: #aaefed;">Longitude</th>
+                        <th style="background: #aaefed;">Create Time</th>
+                        <th style="background: #aaefed;">Category</th>
+                        <th style="background: #aaefed;">Category Description</th>
+                        <th style="background: #aaefed;">Km-chaining</th>
+                        <th style="background: #aaefed;">Distance (m)</th>
+                        <th style="background: #aaefed;">Operate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pointer selectItem"  ng-repeat="land in aLandmarkList" ng-if="aLandmarkList.length > 0">
+                        <td>{{$index+1}}</td>
+                        <td>{{land.name}}</td>
+                        <td>{{land.address || 'NA'}}
+                        <td>{{land.location.latitude}}</td>
+                        <td>{{land.location.longitude}}</td>
+                        <td>{{land.created_at | date: "dd-MM-yyyy"}}</td>
+                        <td>{{land.category || 'NA'}}
+                        <td>{{land.catDet || 'NA'}}
+                        <td>{{land.km || 'NA'}}
+                        <td>{{land.dist || 'NA'}}
+                        <td>
+                            <a href="" ng-click="upsertLandmark('edit' ,land)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="" ng-click="deleteLandmark(land)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    <tr ng-if="aLandmarkList.length < 1">
+                        <td colspan="4">Data Not Available !!!</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pagin text-center">
+                <ul uib-pagination ng-change="pageChanged()"
+                    total-items="bigTotalItems"
+                    ng-model="bigCurrentPage"
+                    max-size="maxSize" class="pagination-sm"
+                    boundary-link-numbers="true"
+                    items-per-page="9"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+   .selectItem:hover{background: #dddddd;}
+  
+</style>

@@ -1,0 +1,160 @@
+<form name="">
+    <div class="modal-header p-t-10 p-b-5 text-center">
+        <button type="button" ng-click="cancel()" class="close"
+            data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">
+            <span>Trip Detail of <b> {{aTrips[0].vehicle_no}}&nbsp;&nbsp;</b></span>
+            <span ng-if="aTrips[0].source"><b>{{aTrips[0].source}}&nbsp;&nbsp; </b></span>
+            <span ng-if="aTrips[0].destination"><b> to {{aTrips[0].destination}}&nbsp;&nbsp; </b></span>
+            <span ng-if="aTrips[0].status"><b>({{aTrips[0].status}})&nbsp;&nbsp; </b></span>
+            
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row m-t-10">
+            <div class="col-md-4" ng-if="aTrips[0].trip_id">
+                <dl class="dl-horizontal">
+                  <dt>Trip Id :</dt>
+                  <dd>{{aTrips[0].trip_id || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].trip_no">
+                <dl class="dl-horizontal">
+                  <dt>Trip No. :</dt>
+                  <dd>{{aTrips[0].trip_no || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].consignor">
+                <dl class="dl-horizontal">
+                  <dt>Consignor :</dt>
+                  <dd>{{aTrips[0].consignor || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].consignee">
+                <dl class="dl-horizontal">
+                  <dt>Consignee :</dt>
+                  <dd>{{aTrips[0].consignee || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].forworder">
+                <dl class="dl-horizontal">
+                  <dt>Forworder :</dt>
+                  <dd>{{aTrips[0].forworder || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].manager">
+                <dl class="dl-horizontal">
+                  <dt>Manager :</dt>
+                  <dd>{{aTrips[0].manager || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].etoa">
+                <dl class="dl-horizontal">
+                  <dt>Estimated time for Arrival :</dt>
+                  <dd>{{aTrips[0].etoa || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].est_dist">
+                <dl class="dl-horizontal">
+                  <dt>Estimated Distance :</dt>
+                  <dd>{{aTrips[0].est_dist || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].gps_status">
+                <dl class="dl-horizontal">
+                  <dt>Gps Status :</dt>
+                  <dd>{{aTrips[0].gps_status || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].speed">
+                <dl class="dl-horizontal">
+                  <dt>Speed :</dt>
+                  <dd>{{aTrips[0].cur_location.speed || "0"}} Km/h</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].start_time_local">
+                <dl class="dl-horizontal">
+                  <dt>Start Time :</dt>
+                  <dd>{{aTrips[0].start_time_local || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].end_time_local">
+                <dl class="dl-horizontal">
+                  <dt>End Time :</dt>
+                  <dd>{{aTrips[0].end_time_local || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].driver">
+                <dl class="dl-horizontal">
+                  <dt>Driver Name :</dt>
+                  <dd>{{aTrips[0].driver || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].loading">
+                <dl class="dl-horizontal">
+                  <dt>Loading Time :</dt>
+                  <dd>{{aTrips[0].loading || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].unloading">
+                <dl class="dl-horizontal">
+                  <dt>Unloading Time :</dt>
+                  <dd>{{aTrips[0].unloading || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].journey">
+                <dl class="dl-horizontal">
+                  <dt>Journey Time :</dt>
+                  <dd>{{aTrips[0].journey || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].duration">
+                <dl class="dl-horizontal">
+                  <dt>Expected Duration :</dt>
+                  <dd>{{aTrips[0].duration || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].elapse_time">
+                <dl class="dl-horizontal">
+                  <dt>Elapsed Time :</dt>
+                  <dd>{{aTrips[0].elapse_time || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].delay">
+                <dl class="dl-horizontal">
+                  <dt>Delay Time :</dt>
+                  <dd>{{aTrips[0].delay || "0"}} hr</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].create_time">
+                <dl class="dl-horizontal">
+                  <dt>Created At :</dt>
+                  <dd> {{aTrips[0].create_time || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].cur_location.address">
+                <dl class="dl-horizontal">
+                  <dt>Last Location :</dt>
+                  <dd>{{aTrips[0].cur_location.address || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="aTrips[0].remark">
+                <dl class="dl-horizontal">
+                  <dt>Remark :</dt>
+                  <dd>{{aTrips[0].remark1 || "NA"}}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer p-t-0">
+        <!-- <button class="btn btn-success" ng-click="updateColumn()">Change</button> -->
+        <button class="btn btn-primary" ng-click="cancel()">Close</button>
+    </div>
+</form>
+
+<style type="text/css">
+  .modal-dialog {width: 80%;}
+  .md-dialog-container{z-index: 9999;}
+</style>

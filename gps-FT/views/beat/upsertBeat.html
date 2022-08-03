@@ -1,0 +1,331 @@
+<!--controller: beatUpsertController-->
+<!--controllerAs: btVm-->
+<form name="beatUpsert" ng-submit="btVm.submit(beatUpsert)" novalidate autocomplete="off">
+
+    <div class="modal-header" >
+        <button type="button" ng-click="btVm.closeModal()" class="close"
+                data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" align="center">
+			<span class="c-black"><b>BEAT</b>
+				<span style="margin-left: 10px; color: rgb(183, 183, 183);">
+							({{btVm.type}})
+						</span>
+			</span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="justify col-md-12">
+            <ul class="list-group list-group-flush">
+                <!-- BASIC Beat DETAILS -->
+
+                <li class="list-group-item">
+                    <span class="booking_list_header">BEAT DETAILS</span>
+                    <div class="card-body">
+                        <div class="row" style="margin:5px">
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-4 control-label"><b>Vehicle No: </b><span class="req_r">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="fg-line">
+                                            <input type="text"
+                                                   placeholder="Enter Vehicle No"
+                                                   ng-model="btVm.oBeat.reg_no"
+                                                   name="VehicleNo"
+                                                   uib-typeahead="veh as veh.reg_no for veh in btVm.aVehicle | filter:{reg_no: $viewValue} | limitTo:30"
+                                                   class="form-control"
+                                                  typeahead-on-select="btVm.onVehicleSelect(btVm.oBeat.reg_no)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-4 control-label"><b>Beat SSE: </b><span class="req_r">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="fg-line">
+                                            <input type="text"
+                                                   placeholder="Beat SSE"
+                                                   ng-model="btVm.oBeat.beatSSE"
+                                                   name="Beat SSE"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-4 control-label"><b>Beat Section: </b><span class="req_r">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="fg-line">
+                                            <input type="text"
+                                                   placeholder="Beat Section"
+                                                   ng-model="btVm.oBeat.beatSection"
+                                                   name="Beat Section"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label for="appt">Start Time:</label>
+                                <input type="time"
+                                       id="appt"
+                                       name="Start Time"
+                                       placeholder="Start Time"
+                                       ng-model="btVm.oBeat.startTime">
+                                       <input type="button" value="ok">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="appt">End Time:</label>
+                                <input type="time" id="appt1"
+                                       name="End Time"
+                                       placeholder="End Time"
+                                       ng-model="btVm.oBeat.endTime">
+                                       <input type="button" value="ok">
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="booking_list_header">BEAT STARTING POINT DETAILS</span>
+                    <div class="card-body">
+                        <div class="row" style="margin:5px">
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Landmark: </b></label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="text"
+                                                   placeholder="landmark"
+                                                   ng-model="btVm.oBeat.beatStart.landmark"
+                                                   name="landmark"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Address :</b></label>
+                                    <div class="col-sm-9">
+                                        <div class="ng-scope sear chosen-row-1">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Address.."
+                                                    ng-model="btVm.oBeat.beatStart.address"
+                                                    typeahead-wait-ms="10"
+                                                    name="Address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Latitude:</b> <span class="req_r">*</span> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="Latitude"
+                                                   ng-model="btVm.oBeat.beatStart.latitude"
+                                                   name="latitude"
+                                                   class="form-control"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Logngitude:</b><span class="req_r">*</span> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="logngitude"
+                                                   ng-model="btVm.oBeat.beatStart.longitude"
+                                                   name="longitude"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>KM:</b> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="KM"
+                                                   ng-model="btVm.oBeat.beatStart.km"
+                                                   name="KM"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Meter:</b> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="meter"
+                                                   ng-model="btVm.oBeat.beatStart.meter"
+                                                   name="meter"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="booking_list_header">BEAT ENDING POINT DETAILS</span>
+                    <div class="card-body">
+                        <div class="row" style="margin:5px">
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Landmark: </b></label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="text"
+                                                   placeholder="landmark"
+                                                   ng-model="btVm.oBeat.beatEnd.landmark"
+                                                   name="landmark"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Address :</b></label>
+                                    <div class="col-sm-9">
+                                        <div class="ng-scope sear chosen-row-1">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Address.."
+                                                    ng-model="btVm.oBeat.beatEnd.address"
+                                                    typeahead-wait-ms="10"
+                                                    name="Address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Latitude:</b> <span class="req_r">*</span> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="Latitude"
+                                                   ng-model="btVm.oBeat.beatEnd.latitude"
+                                                   name="latitude"
+                                                   class="form-control"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Logngitude:</b><span class="req_r">*</span> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="logngitude"
+                                                   ng-model="btVm.oBeat.beatEnd.longitude"
+                                                   name="longitude"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>KM:</b> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="KM"
+                                                   ng-model="btVm.oBeat.beatEnd.km"
+                                                   name="KM"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group m-b-0">
+                                    <label class="col-sm-3 control-label"><b>Meter:</b> </label>
+                                    <div class="col-sm-9">
+                                        <div class="fg-line">
+                                            <input type="number"
+                                                   placeholder="meter"
+                                                   ng-model="btVm.oBeat.beatEnd.meter"
+                                                   name="meter"
+                                                   class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-if="btVm.type!='view'">SUBMIT</button>
+        <button class="btn btn-warning"
+                type="button"
+                ng-click="btVm.closeModal()">Close</button>
+    </div>
+
+</form>
+
+
+<style>
+
+    form .col-md-3{
+        height: 50px;
+    }
+
+    .container{
+        width: 98% !important;
+    }
+
+    .modal-dialog{
+        width: 90%;
+    }
+
+    .req_r {
+        color: red;
+        font-size: 16px;
+        vertical-align: middle;
+    }
+
+</style>

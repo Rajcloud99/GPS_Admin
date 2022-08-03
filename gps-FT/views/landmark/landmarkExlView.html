@@ -1,0 +1,121 @@
+<!--controller: landmarkExlViewController-->
+<form name="landmarkUpsert" ng-submit="submit(landmarkUpsert)" novalidate autocomplete="off">
+
+    <div class="modal-header" >
+        <button type="button" ng-click="closeModal()" class="close"
+                data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" align="center">
+			<span class="c-black"><b>LANDMARK UPLOAD</b>
+			</span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="justify col-md-12">
+            <ul class="list-group list-group-flush">
+                <!-- BASIC landmark DETAILS -->
+                <li class="list-group-item">
+                    <span class="booking_list_header"></span>
+                    <div class="card-body">
+                        <div class="row" style="margin:5px">
+                            <div class="col-sm-3">
+                                <div class="  ng-scope  " >
+                               <input id="file-0a"
+                                      class="file"
+                                      type="file"
+                                      file-model="myFile"
+                                      name="myFile" />
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="  ng-scope">
+                                    <button type="button"
+                                            class="btn btn-primary"
+                                            ng-click="viewData(myFile);">View Excel</button>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="list-group-item" ng-if="aLandmarkList.length">
+                    <span class="booking_list_header">LANDMARK DETAILS</span>
+                    <div class="card-body">
+                        <div class="row" style="margin:5px">
+                            <div class="col-md-12">
+                                <div style="height: 400px;">
+                                    <div class="row h-set2" style="max-height: 100px;">
+                                        <div class="col-sm-12 toggle-table">
+                                            <div class="table-responsive" style="min-height: 350px;height: 480px;">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="background: #aaefed;">#</th>
+                                                        <th style="background: #aaefed;">Name</th>
+                                                        <th style="background: #aaefed;">Address</th>
+                                                        <th style="background: #aaefed;">Latitude</th>
+                                                        <th style="background: #aaefed;">Longitude</th>
+                                                        <th style="background: #aaefed;">Category</th>
+                                                        <th style="background: #aaefed;">Category Description</th>
+                                                        <th style="background: #aaefed;">Km-chaining</th>
+                                                        <th style="background: #aaefed;">Distance (m)</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="pointer selectItem"  ng-repeat="land in aLandmarkList" ng-if="aLandmarkList.length > 0">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{land.NAME || 'NA'}}</td>
+                                                        <td>{{land.ADDRESS || 'NA'}}
+                                                        <td>{{land.LATITUDE || 'NA'}}</td>
+                                                        <td>{{land.LONGITUDE || 'NA'}}</td>
+                                                        <td>{{land.CATEGORY || 'NA'}}
+                                                        <td>{{land['CATEGORY DETAILS'] || 'NA'}}
+                                                        <td>{{land['KM CHAINING'] || 'NA'}}
+                                                        <td>{{land.DISTANCE || 'NA'}}
+                                                    </tr>
+                                                    <tr ng-if="aLandmarkList.length < 1">
+                                                        <td colspan="4">Data Not Available !!!</td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button ng-if="aLandmarkList.length" class="btn btn-primary">UPLOAD</button>
+        <button class="btn btn-warning"
+                type="button"
+                ng-click="closeModal()">CLOSE</button>
+    </div>
+
+</form>
+
+
+<style>
+
+    form .col-md-3{
+        height: 30px;
+    }
+
+    .container{
+        width: 88% !important;
+    }
+
+    .modal-dialog{
+        width: 70%;
+    }
+
+</style>

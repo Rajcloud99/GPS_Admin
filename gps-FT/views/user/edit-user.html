@@ -1,0 +1,64 @@
+<form name="editUserForm" class=" form-horizontal" ng-submit="editUserF(selectedUser)" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Edit User Info</h3>
+  </div>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="col-md-12">
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">User Name:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedUser.name" class="form-control">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">User Type:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedUser.type" class="form-control" ng-disabled="true">
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Mobile:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedUser.mobile" class="form-control">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Password:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" ng-model="selectedUser.password" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Email:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedUser.email" class="form-control">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">PAN Number:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" ng-model="selectedUser.pan_no" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer p-t-0">
+    <button class="btn btn-success waves-effect" type="submit">Update</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 70%;}
+  .md-dialog-container{z-index: 9999;}
+</style>

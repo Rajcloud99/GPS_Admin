@@ -1,0 +1,24 @@
+<form name="removeGeozonesForm" class=" form-horizontal" ng-submit="removeGeozonesF(selectedgZone)" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Remove Geozone</h3>
+  </div>
+    <hr>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <p class="text-center">Are you sure to remove geozone(name) <b>{{selectedgZone.name}}</b> from geozone list.</p>
+  </div>
+  <hr>
+
+  <div class="modal-footer p-t-0">
+    <button class="btn btn-danger waves-effect" type="submit">Remove</button>
+    <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 50%;}
+</style>

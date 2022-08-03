@@ -1,0 +1,100 @@
+<div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="vm.close()" class="close"
+            data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Action</h3>
+</div>
+<hr>
+<br>
+<!-- Body Start -->
+<div class="modal-body" style="overflow: auto;">
+    <div class="col-sm-3">
+        <label class="col-sm-5 control-label bold">Vehicle: </label>
+        <div class="col-sm-7">
+            {{vm.notif.reg_no}}
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <label class="col-sm-4 control-label bold">Time: </label>
+        <div class="col-sm-8">
+            {{(vm.notif.datetime | date: "dd-MMM-yyyy 'at' hh:mm a") || "NA" }}
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <label class="col-sm-5 control-label bold">Event: </label>
+        <div class="col-sm-7">
+            {{vm.notif.code}}
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <label class="col-sm-5 control-label bold">Driver: </label>
+        <div class="col-sm-7">
+            {{vm.notif.driver}}
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-3">
+        <label class="col-sm-5 control-label bold">Value: </label>
+        <div class="col-sm-7">
+            {{vm.notif.extra}}
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <label class="col-sm-1 control-label bold">Address: </label>
+        <div class="col-sm-11">
+            {{vm.notif.location.address || "NA"}}
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-12">
+        <label class="col-sm-12 control-label bold">Remark: </label>
+        <div class="col-sm-11">
+            <textarea ng-model="vm.actionStr" rows="4" style="width: 100%"></textarea>
+        </div>
+        <div class="col-sm-1">
+            <button type="button"
+                    ng-disabled="!vm.actionStr"
+                    ng-click="vm.addAction()"
+                    class="btn btn-primary">
+                Add
+            </button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-12 m-t-15">
+        <h4>Action's</h4>
+        <div class="col-sm-12">
+            <div class="table-responsive" style="max-height: 435px;overflow: scroll">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="background: #aaefed;">Time</th>
+                            <th style="background: #aaefed;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="oAction in vm.notif.actions">
+                            <td style="min-width: 190px">{{oAction.time | date: "dd-MMM-yyyy 'at' hh:mm a" || "NA" }}</td>
+                            <td>{{oAction.action || "NA" }}</td>
+                        </tr>
+                        <tr ng-if="!vm.notif.actions.length">
+                            <td colspan="4">No Action yet !!!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="modal-footer p-t-0">
+    <button type="button" ng-click="vm.close()" class="btn btn-warning" data-dismiss="modal" >Cancel</button>
+</div>
+
+<style type="text/css">
+    .modal-dialog {width: 70%;}
+    .bold{
+        font-weight: bold;
+    }
+</style>

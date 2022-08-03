@@ -1,0 +1,319 @@
+<div class="" ng-controller="ListViewController">
+    <div class="container-fluid h-set">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="report h-set4" style="height: 535px;">
+                    <div class="trip-head row">
+                        <div class="col-sm-2 text-left">
+                            <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="vertical-align:top;">></span>&nbsp;&nbsp;
+                            <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">TrackSheet</a>
+                        </div>
+                        <div class="col-sm-2 ">
+                            <div class="input-group input-group-sm inn">
+                                <input class="dtt" type="text" ng-model="searchAll['reg_no']" placeholder="Vehicle Search"
+                                       title="Please Enter Here">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" uib-tooltip="Search"
+                                            tooltip-placement="bottom" type="button" ng-click="searchAll['reg_no']"><span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 ">
+                            <div class="input-group input-group-sm inn">
+                                <input class="dtt" type="text" ng-model="searchAll['addr']" placeholder="Address Search"
+                                       title="Please Enter Here">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" uib-tooltip="Search"
+                                            tooltip-placement="bottom" type="button" ng-click="searchAll['addr']"><span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group input-group-sm inn">
+                                <input class="dtt" type="text" ng-model="searchAll" placeholder="All Search"
+                                       title="Please Enter Here">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" uib-tooltip="Search"
+                                            tooltip-placement="bottom" type="button" ng-click="searchAll"><span class="glyphicon glyphicon-search"></span>&nbsp;</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group input-group-sm inn">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;
+                                <input class="form-control" style="width: 80%;" type="text" ng-model="geofence" ng-change="searchAll = {'addr': geofence.name}"
+                                        typeahead-wait-ms="9" placeholder="Geofence Search" aria-describedby="sizing-addon1"
+                                        uib-typeahead="gZone as gZone.name for gZone in aGeoZoneList | filter:{name: $viewValue} | limitTo: 10"
+                                        typeahead-on-select="searchAll = {'addr': geofence.name} "
+                                >
+                            </div>
+                        </div>
+                        <div class="col-sm-2 pull-right">
+                            <a uib-tooltip="count" class="pointer f20"
+                               tooltip-placement="bottom">{{totalCount}}</a>
+                            <a uib-tooltip="Refresh List" class="pointer"
+                               tooltip-placement="bottom" ng-click="refreshData()"><i class="zmdi zmdi-rotate-right zmdi-hc-fw f25"></i></a>
+                            <a uib-tooltip="Download Sheet" class="pointer"
+                               tooltip-placement="bottom" ng-click="downloadSheet(aTrSheetDeviceFilter)"><i class="zmdi zmdi-download zmdi-hc-fw f25"></i></a>
+                            <a uib-tooltip="Download CSV" class="pointer"
+                               tooltip-placement="bottom" ng-click="downloadCsv(aTrSheetDeviceFilter)"><i class="zmdi zmdi-download zmdi-hc-fw f25"></i></a>
+                            <a data-ui-sref="main.map" uib-tooltip="Map View" tooltip-placement="bottom"><i class="zmdi zmdi-google-maps zmdi-hc-fw f25"></i></a>
+                            <a ng-click="settingColumn()" class="pointer" uib-tooltip="Setting Column"
+                               tooltip-placement="bottom"><i class="zmdi zmdi-settings zmdi-hc-fw f25"></i></a>
+                        </div>
+                    </div>
+                    <div class="">
+                        <ul class="nav filterS">
+                            <li ng-repeat="(key, value) in advSearchResp">{{keychange(key)}} : {{value}} &nbsp;<span ng-click="removeThisFilter(key,$index)"> x </span></li>
+                        </ul>
+                    </div>
+                    <div class="toggle-table">
+                        <div class="table-responsive" style="min-height: 488px;height: 490px;">
+                            <table class="table table-condensed unresponsive" infinite-scroll="loadMore()" infinite-scroll-container='".table-responsive"' infinite-scroll-distance="1" infinite-scroll-parent="true">
+                                <thead>
+                                <tr>
+                                    <th ng-if="!(aFieldShow.indexOf('branch')==-1)" ng-click="sorting('branch')">Branch <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('reg_no')==-1)" ng-click="sorting('reg_no')">
+                                        Vehicle <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('remark')==-1)" ng-click="sorting('remark')">User Id <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('vehicle_type')==-1)" ng-click="sorting('vehicle_type')">Vehicle Type <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('driver_name')==-1)" ng-click="sorting('driver_name')" style="min-width: 80px;">Driver <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('status')==-1)" ng-click="sorting('s_status')" style="min-width: 75px;">GPS Status <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('vehicle_status')==-1)" ng-click="sorting('vehicle_status')" style="min-width: 75px;">Vehicle Status <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('trip_status')==-1)" ng-click="sorting('trip_status')" style="min-width: 75px;">Trip Status <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('route')==-1)" ng-click="sorting('route')">Route <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('owner_group')==-1)" ng-click="sorting('owner_group')">Owner Group <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('customer')==-1)" ng-click="sorting('customer')">Customer <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('addr')==-1)" ng-click="sorting('addr')">Address <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('nearest_landmark')==-1)" ng-click="sorting('nearest_landmark')">Nearest Landmark <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('trip_start_time')==-1)" ng-click="sorting('trip_start_time')">Trip Start Time <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('positioning_time')==-1)" ng-click="sorting('positioning_time')">Positioning Time <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('location_time')==-1)"
+                                        ng-click="sorting('location_time')" ng-click="sorting('location_time')">Location Time <span><i
+                                            class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('stoppage_time')==-1)" ng-click="sorting('stoppage_time')">Stoppage Time <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('speed')==-1)" ng-click="sorting('speed')">Speed(KM/h) <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('estimated_dist')==-1)" ng-click="sorting('estimated_dist')" style="min-width: 85px;">Estimated Dist(KM) <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_today')==-1)" ng-click="sorting('dist_today')">Today KM. <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_yesterday')==-1)" ng-click="sorting('dist_yesterday')">Yesterday KM. <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_d_2')==-1)">{{dist_2 | date:'d/M/yy'}} (KM.)
+                                    </th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_d_3')==-1)">{{dist_3 | date:'d/M/yy'}} (KM.)
+                                    </th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_d_4')==-1)">{{dist_4 | date:'d/M/yy'}} (KM.)
+                                    </th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_d_5')==-1)">{{dist_5 | date:'d/M/yy'}} (KM.)
+                                    </th>
+                                    <th ng-if="!(aFieldShow.indexOf('dist_last_week')==-1)" ng-click="sorting('dist_last_week')">Distance Last Week(KM.) <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th ng-if="!(aFieldShow.indexOf('geofence_status')==-1)" ng-click="sorting('geofence_status')">Load Status <span><i class="zmdi zmdi-swap-vertical zmdi-hc-fw"></i></span></th>
+                                    <th style="width: 82px;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="device in aTrSheetDeviceFilter = (aTrSheetDevice | filter:searchAll | limitTo:numberToDisplay) track by $index"
+                                    ng-if="aTrSheetDevice.length > 0">
+                                    <td ng-if="!(aFieldShow.indexOf('branch')==-1)">{{device.branch || "NA" }}</td>
+                                    <td ng-if="!(aFieldShow.indexOf('reg_no')==-1)">
+                                        <a class="pointer" ng-click="reportThisVehicle(device)"
+                                           uib-tooltip="Click for Report">
+                                            {{device.reg_no || "NA" }}
+                                        </a>
+                                    </td>
+                                    <td style="min-width: 200px;" ng-if="!(aFieldShow.indexOf('remark')==-1)">
+                                        {{device.remark || 'NA' }}
+                                    </td>
+                                    <td style="min-width: 160px;" ng-if="!(aFieldShow.indexOf('vehicle_type')==-1)">
+                                        <a class="pointer" ng-click="updateVehicleType(device)"
+                                           uib-tooltip="Click for vehicle Type">
+                                            {{device.vehicle_type || "NA" }}
+                                            <span ng-if="device.vehicle_group">({{device.vehicle_group || "NA" }})</span>
+                                        </a>
+                                    </td>
+                                    <td ng-if="!(aFieldShow.indexOf('driver_name')==-1)">
+                                        {{device.driver_name || "NA" }}
+                                        <span ng-if="device.driver_mobile">({{device.driver_mobile || "NA" }})</span>
+                                    </td>
+                                    <td ng-if="!(aFieldShow.indexOf('status')==-1)">
+                                        <img ng-show="device.icon" ng-src="{{device.icon | takeIcon:device.status}}" uib-tooltip="{{device.status || 'NA' }}" style="width: 50%;" alt="">
+                                        <!--<span ng-hide="device.icon" >{{device.status}}</span>-->
+                                        <i ng-hide="device.icon" ng-class="{'tr-online': device.status == 'stopped' , 'tr-offline' : device.status == 'offline' , 'tr-running': device.status == 'running' , 'tr-inactive' : device.status == 'inactive'}"
+                                           uib-tooltip="{{device.status || 'NA' }}"
+                                           class="zmdi zmdi-flag zmdi-hc-fw f20"></i>
+                                    </td>
+                                    <td ng-if="!(aFieldShow.indexOf('vehicle_status')==-1)">{{device.vehicle_status ||
+                                        "NA" }}
+                                    </td>
+                                    <td ng-if="!(aFieldShow.indexOf('trip_status')==-1)">{{device.trip_status || "NA"
+                                        }}
+                                    </td>
+                                    <td style="min-width: 180px;" ng-if="!(aFieldShow.indexOf('route')==-1)">
+                                        {{device.route || "NA" }}
+                                    </td>
+                                    <td style="min-width: 180px;" ng-if="!(aFieldShow.indexOf('owner_group')==-1)">
+                                        {{device.owner_group || "NA" }}
+                                    </td>
+                                    <td style="min-width: 180px;" ng-if="!(aFieldShow.indexOf('customer')==-1)">
+                                        {{device.customer || "NA" }}
+                                    </td>
+                                    <td style="min-width: 225px;" ng-if="!(aFieldShow.indexOf('addr')==-1)">
+                                        <a class="pointer" ng-click="addMarkerLandmark(device)"
+                                           uib-tooltip="Click for create landmark">{{device.addr || "NA" }}</a>
+                                    </td>
+                                    <td style="min-width: 180px;" ng-if="!(aFieldShow.indexOf('nearest_landmark')==-1)">
+                                        <a class="pointer" ng-click="showLandMarkPos(device)" uib-tooltip="Click for map">{{device.nearest_landmark
+                                            && device.nearest_landmark.name && device.nearest_landmark.dist ?
+                                            device.nearest_landmark.dist/1000 + " KM from " +
+                                            device.nearest_landmark.name : "NA" }}</a>
+                                    </td>
+                                    <!-- <td>
+                                      <span ng-if="device.positioning_time">{{device.positioning_time | date:'dd/MM/yyyy  h:mma' || "NA" }}</span>
+                                    </td> -->
+                                    <td style="min-width: 120px;" ng-if="!(aFieldShow.indexOf('trip_start_time')==-1)">
+                                        <span ng-if="device.trip_start_time">{{device.trip_start_time | date:'dd-MM-yyyy H:m' || "NA" }}</span>
+                                    </td>
+                                    <td style="min-width: 120px;" ng-if="!(aFieldShow.indexOf('positioning_time')==-1)">
+                                        <span ng-if="device.positioning_time">{{device.positioning_time | date:'dd-MM-yyyy H:m' || "NA" }}</span>
+                                    </td>
+                                    <td style="min-width: 120px;" ng-if="!(aFieldShow.indexOf('location_time')==-1)">
+                                        <span ng-if="device.location_time">{{device.location_time | date:'dd-MM-yyyy H:m' || "NA" }}</span>
+                                    </td>
+                                    <td style="min-width: 120px;" ng-if="!(aFieldShow.indexOf('stoppage_time')==-1)">
+                                        {{device.stoppage_time | date:'dd-MM-yyyy H:m' || 'NA' }}
+                                    </td>
+                                    <td ng-if="!(aFieldShow.indexOf('speed')==-1)">{{device.speed || "0" }}</td>
+                                    <td ng-if="!(aFieldShow.indexOf('estimated_dist')==-1)">{{((device.estimated_dist/1000) | number : 2) || "NA"}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_today')==-1)">
+                                        {{((device.dist_today/1000) | number : 2) || "NA"}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_yesterday')==-1)">
+                                        {{((device.dist_yesterday/1000) | number : 2) || 0}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_d_2')==-1)">
+                                        {{((device.dist_d_2/1000) | number : 2 ) || 0}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_d_3')==-1)">
+                                        {{((device.dist_d_3/1000) | number : 2 ) || 0}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_d_4')==-1)">
+                                        {{((device.dist_d_4/1000) | number : 2) || 0}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_d_5')==-1)">
+                                        {{((device.dist_d_5/1000) | number : 2) || 0}}
+                                    </td>
+                                    <td style="min-width: 100px;" ng-if="!(aFieldShow.indexOf('dist_last_week')==-1)">
+                                        {{((device.dist_last_week/1000) | number : 2) || 0}}
+                                    </td>
+                                    <td ng-if="!(aFieldShow.indexOf('geofence_status')==-1)">{{device.geofence_status &&
+                                        device.geofence_status.message ? device.geofence_status.message : 'NA' }}
+                                    </td>
+                                    <td style="min-width: 150px;">
+                                        <!--<a ng-class="{blue:device.on_trip==true, red:device.on_trip==false, gray: device.on_trip==null}"
+                                           ng-hide="device.status == 'inactive'" href="" uib-tooltip="Trip Detail"
+                                           ng-click="tripDetail(device)"><span
+                                                class="glyphicon glyphicon-text-width"></span></a>&nbsp;-->
+                                        <a ng-class="{gray:device.status == 'inactive', gray: device.status == 'offline'}" href="" uib-tooltip="Tracking"
+                                           ng-click="trackLive(device)"><span
+                                                class="glyphicon glyphicon-road"></span></a>&nbsp;&nbsp;
+                                        <a ng-hide="device.status == 'inactive'" ng-click="commands(device)" href=""
+                                           uib-tooltip="Commands"><span class="glyphicon glyphicon-tasks"></span></a>&nbsp;&nbsp;
+                                        <a ng-hide="device.status == 'inactive'" ng-click="updateDevice(device)" href=""
+                                           uib-tooltip="Update"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr ng-if="aTrips.length < 1">
+                                    <td colspan="4">Sorry, wrong user Selection!!!</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    section.main {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+
+    .form-group label {
+        text-align: left;
+    }
+    .unresponsive thead tr th {
+        background: #8bd2f3;
+        /* color: #fff; */
+    }
+    .unresponsive thead tr th:hover{
+        background: #939393;
+        color: #fff;
+    }
+    .filterS > li {
+        float: left;
+        margin: 0px 5px 10px 10px;
+        border: 1px solid #2695f3;
+        padding: 1px 4px 4px 4px;
+        background: #eee;
+    }
+    .filterS > li > span{
+        color: white;
+        border-radius: 50%;
+        padding: 0px 6px 2px 3px;
+        background: #ea2d2d;
+    }
+
+    /* .toggle-table tbody tr td{min-width:150px;}
+    .toggle-table tbody tr td:nth-child(1){min-width:120px;}
+    .toggle-table tbody tr td:nth-child(2){min-width:120px;}
+    .toggle-table tbody tr td:nth-child(4){min-width:50px;}
+    .toggle-table tbody tr td:nth-child(5){min-width:300px;}
+    .toggle-table tbody tr td:nth-child(6){min-width:200px;}
+    .toggle-table tbody tr td:nth-child(7){min-width:150px;}
+    .toggle-table tbody tr td:nth-child(8){min-width:100px;}
+    .toggle-table tbody tr td:nth-child(9){min-width:100px;}
+    .toggle-table tbody tr td:nth-child(10){min-width:50px;}
+    .toggle-table tbody tr td:nth-child(11){min-width:50px;} */
+    .table > thead > tr > th:last-child, .table > tbody > tr > th:last-child, .table > tfoot > tr > th:last-child, .table > thead > tr > td:last-child, .table > tbody > tr > td:last-child, .table > tfoot > tr > td:last-child {
+        padding-right: 5px;
+    }
+
+    .table > thead > tr > th:first-child, .table > tbody > tr > th:first-child, .table > tfoot > tr > th:first-child, .table > thead > tr > td:first-child, .table > tbody > tr > td:first-child, .table > tfoot > tr > td:first-child {
+        padding-left: 5px;
+    }
+
+    .unresponsive thead tr th {
+        min-width: 60px;
+    }
+    .unresponsive thead tr th:first-child {
+        min-width: 75px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .gray {
+        color: gray !important;
+    }
+
+    .gray:hover {
+        color: gray;
+    }
+
+    .blue {
+        color: #2196F3;
+    }
+    .inactive{
+        display: none;
+    }
+    .offline{
+        display: none;
+    }
+</style>

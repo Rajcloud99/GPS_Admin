@@ -1,0 +1,504 @@
+<div ng-controller="createAlertCtrl">
+    <div class="container">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="alertList()" style="height: 14px;">Alerts List</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Create Alerts</a>
+    <div class="row h-set">
+      <div class="col-sm-12">
+        <div class="report">
+          <h3 ng-hide="updateShow.update_alert">Create Alert</h3>
+          <h3 ng-show="updateShow.update_alert">Update Alert</h3>
+          <div class="sub-h">
+            <button ng-hide="updateShow.update_alert" ng-click="createA()" ng-disabled="!((lst.length>0) && (alertType))" class="btn btn-success pull-right">Create</button>
+            <button ng-show="updateShow.update_alert" ng-click="updateA()" class="btn btn-success pull-right">Update</button>
+            <div class="clearfix"></div>
+          </div>
+          <div class="row m-t-10">
+            <div class="col-sm-6">
+              <div class="r-field">
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Alert Type*</label>
+                  <div class="col-sm-8">
+                    <div class="fg-line">
+                      <div class="select">
+                        <select ng-model="alertType" ng-options="sAlert.scope as sAlert.name for sAlert in aAlertTypes" ng-change="determineAction(alertType)" class="form-control" required ng-disabled="updateShow.update_alert">
+                          <option value="" selected> Select Alert Type </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showOverSpeed">
+                  <label class="col-sm-4 control-label">Speed(km/h)*</label>
+                  <div class="col-sm-8">
+                    <div class="fg-line">
+                      <input type="number" ng-model="over_speed" class="form-control" placeholder="Ex. - 50 " required>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showOverSpeed">
+                  <label class="col-sm-4 control-label">Name</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <input type="text" ng-model="over_speed_name" class="form-control" placeholder="Enter name here ..." required>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showOverSpeed">
+                  <label class="col-sm-4 control-label">Description</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <input type="text" ng-model="over_speed_description" class="form-control" placeholder="Enter description here ..." required>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showGeoList">
+                  <label class="col-sm-4 control-label">Choose Geofence*</label>
+                  <div class="col-sm-8">
+                    <div class="select">
+                      <select ng-model="sGeozone"
+                              ng-options="sGeozone as sGeozone.name for sGeozone in aAllGeoZones"
+                              ng-change="sDestination=''"
+                              class="form-control"
+                              required>
+                        <option value="" selected> Select Geofence </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showGeoList">
+                  <label class="col-sm-4 control-label">Status</label>
+                  <div class="col-sm-8">
+                    <div class="fg-line">
+                      <label class="checkbox checkbox-inline m-r-20">
+                        <input ng-model="entry" type="checkbox" value="option1">
+                        <i class="input-helper"></i>
+                        In
+                      </label>
+                      <label class="checkbox checkbox-inline m-r-20">
+                        <input ng-model="exit" type="checkbox" value="option1">
+                        <i class="input-helper"></i>
+                        Out
+                      </label>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showGeoList">
+                  <label class="col-sm-4 control-label">Category</label>
+                  <div class="col-sm-8">
+                    <div class="select">
+                      <select ng-model="category" ng-change="changeCategory(category)" ng-options="cat.scope as cat.name for cat in aCategory" class="form-control">
+                        <option value="" selected> Select Category </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group" ng-show="showGeoList">
+                  <label class="col-sm-4 control-label">Destination</label>
+                  <div class="col-sm-8">
+                    <div class="select">
+                      <select ng-model="sDestination" ng-options="sGeozone.gid as sGeozone.name for sGeozone in aAllGeoZones|filter:{gid: '!'+sGeozone.gid}" class="form-control" required>
+                        <option selected> Select Destination </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <!--<div class="form-group" ng-show="showGeoList">
+                  <label class="col-sm-4 control-label">Entry Message</label>
+                  <div class="col-sm-8">
+                    <div class="fg-line">
+                      <input type="text" ng-model="entry_msg" class="form-control">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group" ng-show="showGeoList">
+                  <label class="col-sm-4 control-label">Exit Message</label>
+                  <div class="col-sm-8">
+                    <div class="fg-line">
+                      <input type="text" ng-model="exit_msg" class="form-control">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>-->
+                <div class="form-group" ng-show="showHalt">
+                  <label class="col-sm-4 control-label">Duration</label>
+                  <div class="col-sm-8">
+                    <div class="col-sm-6">
+                      <div class="select">
+                        <select ng-model="sHour" ng-options="ah.scope as ah.name for ah in aHours" class="form-control" ng-change="changeAhrs()">
+                          <option value="" selected> Select Hour </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="select">
+                        <select ng-model="sMin" ng-options="am.scope as am.name for am in aMins" class="form-control">
+                          <option value="" selected> Select Min. </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Mobile</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <label class="">
+                          <!--<input type="number" ng-model="mob" class="form-control" placeholder="EX. 9999999999" ng-pattern="/^[1-9]{1}[0-9]{9}$/" ngMaxlength="10">-->
+                          <input type="text" ng-model="mob" class="form-control" placeholder="EX. 9999999999">
+                        </label>
+                          <button ng-click="mobChange(mob,true)" class="btn btn-primary waves-effect">
+                              <i class="zmdi zmdi-plus zmdi-hc-fw"></i>
+                          </button>
+                      </div>
+                      <p class="red" ng-show="tenDigit">Enter 10 digit number</p>
+                      <span class="btn-lst" ng-repeat="nMob in mobLst track by $index">{{nMob}} <a ng-click="mobChange(nMob,false)"> x </a></span>
+                   </div>
+
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">E-mail</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <label class="">
+                          <!--<input type="email" placeholder="Ex. abc@mail.com" ng-model="mulEmail" ng-pattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' class="form-control">-->
+                          <input type="text" placeholder="Ex. abc@mail.com" ng-model="mulEmail" class="form-control">
+                        </label>
+                          <button ng-click="emailChange(mulEmail,true)" class="btn btn-primary waves-effect">
+                              <i class="zmdi zmdi-plus zmdi-hc-fw"></i>
+                          </button>
+                      </div>
+                      <p class="red" ng-show="emailFalse">Enter valid E-mail</p>
+                      <span class="btn-lst" ng-repeat="sEmail in emailLst track by $index">{{sEmail}} <a ng-click="emailChange(sEmail,false)"> x </a></span>
+                   </div>
+
+                  <div class="clearfix"></div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div ng-hide="updateShow.update_alert" class="row">
+                  <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+                    <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                    <input  class="" type="text" ng-model="vehicle" placeholder="Search By  Vehicle Number......" title="Please enter  Vehicle Number" aria-describedby="sizing-addon1" style="border: none; width:96%;padding: 0 5px;">
+                  </div>
+              </div>
+              <div class="r-truck">
+                <ul ng-hide="updateShow.update_alert" class="list-unstyled" ng-show="userDevices.length > 0">
+                  <li>
+                    <label class="checkbox checkbox-inline m-r-20">
+                      <input type="checkbox" value="option1" ng-model="selectedAll" ng-click="checkAll()">
+                      <i class="input-helper"></i>
+                      Select All
+                    </label>
+                  </li>
+                  <li ng-repeat="deviceR in userDevices | filter: vehicle"
+                      ng-class="{'active': true == aSelTruck.selected, 'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                    <label class="checkbox checkbox-inline m-r-20">
+                      <input type="checkbox" value="option1" ng-model="selTruck" ng-change="change(deviceR, selTruck)" ng-checked="deviceR.selected">
+                      <i class="input-helper"></i>
+                      {{deviceR.reg_no || deviceR.imei}}
+                    </label>
+                  </li>
+                </ul>
+                <p ng-show="updateShow.update_alert"><b>Selected Truck:</b> {{reg_no}}</p>
+                <p ng-show="userDevices.length <= 0">No any truck available !!!</p>
+              </div>
+              <span ng-hide="updateShow.update_alert" class="btn-lst" ng-repeat="sList in lst">{{sList.reg_no || sList.imei}} <a ng-click="removeDeviceArr(sList)"> x </a></span>
+            </div>
+          </div>
+
+          <!-- default alert here ........-->
+          <div class="row" ng-show="showGeoList">
+            <div class="col-sm-12">
+              <div class="time_p">
+                <h4>Default Schedule</h4>
+                <hr class="m-t-5 m-b-5">
+                <div class="table">
+                  <form ng-submit="addNew()">
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                      <tr>
+                        <th>#<!--<input type="checkbox" ng-model="selectedAll" ng-click="checkAllSchedule()" />--></th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Message</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="dTime in defaultTimes">
+                        <td>
+                          <!--<input type="checkbox" ng-model="dTime.selected"/>-->
+                          <label class="checkbox checkbox-inline m-r-20">
+                            <input type="checkbox" ng-model="dTime.selected">
+                            <i class="input-helper"></i>
+                          </label>
+                        </td>
+                        <td>
+                          <!--<input type="text" class="form-control" ng-model="personalDetail.fname" required/></td>-->
+                          <label class="col-sm-2 control-label">HH</label>
+                          <div class="col-sm-4">
+                            <div class="select">
+                              <select ng-model="dTime.hourSel1" ng-options="sAlert as sAlert for sAlert in aHoursss" class="form-control" ng-change="defaultValidationTime(dTime,$index)"></select>
+                            </div>
+                          </div>
+                          <label class="col-sm-2 control-label">MM</label>
+                          <div class="col-sm-4">
+                            <div class="select">
+                              <select ng-model="dTime.minuteSel1" ng-options="sAlert as sAlert for sAlert in aMinutes" class="form-control" ng-change="defaultValidationTime(dTime,$index)"></select>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <!--<input type="text" class="form-control" ng-model="personalDetail.lname" required/></td>-->
+                          <label class="col-sm-2 control-label">HH</label>
+                          <div class="col-sm-4">
+                            <div class="select">
+                              <select ng-model="dTime.hourSel2" ng-options="sAlert as sAlert for sAlert in aHoursss" class="form-control" ng-change="defaultValidationTime(dTime,$index)"></select>
+                            </div>
+                          </div>
+                          <label class="col-sm-2 control-label">MM</label>
+                          <div class="col-sm-4">
+                            <div class="select">
+                              <select ng-model="dTime.minuteSel2" ng-options="sAlert as sAlert for sAlert in aMinutes" class="form-control" ng-change="defaultValidationTime(dTime,$index)"></select>
+                            </div>
+                          </div>
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="dTime.msg"></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <br>
+
+                    <div class="form-group">
+                      <input ng-hide="!defaultTimes.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove"> &nbsp;&nbsp;&nbsp;
+                      <input type="submit" class="btn btn-primary addnew pull-right" value="Add New Row" style="margin-right: 10px;">&nbsp;&nbsp;
+                    </div>
+                    <br>
+                  </form>
+                </div>
+            </div>
+            <!-- <div class="col-sm-6">
+              <div class="time_p">
+                <h4>Schedule</h4>
+                <hr class="m-t-5 m-b-5">
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label">Daily</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <label class="checkbox checkbox-inline m-r-20">
+                          <input type="checkbox" value="option1" ng-model="daily" disabled>
+                          <i class="input-helper"></i>
+                        </label>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label">Weekly</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <label class="checkbox checkbox-inline m-r-20">
+                          <input type="checkbox" value="option1" ng-model="weekly" disabled>
+                          <i class="input-helper"></i>
+                        </label>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label">Send to e-mail</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                          <input type="email" class="form-control input-sm" id="" placeholder="ex.-abc@mail.com" disabled>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <hr>
+        <br>
+        <!--//************* calender code start here ......-->
+        <div class="row" ng-show="showGeoList && updateAlertItem">
+          <div class="col-sm-12">
+            <div class="time_p">
+              <h4>Alarm Calender <span><a class="btn btn-primary wave-effect" uib-tooltip="Add Alarm Schedule" ng-click="addAlarmPopup()"><span class="glyphicon glyphicon-plus"></span></a> </span></h4>
+              <hr class="m-t-5 m-b-5">
+              <div class="col-sm-12">
+                <label class="col-sm-2 control-label">Start Date</label>
+                <div class="col-sm-3">
+                  <div class="input-group input-group-sm inn">
+                <div class="date-picker input-group dp-blue"
+                     ng-class="{ 'is-opened': opened7 == true }" style="width: 100%;">
+                  <div class="fg-line" style="padding:0;"
+                       ng-class="{ 'fg-toggled': opened7 == true }">
+                    <input ng-click="open($event, 'opened7')" type="text" class=""
+                           uib-datepicker-popup="{{format}}" show-weeks="false"
+                           ng-model="date" is-open="opened7"
+                           datepicker-options="dateOptions1" ng-required="true"
+                           close-text="Close"
+                           placeholder="Start Date" style="width: 100%
+                                                ;
+                                                    border: none
+                                                ;
+                                                    padding: 6px
+                                                ;"/>
+                  </div>
+                </div>
+              </div>
+                </div>
+                <label class="col-sm-2 control-label">End Date</label>
+                <div class="col-sm-3">
+                  <div class="input-group input-group-sm inn">
+                <div class="date-picker input-group dp-blue"
+                     ng-class="{ 'is-opened': opened8 == true }" style="width: 100%;">
+                  <div class="fg-line" style="padding:0;"
+                       ng-class="{ 'fg-toggled': opened8 == true }">
+                    <input ng-click="open($event, 'opened8')" type="text" class=""
+                           uib-datepicker-popup="{{format}}" show-weeks="false"
+                           ng-model="end_date" is-open="opened8"
+                           datepicker-options="dateOptions1" ng-required="true"
+                           close-text="Close"
+                           placeholder="End Date" style="width: 100%
+                                                ;
+                                                    border: none
+                                                ;
+                                                    padding: 6px
+                                                ;"/>
+                  </div>
+                </div>
+              </div>
+                </div>
+                <label class="col-sm-2 control-label"><a class="btn btn-primary" ng-click="searchAlarmRange()">Search</a> </label>
+              </div>
+              <div class="clearfix"></div>
+              <hr class="m-t-5 m-b-5">
+              <div class="" ng-repeat="alarmSch in aScheduledAlarm">
+                <p style="margin-bottom: -10px;">{{alarmSch.date | date:'dd-MM-yyyy'}}</p>
+                <input ng-show="dateStart==(alarmSch.date | date:'dd-MM-yyyy')" type="button" uib-tooltip="Remove After Select" class="btn btn-danger pull-right" ng-click="removeCalAlarm(alarmSch,$index)" value="Remove"> &nbsp;&nbsp;&nbsp;
+                <div class="table">
+                  <form>
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Message</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="cAlarm in alarmSch.schedules">
+                        <td>
+                          <label class="checkbox checkbox-inline m-r-20">
+                            <input type="checkbox" ng-model="cAlarm.selected" ng-click="checkClick(cAlarm,$index)">
+                            <i class="input-helper"></i>
+                          </label>
+                        </td>
+                        <td>
+                          <label class="col-sm-2 control-label">HH</label>
+                          <div class="col-sm-4">
+                            <span>{{cAlarm.hourSel1}}</span>
+                          </div>
+                          <label class="col-sm-2 control-label">MM</label>
+                          <div class="col-sm-4">
+                            <span>{{cAlarm.minuteSel1}}</span>
+                          </div>
+                        </td>
+                        <td>
+                          <label class="col-sm-2 control-label">HH</label>
+                          <div class="col-sm-4">
+                            <span>{{cAlarm.hourSel2}}</span>
+                          </div>
+                          <label class="col-sm-2 control-label">MM</label>
+                          <div class="col-sm-4">
+                            <span>{{cAlarm.minuteSel2}}</span>
+                          </div>
+                        </td>
+                        <td><input type="text" class="form-control" ng-model="cAlarm.msg"></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <br>
+
+
+                    <br>
+                  </form>
+                </div>
+                <hr>
+              </div>
+            </div>
+            <!-- <div class="col-sm-6">
+              <div class="time_p">
+                <h4>Schedule</h4>
+                <hr class="m-t-5 m-b-5">
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label">Daily</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <label class="checkbox checkbox-inline m-r-20">
+                          <input type="checkbox" value="option1" ng-model="daily" disabled>
+                          <i class="input-helper"></i>
+                        </label>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label">Weekly</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                        <label class="checkbox checkbox-inline m-r-20">
+                          <input type="checkbox" value="option1" ng-model="weekly" disabled>
+                          <i class="input-helper"></i>
+                        </label>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                  <label for="" class="col-sm-4 control-label">Send to e-mail</label>
+                  <div class="col-sm-8">
+                      <div class="fg-line">
+                          <input type="email" class="form-control input-sm" id="" placeholder="ex.-abc@mail.com" disabled>
+                      </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        <!--//************* calender code end here ........-->
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .table > thead > tr > th {
+    background: #8cf9fa;
+    text-align: center;
+  }
+  
+</style>

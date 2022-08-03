@@ -1,0 +1,76 @@
+<!--controller: actionViewController-->
+<!--controllerAs: avVm-->
+<form name="detailView"  novalidate autocomplete="off">
+
+    <div class="modal-header" >
+        <button type="button" ng-click="avVm.closeModal()" class="close"
+                data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" align="center">
+            <span class="c-black"><b>Action View</b></span>
+        </h4>
+    </div>
+    <div class="row h-set2" style="min-height: 520px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 435px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="background: #aaefed;">Vehicle</th>
+                        <th style="background: #aaefed;">Time</th>
+                        <th style="background: #aaefed;">Event</th>
+                        <th style="background: #aaefed;">Address</th>
+                        <th style="background: #aaefed;">Action</th>
+                        <th style="background: #aaefed;">Action Date</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="noti in avVm.aActionNotifications">
+                    <tr ng-repeat="act in noti.actions"
+                        ng-click="selected.notif = noti"
+                        ng-class="{selected: selected.notif._id === noti._id}"
+                        class="pointer"
+                        ng-if="avVm.aActionNotifications.length">
+                        <td rowspan="{{noti.actions.length}}" ng-if="$index==0">{{noti.reg_no || "NA" }}</td>
+                        <td rowspan="{{noti.actions.length}}" ng-if="$index==0">{{noti.datetime | date: "dd-MMM-yyyy 'at' hh:mm a" || "NA" }}</td>
+                        <td rowspan="{{noti.actions.length}}" ng-if="$index==0">{{noti.code || "NA" }}</td>
+                        <td rowspan="{{noti.actions.length}}" ng-if="$index==0">{{noti.location && noti.location.address || "NA" }}</td>
+                        <td>
+                            {{act.action || "NA" }}
+                        </td>
+                        <td>{{act.time | date: "dd-MMM-yyyy 'at' hh:mm a" || "NA" }}</td>
+                    </tr>
+                    <tr ng-if="!avVm.aActionNotifications.length">
+                        <td colspan="4">No Action available !!!</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning"
+                type="button"
+                ng-click="avVm.closeModal()">Close</button>
+    </div>
+
+</form>
+
+
+<style>
+
+    form .col-md-3{
+        height: 50px;
+    }
+
+    .container{
+        width: 98% !important;
+    }
+
+    .modal-dialog{
+        width: 90%;
+    }
+
+</style>

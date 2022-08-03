@@ -1,0 +1,127 @@
+<div ng-controller="geoNotificationCtrl" class="bg-e">
+  <div class="row sub-head">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 16px; margin-left: 15px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 16px;">Geofence Notifications</a>
+    <div class="col-lg-10 col-md-10 col-sm-10 pull-right">
+      <div class="col-sm-2 ">
+        <div class="input-group input-group-sm inn" >
+          <span class="glyphicon glyphicon-search"></span>&nbsp;
+          <input  class="dtt" style="width: 85%;" type="text" ng-model="vehicleNum" placeholder="Search By Vehicle No." title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" uib-typeahead="vehicleImei as vehicleImei.reg_no for vehicleImei in aVehicle | filter:{reg_no: $viewValue} | limitTo:30" typeahead-on-select="onSelect($item, $model, $label)" ng-change="remVehicle(vehicleNum)">
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="input-group input-group-sm inn" >
+          <span class="glyphicon glyphicon-search"></span>&nbsp;
+          <input  class="dtt" style="width: 85%;" type="text" ng-model="sGeozone" placeholder="geofence name" title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" uib-typeahead="sGeozone as sGeozone.name for sGeozone in aAllGeoZones | filter:{name: $viewValue} | limitTo:30" typeahead-on-select="onSelectGeofence($item, $model, $label)" ng-change="remVehicle(sGeozone)">
+        </div>
+      </div>
+      <!-- <div class="col-sm-3 ">
+        <div class="input-group input-group-sm inn">
+          <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                <select class="input-sm" ng-model="selectAlertType" name="searchBy" ng-options="option for option in allAlertTypes | filter:  $viewValue" ng-change="getAlert(selectAlertType)" style="width: 92%; border: none;">
+                <option value="" style="display: none;">Search BY Alert Type</option>
+                </select>
+        </div>
+      </div> -->
+      <div class="col-sm-2">
+        <div class="input-group input-group-sm inn" >
+          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+            <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }" >
+              <span class="glyphicon glyphicon-search"></span>&nbsp;
+              <input ng-click="open($event, 'opened1')" type="text" class=" " uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="from_date" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Start Date " ng-change="getNotification()" style="width: 85%; border: none; padding: 6px;" / >
+            </div>
+          </div>
+        </div>
+        <p class="red" ng-show="wrongDateRange">Start Date must be less than End Date </p>
+      </div>
+      <div class="col-sm-2">
+        <div class="input-group input-group-sm inn" >
+          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+            <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+              <span class="glyphicon glyphicon-search"></span>&nbsp;
+              <input ng-click="open($event, 'opened2')" type="text" class="" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="to_date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="End Date" ng-change="getNotification()" style="width: 85%; border: none; padding: 6px;"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 pull-right">
+        <div class="form-group m-b-0 text-center">
+<!--          <button class="btn btn-primary p-t-0 p-b-0"-->
+<!--                  type="button"-->
+<!--                  style="margin-bottom: 3px;  font-size: 16px"-->
+<!--                  uib-tooltip="Search"-->
+<!--                  ng-click="getAllAlerts()"-->
+<!--                  tooltip-placement="bottom">-->
+<!--            <i class="zmdi zmdi-search zmdi-hc-fw"></i>-->
+<!--          </button>-->
+          <button ng-disabled="!(from_date && to_date)"
+                  class="btn btn-primary p-t-0 p-b-0"
+                  type="button"
+                  style="margin-bottom: 3px;  font-size: 16px"
+                  uib-tooltip="Download"
+                  ng-click="downloadList()"
+                  tooltip-placement="bottom">
+            <i class="zmdi zmdi-download zmdi-hc-fw"></i>
+          </button>
+          <button
+                  class="btn btn-primary p-t-0 p-b-0"
+                  type="button"
+                  style="margin-bottom: 3px;  font-size: 16px"
+                  uib-tooltip="Go Back Notification"
+                  ng-click="goBack()"
+                  tooltip-placement="bottom">
+            <i class="zmdi zmdi-swap zmdi-hc-fw"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row h-set2" style="min-height: 520px;">
+    <div class="col-sm-12 toggle-table">
+      <div class="table-responsive" style="min-height: 435px;height: 480px;">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+                <th style="background: #aaefed;">Vehicle</th>
+                <th style="background: #aaefed;">Entry Message</th>
+                <th style="background: #aaefed;">Entry Time</th>
+                <th style="background: #aaefed;">Exit Message</th>
+                <th style="background: #aaefed;">Exit Time</th>
+                <!-- <th style="background: #aaefed;">Category</th> -->
+                <th style="background: #aaefed;">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="noti in aGeoNotifications" ng-if="aGeoNotifications.length > 0">
+                <td>{{noti.vehicle_no || "NA" }}</td>
+                <td>{{noti.entry.message || noti.message || "NA" }}</td>
+                <td>{{noti.entry.datetime || noti.datetime | date:'d/M/yy h:mm a' || "NA" }}</td>
+                <td>{{noti.exit.message || "NA" }}</td>
+                <td>{{noti.exit.datetime | date:'d/M/yy h:mm a' || "NA" }}</td>
+                <!-- <td>{{noti.category || "NA" }}</td> -->
+                <td>{{noti.duration || "NA" }}</td>
+            </tr>
+            <tr ng-if="aGeoNotifications.length < 1">
+              <td colspan="4">No notification available !!!</td>
+            </tr>
+              
+          </tbody>
+        </table>
+      </div>
+      <div class="clearfix"></div>
+      <div class="pagin text-center">
+        <ul uib-pagination ng-change="pageChanged()" total-items="bigTotalItems"
+            ng-model="bigCurrentPage"
+            max-size="maxSize"
+            class="pagination-sm"
+            boundary-link-numbers="true"
+            items-per-page="15"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  
+</style>

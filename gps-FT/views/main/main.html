@@ -1,0 +1,11 @@
+<div class="" ng-style="{background: distributerInfo.color}" style="border-bottom: 1px solid #3a9aeb;">
+  <div data-ng-include="'template/header.html'"></div>
+</div>
+<div class="main_page">
+  <div ng-if="showSideBar" data-ng-include="'template/sidebar-left.html'"></div>
+  <section class="main" id="content-2">
+    <data ui-view></data>
+  </section>
+  <div class="clearfix"></div>
+  
+</div>

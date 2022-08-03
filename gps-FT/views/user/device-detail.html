@@ -1,0 +1,53 @@
+<form name="" class=" form-horizontal" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Device: Detail</h3>
+  </div>
+    <hr>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="table-responsive">
+      <table class="table table-bordered brdr">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>IMEI</th>
+            <th>Type</th>
+            <th>Activation Time</th>
+            <th>Expired Time</th>
+            <th>Operate</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{deviceDetail.reg_no || deviceDetail.name}}</td>
+            <td>{{deviceDetail.imei}}</td>
+            <td>{{deviceDetail.device_type}}</td>
+            <td>{{deviceDetail.activation_time || 'time'}}</td>
+            <td>{{deviceDetail.expiry_time || 'time'}}</td>
+            <td>
+              <a href="" ng-click="edtDevice(deviceDetail)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-hide="selectedUser.role == 'user'" ng-click="allocDevice(deviceDetail)" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span></a>&nbsp;&nbsp; 
+              <!-- <a ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" href="" tooltip="Extension upon expire"><span class="glyphicon glyphicon-time"></span></a>&nbsp;&nbsp;  -->
+              <a ng-click="trackLive(deviceDetail)" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" href="" tooltip="Tracking"><span class="glyphicon glyphicon-road"></span></a>&nbsp;&nbsp; 
+              <!-- <a ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" href="" tooltip="Playback"><span class="glyphicon glyphicon-play-circle"></span></a>&nbsp;&nbsp;  -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr>
+
+  <div class="modal-footer p-t-0">
+    <!-- <button class="btn btn-danger waves-effect" type="submit">Download</button> -->
+    <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 80%;}
+</style>

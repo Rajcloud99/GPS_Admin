@@ -1,0 +1,140 @@
+<div ng-controller="notificationCtrl" class="bg-e">
+  <div class="row sub-head">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 15px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Alerts Notifications</a>
+    <div class="col-lg-10 col-md-10 col-sm-10 pull-right">
+      <div class="col-sm-3 ">
+        <div class="input-group input-group-sm inn" >
+          <span class="glyphicon glyphicon-search"></span>&nbsp;
+          <input  class="dtt" type="text" ng-model="vehicleNum" placeholder="Search By Vehicle No." title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" uib-typeahead="vehicleImei as vehicleImei.reg_no for vehicleImei in aVehicle" typeahead-on-select="onSelect($item, $model, $label)" ng-change="remVehicle(vehicleNum)">
+        </div>
+      </div>
+      <div class="col-sm-3 ">
+        <div class="input-group input-group-sm inn">
+          <span class="glyphicon glyphicon-search"></span>
+                <select class="input-sm" ng-model="selectAlertType" name="searchBy" ng-options="option for option in allAlertTypes | filter:  $viewValue" ng-change="getAlert(selectAlertType)" style="width: 92%; border: none;">
+                <option value="" style="display: none;">Search BY Alert Type</option>
+                </select>
+        </div>
+      </div>
+      <div class="col-sm-3 ">
+          <!-- <div class= "">
+              <div class="input-group input-group-sm inn" >
+              <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+                <input mdc-datetime-picker="" date="true" time="true" type="text"
+                 format="MMMM Do YYYY, h:mm a" placeholder="Select Alert Date from" max-date="dateTimeEnd" ng-model="dateTimeStart" class=" md-input"
+                id="input_0" style="width: 75%; border: none;">
+                <a class="btn btn-primary" href="" ng-click="clear1()" style="height: 28px;">X</a>
+              </div>
+            </div> -->
+          <div class="input-group input-group-sm inn" >
+            <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+              <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }" >
+                <span class="glyphicon glyphicon-search"></span>&nbsp;
+                <input ng-click="open($event, 'opened1')" type="text" class=" " datepicker-popup="{{format}}" show-weeks="false" ng-model="from_date" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Alert Start Date " ng-change="getNotification()" style="width: 90%; border: none; padding: 6px;" / >
+              </div>
+                <!-- <span class="input-group-btn">
+                  <button type="button" class="btn btn-default m-t-0 f12" ng-click="open($event, 'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span> -->
+            </div>
+          </div>
+          <p class="red" ng-show="wrongDateRange">Start Date must be less than End Date </p>
+      </div>
+      <div class="col-sm-3 ">
+          <!-- <div class="">
+              <div class="input-group input-group-sm inn">
+                <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+                      <input mdc-datetime-picker="" date="true" time="true" type="text"
+                       format="MMMM Do YYYY, h:mm a" min-date="dateTimeStart"="dateTimeEnd" ng-model="dateTimeEnd" class=" md-input" id="input_1" placeholder="Select Alert Date to" style="width: 75%; border: none;">
+                       <a class="btn btn-primary" href="" ng-click="clear2()" style="height: 28px;">X</a>
+              </div>
+          </div> -->
+        <div class="input-group input-group-sm inn" >
+          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+              <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+                <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+                <input ng-click="open($event, 'opened2')" type="text" class="" datepicker-popup="{{format}}" show-weeks="false" ng-model="to_date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Select Alert End Date" ng-change="getNotification()" style="width: 90%; border: none; padding: 6px;"/>
+              </div>
+                <!-- <span class="input-group-btn">
+                  <button type="button" class="btn btn-default m-t-0 f12" ng-click="open($event, 'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span> -->
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row h-set2">
+    <!-- <div class="col-sm-3 p-l-0">
+      <div class="side-alert">
+        <ul class="list-unstyled">
+          <li ng-class="{'set': 'allAlert' == states.actItmSide}" ng-click="states.actItmSide='allAlert'"><a href="">All Alerts</a></li>
+          <li ng-class="{'set': 'obdAlert' == states.actItmSide}" ng-click="states.actItmSide='obdAlert'"><a href="">OBD Alert</a></li>
+          <li ng-class="{'set': 'geoAlert' == states.actItmSide}" ng-click="states.actItmSide='geoAlert'"><a href="">Geofence Alert</a></li>
+          <li ng-class="{'set': 'otherAlert' == states.actItmSide}" ng-click="states.actItmSide='otherAlert'"><a href="">Other Alerts</a></li>
+          <li ng-class="{'set': 'overSpeed' == states.actItmSide}" ng-click="states.actItmSide='overSpeed'"><a href="">Overspeed Alert</a></li>
+        </ul>
+      </div>
+    </div> -->
+    <div class="col-sm-12">
+      <div class="head222 pull-right m-t-5 m-b-5">
+        <a ng-click="showDiv = !showDiv;" class="btn btn-default">Toggle View</a> &nbsp;&nbsp;&nbsp;
+        <a ng-click="downloadList()" class="btn btn-default">Download</a>
+      </div>
+    </div>
+    <div class="col-sm-12" ng-show="!showDiv">
+      <div class="main-alert" style="height:460px;">
+        <ul class="bx">
+          <li ng-if="aNotifications.length > 0" ng-repeat="notification in aNotifications">
+            <div class="bx-con">
+              <p>{{notification.type}} ({{notification.vehicle_no}})</p>
+              <!-- <h5><span class="bold">Device/IMEI&nbsp;:</span> {{notification.vehicle_no}} / {{notification.imei}}</h5> -->
+              <h5><span class="bold">Message &nbsp;&nbsp;&nbsp;&nbsp; :</span> {{notification.message}}</h5>
+              <h5><span class="bold">Alert Time&nbsp;&nbsp; ：</span> {{notification.datetime}}</h5>
+            </div>
+          </li>
+          <div class="clearfix"></div>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <div class="pagin text-center">
+        <pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" items-per-page="9"></pagination>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-12 toggle-table" ng-show="showDiv">
+      <div class="table-responsive" style="min-height: 435px;height: 400px;">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+                <th style="background: #aaefed;">Vehicle</th>
+                <th style="background: #aaefed;">Alert Type</th>
+                <th style="background: #aaefed;">Time</th>
+                <th style="background: #aaefed;">Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="noti in aNotifications" ng-if="aNotifications.length > 0">
+                <td>{{noti.vehicle_no || "NA" }}</td>
+                <td>{{noti.type || "NA" }}</td>
+                <td>{{noti.datetime || "NA" }}</td>
+                <td>{{noti.message || "NA" }}</td>
+            </tr>
+            <tr ng-if="aNotifications.length < 1">
+              <td colspan="4">No any notification available !!!</td>
+            </tr>
+              
+          </tbody>
+        </table>
+      </div>
+      <div class="clearfix"></div>
+      <div class="pagin text-center">
+        <ul uib-pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" items-per-page="13"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  
+</style>

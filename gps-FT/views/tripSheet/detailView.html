@@ -1,0 +1,91 @@
+<!--controller: detailViewController-->
+<!--controllerAs: dvVm-->
+<form name="detailView"  novalidate autocomplete="off">
+
+    <div class="modal-header" >
+        <button type="button" ng-click="dvVm.closeModal()" class="close"
+                data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" align="center">
+			<span class="c-black"><b>Detail View</b></span>
+        </h4>
+    </div>
+    <div class="row h-set2" style="min-height: 520px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 435px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="background: #aaefed;">Vehicle</th>
+                        <th style="background: #aaefed;">CTrip No.</th>
+                        <th style="background: #aaefed;">Order No.</th>
+                        <th style="background: #aaefed;">Trip No</th>
+                        <th style="background: #aaefed;">Time</th>
+                        <th style="background: #aaefed;">Event</th>
+                        <th style="background: #aaefed;">Driver</th>
+                        <th style="background: #aaefed;">Speed</th>
+                        <th style="background: #aaefed;">Value</th>
+                        <th style="background: #aaefed;">Address</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="noti in dvVm.aOtherNotifications"
+                        ng-click="selected.notif = noti; dvVm.SelectedIndex = $index"
+                        ng-class="$index === dvVm.SelectedIndex ? 'grn' : ''"
+                        class="pointer"
+                        ng-if="dvVm.aOtherNotifications.length > 0">
+                        <td>{{noti.reg_no || "NA" }}</td>
+                        <td>{{dvVm.oSheetData.ctrip || "NA" }}</td>
+                        <td>{{dvVm.oSheetData.corder || "NA" }}</td>
+                        <td>{{dvVm.oSheetData.trip_no || "NA" }}</td>
+                        <td>{{noti.datetime | date: "dd-MMM-yyyy 'at' hh:mm a" || "NA" }}</td>
+                        <td>{{noti.code || "NA" }}</td>
+                        <td>{{noti.driver || "NA" }}</td>
+                        <td>{{noti.location && noti.location.speed || "NA" }}</td>
+                        <td>{{noti.extra || "NA" }}</td>
+                        <td>{{noti.location && noti.location.address || "NA" }}</td>
+                    </tr>
+                    <tr ng-if="!dvVm.aOtherNotifications.length">
+                        <td colspan="4">No notification available !!!</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="pagin text-center">
+                <ul uib-pagination ng-change="dvVm.pageChanged()"
+                    total-items="dvVm.bigTotalItems"
+                    ng-model="dvVm.bigCurrentPage"
+                    max-size="dvVm.maxSize" class="pagination-sm"
+                    boundary-link-numbers="true"
+                    items-per-page="9"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning"
+                type="button"
+                ng-click="dvVm.closeModal()">Close</button>
+    </div>
+
+</form>
+
+
+<style>
+
+    form .col-md-3{
+        height: 50px;
+    }
+
+    .container{
+        width: 98% !important;
+    }
+
+    .modal-dialog{
+        width: 90%;
+    }
+
+</style>

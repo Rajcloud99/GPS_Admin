@@ -1,0 +1,56 @@
+<div class="">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Trip Upload Status</h3>
+  </div>
+    <hr>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="table-responsive tbl-set" style="height: 375px;overflow: auto;">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+              <th>Vehicle</th>
+              <th>Source(Alarm)</th>
+              <th>Destination(Alarm)</th>
+              <th>Trip Created</th>
+              <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="trip in aUploadedData" ng-if="aUploadedData.length > 0">
+              <td>{{trip.vehicle || "NA" }}</td>
+              <td>{{trip.source || "NA" }} <span class="glyphicon glyphicon-ok" ng-show="trip.sAlarm === true"></span>
+              <span class="glyphicon glyphicon-remove" ng-show="trip.sAlarm === undefined"></span>
+              </td>
+              <td>{{trip.destination || "NA" }} <span class="glyphicon glyphicon-ok" ng-show="trip.dAlarm === true"></span>
+              <span class="glyphicon glyphicon-remove" ng-show="trip.dAlarm === undefined"></span></td>
+              <td>
+                <span class="glyphicon glyphicon-ok" ng-show="trip.tripCreated === true" style="color:green;"></span>
+                <span class="glyphicon glyphicon-remove" ng-show="trip.tripCreated === false" style="color:red;"></span>
+              </td>
+              <td>{{trip.reason || "NA" }}</td>
+          </tr>
+          <tr ng-if="aUploadedData.length < 1">
+            <td colspan="4">No data uploade !!!</td>
+          </tr>
+            
+        </tbody>
+      </table>
+    </div>
+      <div class="clearfix"></div>
+  </div>
+  <hr>
+  <div class="modal-footer p-t-0">
+    <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .fileinput-exists .fileinput-new, .fileinput-new .fileinput-exists{display: block;}
+  .modal-dialog{width: 80%;}
+</style>

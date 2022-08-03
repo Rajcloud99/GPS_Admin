@@ -1,0 +1,293 @@
+<div class="" ng-controller="reportsDataCtrl">
+  <div class="container">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="report()">Reports</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Reports Data</a>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="report" style="min-height: 520px;">
+            <h3>
+                <span class="f14">{{reportHeader()}}</span>
+                <span class="f14"> &nbsp;&nbsp;&nbsp;&nbsp; {{dateStart();}}&nbsp;&nbsp;&nbsp;&nbsp; {{dateEnd();}}&nbsp;&nbsp;&nbsp;&nbsp; {{timeLimit();}}&nbsp;&nbsp;&nbsp;&nbsp;{{speedLimit();}}</span>
+                <span>
+                    <a href="" class="btn btn-primary" ng-click="dwnldXlsx(reportData)">Export Excel</a>
+                </span>
+                <span class="clearfix"></span>
+                <span class="f14" ng-if="reportData[0].tripInfo">Trip No.: {{reportData[0].tripInfo.trip_no}} &nbsp;&nbsp;</span>
+                <span class="f14" ng-if="reportData[0].tripInfo">Driver: {{reportData[0].tripInfo.driver}} &nbsp;&nbsp;</span>
+                <span class="f14" ng-if="reportData[0].tripInfo">Route: {{reportData[0].tripInfo.route}} &nbsp;&nbsp;</span>
+            </h3>
+            <div ng-repeat="bidData in reportData">
+                <uib-accordion close-others="oneAtATime">
+                    <div uib-accordion-group class="panel-default" is-open="status.open1" ng-hide="bidData.request == 'report_geofence_schedule'">
+                        <uib-accordion-heading>
+                          Summary <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open1, 'glyphicon-chevron-right': !status.open1}"></i>
+                        </uib-accordion-heading>
+                        <div class="" style="padding: 0 15px;">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th ng-if="bidData.localDataArray[0].reg_no">Registration No.</th>
+                                            <th ng-if="bidData.localDataArray[0].num_stops">Total no of Stops</th>
+                                            <th ng-if="bidData.localDataArray[0].dur_stop">Duration of stops</th>
+                                            <!-- <th ng-if="bidData.localDataArray[0].num_idle">Total no of Idle</th>
+                                            <th ng-if="bidData.localDataArray[0].dur_idle">Duration of Idle (Hour)</th> -->
+                                            <!-- <th ng-if="bidData.localDataArray[0].num_of_overspeed">Total no of Overspeed</th> -->
+                                            <!-- <th ng-if="bidData.localDataArray[0].dur_total">Total Duration (Hour)</th> -->
+                                            <th ng-if="bidData.localDataArray[0].distance">Distance</th>
+                                            <th ng-if="bidData.localDataArray[0].duration">Duration</th>
+                                            <th ng-if="bidData.localDataArray[0].average_speed">Average Speed (Kmph)</th>
+                                            <th ng-if="bidData.request == 'report_overspeed' && bidData.localDataArray[0].top_speed">Top Speed (Kmph)</th>
+                                            <th ng-if="bidData.localDataArray[0].tot_dist">Total Distance (Km)</th>
+                                            <th ng-if="bidData.localDataArray[0].data_message">Data Not Available!!!</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="dataX in bidData.localDataArray track by $index">
+                                            <td ng-if="dataX.reg_no">{{dataX.reg_no}}</td>
+                                            <td ng-if="dataX.num_stops">{{dataX.num_stops}}</td>
+                                            <td ng-if="dataX.dur_stop">{{dataX.dur_stop}}</td>
+                                            <!-- <td ng-if="dataX.num_idle">{{dataX.num_idle}}</td>
+                                            <td ng-if="dataX.dur_idle">{{dataX.dur_idle}}</td> -->
+                                            <!-- <td ng-if="dataX.num_of_overspeed">{{dataX.num_of_overspeed}}</td> -->
+                                            <!-- <td ng-if="dataX.dur_total">{{dataX.dur_total}}</td> -->
+                                            <td ng-if="dataX.distance">{{dataX.distance}} </td>
+                                            <td ng-if="dataX.duration">{{dataX.duration}}</td>
+                                            <td ng-if="dataX.average_speed">{{dataX.average_speed}}</td>
+                                            <td ng-if="bidData.request == 'report_overspeed' && dataX.top_speed">{{dataX.top_speed}}</td>
+                                            <td ng-if="dataX.tot_dist">{{dataX.tot_dist}}</td>
+                                            <th ng-if="dataX.data_message">{{dataX.data_message}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div uib-accordion-group class="panel-default" is-open="status.open2">
+                        <uib-accordion-heading>
+                            Details <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open2, 'glyphicon-chevron-right': !status.open2}"></i>
+                        </uib-accordion-heading>
+                        <div class="" style="padding: 0 15px;">
+                            <div ng-repeat="dataX in bidData.localDataArray track by $index" ng-hide="bidData.request=='report_mileage'">
+
+                                <div class="card-header" style="padding: 5px 25px;">
+                                    <h2>{{dataX.reg_no}}</h2>
+                                </div>
+
+                                <div class="table-responsive" ng-if="dataX.data.length > 0">
+                                    <table class="table table-condensed" ng-if="bidData.request=='report_parking'">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <!-- <th>Vehicle No.</th> -->
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Nearest Landmark</th>
+                                                <th>Address</th>
+                                                <th>Residence time</th>
+                                                <!-- <th>Status</th>
+                                                <th>Idle Duration (Hour)</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sReport in dataX.data track by $index" ng-if="dataX.data.length > 0">
+                                                <td>{{$index+1}}</td>
+                                                <!-- <td>{{dataX.reg_no}}</td> -->
+                                                <!-- <td>{{dataX.device_id}}</td> -->
+                                                <td>{{sReport.start_time}}</td>
+                                                <td>{{sReport.end_time}}</td>
+                                                <td style="width: 30%;">{{sReport.nearest_landmark && sReport.nearest_landmark.name && sReport.nearest_landmark.dist ? sReport.nearest_landmark.dist/1000 + " KM from " + sReport.nearest_landmark.name : "NA" }}</td>
+                                                <td style="width: 30%;">{{sReport.start_addr}}</td>
+                                                <td>{{sReport.duration}}</td>
+                                                <!-- <td>{{sReport.status}}</td>
+                                                <td>{{sReport.idle_duration_local  || '0'}}</td> -->
+                                            </tr>
+                                            <tr ng-if="dataX.data.length < 1">
+                                              <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                    <table class="table table-condensed" ng-if="bidData.request == 'report_overspeed'">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Position Time</th>
+                                                <th>Speed (Kmph)</th>
+                                                <!-- <th>Latitude</th>
+                                                <th>Longitude</th> -->
+                                                <th>Location</th>
+                                                <!-- <th>Duration</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sReport in dataX.data" ng-if="dataX.data.length > 0">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{sReport.start_time}}</td>
+                                                <td>{{sReport.top_speed}}</td>
+                                                <!-- <td>{{sReport.lat}}</td>
+                                                <td>{{sReport.lng}}</td> -->
+                                                <td>{{sReport.start_addr || 'NA'}}</td>
+                                                <!-- <td>{{sReport.duration}}</td> -->
+                                            </tr>
+                                            <tr ng-if="dataX.data.length < 1">
+                                              <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-condensed" ng-if="bidData.request == 'report_activity'">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Start Time</th>
+                                                <th>Start Location</th>
+                                                <th>End Time</th>
+                                                <th>End Location</th>
+                                                <th>Speed (Kmph)</th>
+                                                <th>Duration</th>
+                                                <th>Category</th>
+                                                <th>Distance travelled (Kms)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sReport in dataX.data" ng-if="dataX.data.length > 0">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{sReport.start_time}}</td>
+                                                <td style="width: 30%;">{{sReport.start_addr || ''}}</td>
+                                                <td>{{sReport.end_time}}</td>
+                                                <td style="width: 30%;">{{sReport.stop_addr || ''}}</td>
+                                                <td>{{sReport.average_speed}}</td>
+                                                <td>{{sReport.duration}}</td>
+                                                <td>{{sReport.driveStatus}}</td>
+                                                <td>{{sReport.distance}}</td>
+                                            </tr>
+                                            <tr ng-if="dataX.data.length < 1">
+                                              <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-condensed" ng-if="bidData.request == 'report_activity_interval'">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <!-- <th>Vehicle No.</th> -->
+                                                <!-- <th>Device(imei)</th> -->
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Location</th>
+                                                <th>Speed (Kmph)</th>
+                                                <!-- <th>Duration(Hour)</th> -->
+                                                <th>Category</th>
+                                                <th>Distance travelled (Kms)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sReport in dataX.data" ng-if="dataX.data.length > 0">
+                                                <td>{{$index+1}}</td>
+                                                <!-- <td>{{bidData.reg_no}}</td> -->
+                                                <!-- <td>{{bidData.device_id}}</td> -->
+                                                <td>{{sReport.start_time}}</td>
+                                                <td>{{sReport.end_time}}</td>
+                                                <td style="width: 30%;">
+                                                    <a href="" ng-click="showOnMap(sReport)">{{sReport.start_addr || ''}}</a>
+                                                </td>
+                                                <td>{{sReport.average_speed}}</td>
+                                                <!-- <td>{{sReport.duration}}</td> -->
+                                                <td>{{sReport.driveStatus}}</td>
+                                                <td>{{sReport.distance}}</td>
+                                            </tr>
+                                            <tr ng-if="dataX.data.length < 1">
+                                              <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-condensed" ng-if="bidData.request == 'report_geofence_schedule'">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Load Address</th>
+                                                <th>Load In</th>
+                                                <th>Load Out</th>
+                                                <th>Load Duration</th>
+                                                <th>Unload Address</th>
+                                                <th>Unload In</th>
+                                                <th>Unload Out</th>
+                                                <th>Unload Duration</th>
+                                                <th>Journey  Time</th>
+                                                <th>Total Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sReport in dataX.data" ng-if="dataX.data.length > 0">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{sReport.load_area || ''}}</td>
+                                                <td>{{sReport.load_in || ''}}</td>
+                                                <td>{{sReport.load_out || ''}}</td>
+                                                <td>{{sReport.load_dur}}</td>
+                                                <td>{{sReport.unload_area || ''}}</td>
+                                                <td>{{sReport.unload_in || ''}}</td>
+                                                <td>{{sReport.unload_out || ''}}</td>
+                                                <td>{{sReport.unload_dur}}</td>
+                                                <td>{{sReport.lead_load_to_unload}}</td>
+                                                <td>{{sReport.total_dur}}</td>
+                                            </tr>
+                                            <tr ng-if="dataX.data.length < 1">
+                                              <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div ng-repeat="dataX in bidData.localDateWiseDataArray track by $index" ng-show="bidData.request=='report_mileage'">
+                                <div class="card-header" style="padding: 5px 25px;">
+                                    <h2>{{dataX.date_local}}</h2>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-condensed" ng-if="bidData.request=='report_mileage'">
+                                        <thead>
+                                            <tr>
+                                                <th>Vehicle No.</th>
+                                                <th>Distance (Kms)</th>
+                                                <th>Duration</th>
+                                                <th>Average Speed (Kmph)</th>
+                                                <!-- <th>Top Speed (Kmph)</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sReport in dataX.data.data track by $index" ng-if="dataX.data.data.length > 0">
+                                                <td ng-if="sReport.reg_no">{{sReport.reg_no}}</td>
+                                                <td ng-if="sReport.distance">{{sReport.distance}}</td>
+                                                <td ng-if="sReport.duration">{{sReport.duration}}</td>
+                                                <td ng-if="sReport.average_speed">{{sReport.average_speed}}</td>
+                                                <!-- <td ng-if="sReport.top_speed">{{sReport.top_speed}}</td> -->
+                                            </tr>
+                                            <tr ng-if="dataX.data.data.length < 1">
+                                              <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  p{margin-bottom: 10px;}
+</style>

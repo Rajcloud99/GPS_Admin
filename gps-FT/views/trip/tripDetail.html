@@ -1,0 +1,438 @@
+<div class="" ng-controller="tripDetailCtrl">
+  <div class="container h-set">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align:top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="tripList()">Trip List</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align:top;">></span>&nbsp;&nbsp;<a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Trip Detail of {{tripD.vehicle_no}}</a>
+    <div class="report">
+      <h3>Trip Detail of {{tripD.vehicle_no}}
+        <span class="pull-right">
+          <a href="" ng-click="showDiv = !showDiv;toggle = !toggle;trackSingleTrip(tripD);" tooltip="Show on Map" ><span class="glyphicon" ng-class="{'glyphicon-road': !showDiv, 'glyphicon-th-list': showDiv}"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="" ng-click="user.isEditing = true;" tooltip="Edit Trip"><span class="glyphicon glyphicon-pencil"></span> </a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>
+      </h3>
+      <form name="ProfilePage" ng-switch="user.isEditing" autocomplete="off">
+        <!-- <div class="card-header">
+            <ul class="actions">
+                <li class="dropdown" dropdown is-open="status.isopen">
+                  <a href="" dropdown-toggle>
+                      <i class="zmdi zmdi-more-vert"></i>
+                  </a>
+                    <ul class="dropdown-menu dropdown-menu-right" style="height: auto;">
+                       <li>
+                         <a href="" ng-click="user.isEditing = true;" >Edit Trip</a>
+                       </li>
+                    </ul>
+                </li>
+            </ul>
+        </div> -->
+        <div class="toggle-table" ng-show="!showDiv">
+          <div class="row m-t-10" ng-switch-default class="editable-text">
+            <div class="col-md-4" ng-if="tripD.trip_id">
+                <dl class="dl-horizontal">
+                  <dt>Trip Id :</dt>
+                  <dd>{{tripD.trip_id || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.trip_no">
+                <dl class="dl-horizontal">
+                  <dt>Trip No. :</dt>
+                  <dd>{{tripD.trip_no || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.vehicle_no">
+                <dl class="dl-horizontal">
+                  <dt>Vehicle :</dt>
+                  <dd>{{tripD.vehicle_no || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.source">
+                <dl ng-if="user.name" class="dl-horizontal">
+                  <dt>Source :</dt>
+                  <dd>{{tripD.source || "NA" }}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.destination">
+                <dl class="dl-horizontal">
+                  <dt>Destination :</dt>
+                  <dd> {{tripD.destination || "NA" }}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.consignor">
+                <dl class="dl-horizontal">
+                  <dt>Consignor :</dt>
+                  <dd>{{tripD.consignor || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.consignee">
+                <dl class="dl-horizontal">
+                  <dt>Consignee :</dt>
+                  <dd>{{tripD.consignee || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.etoa">
+                <dl class="dl-horizontal">
+                  <dt>Estimated time of arrival :</dt>
+                  <dd>{{tripD.etoa || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.est_dist">
+                <dl class="dl-horizontal">
+                  <dt>Estimated Distance :</dt>
+                  <dd>{{tripD.est_dist || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.forworder">
+                <dl class="dl-horizontal">
+                  <dt>Forworder :</dt>
+                  <dd>{{tripD.forworder || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.manager">
+                <dl class="dl-horizontal">
+                  <dt>Manager :</dt>
+                  <dd>{{tripD.manager || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.status">
+                <dl class="dl-horizontal">
+                  <dt>Status ：</dt>
+                  <dd>{{tripD.status || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.gps_status">
+                <dl class="dl-horizontal">
+                  <dt>Gps Status :</dt>
+                  <dd>{{tripD.gps_status || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.cur_location.speed">
+                <dl class="dl-horizontal">
+                  <dt>Speed :</dt>
+                  <dd>{{tripD.cur_location.speed || "0"}} Km/h</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.start_time_local">
+                <dl class="dl-horizontal">
+                  <dt>Start Time :</dt>
+                  <dd>{{tripD.start_time_local || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.end_time_local">
+                <dl class="dl-horizontal">
+                  <dt>End Time :</dt>
+                  <dd>{{tripD.end_time_local || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.driver">
+                <dl class="dl-horizontal">
+                  <dt>Driver Name :</dt>
+                  <dd>{{tripD.driver || "NA"}}</dd>
+                </dl>
+            </div>
+        <!--    <div class="col-md-4" ng-if="tripD.loading">
+                <dl class="dl-horizontal">
+                  <dt>Loading Time :</dt>
+                  <dd>{{tripD.loading || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.unloading">
+                <dl class="dl-horizontal">
+                  <dt>Unloading Time :</dt>
+                  <dd>{{tripD.unloading || "NA"}}</dd>
+                </dl>
+            </div>
+          -->
+            <div class="col-md-4" ng-if="tripD.journey">
+                <dl class="dl-horizontal">
+                  <dt>Journey Time :</dt>
+                  <dd>{{tripD.journey || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.duration">
+                <dl class="dl-horizontal">
+                  <dt>Expected Duration :</dt>
+                  <dd>{{tripD.duration || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.elapse_time">
+                <dl class="dl-horizontal">
+                  <dt>Elapsed Time :</dt>
+                  <dd>{{tripD.elapse_time || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.delay">
+                <dl class="dl-horizontal">
+                  <dt>Delay Time :</dt>
+                  <dd>{{tripD.delay || "0"}} hr</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.create_time">
+                <dl class="dl-horizontal">
+                  <dt>Created At :</dt>
+                  <dd> {{tripD.create_time || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.cur_location.address">
+                <dl class="dl-horizontal">
+                  <dt>Last Location :</dt>
+                  <dd>{{tripD.cur_location.address || "NA"}}</dd>
+                </dl>
+            </div>
+            <div class="col-md-4" ng-if="tripD.remark">
+                <dl class="dl-horizontal">
+                  <dt>Remark :</dt>
+                  <dd>{{tripD.remark || "NA"}}</dd>
+                </dl>
+            </div>
+
+          </div>
+
+          <!--**********************************************************************************     ******************************************************************************
+                    **************************************************************** -->
+          <div class="row" ng-switch="user.isEditing" ng-switch-when="true">
+            <!-- <div class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Vehicle :</dt>
+                  <dd>
+                    <input ng-model="tripD.vehicle_no" name="vehicle" type="text" id="vehicle" class="form-control" placeholder="Enter Vehicle number" typeahead="vehicle for vehicle in vehicleOptions | filter:$viewValue | limitTo:8" typeahead-editable="false">
+                  </dd>
+                </dl>
+            </div> -->
+            <!-- <div class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Source :</dt>
+                  <dd>
+                    <input ng-model="tripD.source" name="source" type="text" id="source" class="form-control" placeholder="Enter Source" typeahead="geoName for geoName in aGeoZoneList | filter:$viewValue | limitTo:8">
+                  </dd>
+                </dl>
+            </div> -->
+            <!-- <div class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Destination :</dt>
+                  <dd>
+                    <input ng-model="tripD.destination" name="destination" type="text" id="destination" class="form-control" placeholder="Enter Destination" typeahead="geoName for geoName in aGeoZoneList | filter:$viewValue | limitTo:8">
+                  </dd>
+                </dl>
+            </div> -->
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Trip No. :</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.trip_no" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Status :</dt>
+                  <dd>
+                    <select class="input-sm" ng-model="tripD.status" ng-options="option for option in sAllTripStatus" style="width: 100%;border: 0;border-bottom: 1px solid #d5d5d5;">
+                      <option value="" style="display: none;">By Status</option>
+                    </select>
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Driver Name ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.driver" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <!-- <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Gps Status ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.gps_status" type="text">
+                </dl>
+            </div> -->
+            <div  class="col-md-6">
+                <dl class="dl-horizontal">
+                  <dt>Start Time ：</dt>
+                  <dd>
+                    <div class="form-group">
+                      <div class="col-sm-6">
+                        <div class="input-group input-group-sm inn" >
+                          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+                            <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened1 == true }" >
+                              <input ng-click="open($event, 'opened1')" type="text" class=" " datepicker-popup="{{format}}" show-weeks="false" ng-model="tripD.start_time" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Start Date " ng-change="getNoti()" style="width: 100%;border: none; padding: 6px;" / >
+                            </div>
+                          </div>
+                        </div>
+                        <p class="red" ng-show="wrongDateRange">Start Date must be less than End Date </p>
+                      </div>
+                      <label for="" class="col-sm-1 control-label">HH</label>
+                      <div class="col-sm-2">
+                        <div class="fg-line">
+                          <input type="number" ng-model="tripD.hourSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                        </div>
+                      </div>
+                      <label for="" class="col-sm-1 control-label">MM</label>
+                      <div class="col-sm-2">
+                        <div class="fg-line">
+                          <input type="number" ng-model="tripD.minuteSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-6">
+                <dl class="dl-horizontal">
+                  <dt>End Time :</dt>
+                  <dd>
+                    <div class="form-group">
+                      <div class="col-sm-6">
+                        <div class="input-group input-group-sm inn" >
+                          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+                            <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened2 == true }">
+                              <input ng-click="open($event, 'opened2')" type="text" class="" datepicker-popup="{{format}}" show-weeks="false" ng-model="tripD.end_time" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="End Date" ng-change="getNoti()" style="width: 100%;border: none; padding: 6px;"/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <label for="" class="col-sm-1 control-label">HH</label>
+                      <div class="col-sm-2">
+                        <div class="fg-line">
+                          <input type="number" ng-model="tripD.hourSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                        </div>
+                      </div>
+                      <label for="" class="col-sm-1 control-label">MM</label>
+                      <div class="col-sm-2">
+                        <div class="fg-line">
+                          <input type="number" ng-model="tripD.minuteSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </dd>
+                </dl>
+            </div>
+      <!--
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Loading Time ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.loading" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Unloading Time ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.unloading" type="text">
+                  </dd>
+                </dl>
+            </div>
+          -->
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Forworder ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.forworder" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Manager ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.manager" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <!-- <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Journey Time ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.journey" type="text">
+                  </dd>
+                </dl>
+            </div> -->
+            <!-- <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Expected Duration ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.duration" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Elapsed Time ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.elapsed_time" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Delay Time ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.delay" type="text">
+                  </dd>
+                </dl>
+            </div> -->
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Last Location ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.cur_location.address" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Remark 1 ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.remark1" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Remark 2 ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.remark2" type="text">
+                  </dd>
+                </dl>
+            </div>
+            <div  class="col-md-4">
+                <dl class="dl-horizontal">
+                  <dt>Remark 3 ：</dt>
+                  <dd>
+                    <input class="form-control" ng-model="tripD.remark3" type="text">
+                  </dd>
+                </dl>
+            </div>
+
+            <br><br><br>
+            <div class="col-sm-10" style="margin-left: 75%">
+              <div class="form-group">&nbsp; &nbsp; &nbsp;
+                <button type="submit" class="btn btn-primary" name="user" ng-click="updateTrip(tripD)" >Save</button>
+
+                <button class="btn btn-danger btn-sm" ng-click="cancel(user)" ng-if="user.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+              </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="toggle-map" id="map-togg">
+          <div class="" style="height: 450px; overflow: auto;border-top: 1px solid #eee;">
+            <div class="col-sm-12 bott">
+              <div class="col-md-12" style="width:100%;height:445px;border:1px solid"  id="tripMap"></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .dl-horizontal dt{width: 100px;}
+  .dl-horizontal dd {margin-left: 100px;}
+</style>

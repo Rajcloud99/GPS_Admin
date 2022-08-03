@@ -1,0 +1,75 @@
+<form name="malfunctionForm" class=" form-horizontal" ng-submit="complaintF(selectedDevice)" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Update a complain for {{selectedDevice.reg_no}}</h3>
+  </div>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="col-md-12">
+      <!-- <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Device IMEI:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedDevice.imei" class="form-control" ng-disabled="true">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Device Type* :</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <select ng-model="selectedDevice.device_type" ng-options="dType.type as dType.desc for dType in aDeviceType" class="form-control" ng-disabled=" true">
+              <option value="" style="display: none;"> Select Device Type </option>
+            </select>
+          </div>
+        </div>
+      </div> -->
+      <div class="form-group m-b-5">
+        <!-- <label for="" class="col-sm-2 control-label">Licence plate No.:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.reg_no" ng-disabled="true">
+          </div>
+        </div> -->
+        <label for="" class="col-sm-2 control-label">Reason:</label>
+        <div class="col-sm-4">
+          <div class="select">
+            <select ng-model="selectedDevice.reason" ng-options="aRea as aRea for aRea in aReasons" class="form-control">
+              <option value="" selected> Select Reason </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Remarks:</label>
+        <div class="col-sm-6">
+          <div class="fg-line">
+            <textarea class="form-control" rows="3" ng-model="selectedDevice.remark" placeholder="Enter here ..."></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Notice Date:</label>
+        <div class="col-sm-6">
+          <div class="fg-line">
+            <div class="input-group date">
+              <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                <input mdc-datetime-picker="" date="true" time="true" type="text"
+                   format="MMMM Do YYYY, h:mm a" min-date="dateTimeStart"="dateTimeEnd" ng-model="selectedDevice.notice_date" class=" md-input" id="input_1">
+              </md-input-container>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="modal-footer p-t-0">
+    <button class="btn btn-success waves-effect" type="submit">Update</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 70%;}
+  .md-dialog-container{z-index: 9999;}
+</style>

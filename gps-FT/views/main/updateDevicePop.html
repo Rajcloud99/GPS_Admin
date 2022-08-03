@@ -1,0 +1,212 @@
+<form name="updateDeviceForm" class="form-horizontal" ng-submit="updateDeviceF(selectedDevice)" novalidate autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Update Vehicle Info</h3>
+  </div>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="col-md-12">
+      <!-- <div class="form-group m-b-5">
+        <label class="col-sm-2 control-label">Device IMEI:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedDevice.imei" class="form-control" ng-disabled="true">
+          </div>
+        </div>
+        <label class="col-sm-2 control-label">Device Type* :</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <select ng-model="selectedDevice.device_type" ng-options="dType.type as dType.desc for dType in aDeviceType" class="form-control">
+              <option value="" selected> Select Device Type </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Device SIM card no.:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" class="form-control" ng-model="selectedDevice.sim_no" placeholder="Enter sim no." ng-disabled="true">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">SN no.:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.sn" placeholder="Enter sn no.">
+          </div>
+        </div>
+      </div> -->
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Licence plate No.:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.reg_no" placeholder="Enter here">
+          </div>
+        </div>
+        <!-- <label for="" class="col-sm-2 control-label">Group:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input type="text" ng-model="selectedDevice.vehicle_group" class="form-control" placeholder="Enter here">
+          </div>
+        </div> -->
+        <label for="" class="col-sm-2 control-label">Device icon:</label>
+        <div class="col-sm-4">
+          <div class="ico">
+            <span tooltip="Car" ng-class="{active : activeValue == 'car'}" ng-click="selectIoc('car',this)" ><i class="zmdi zmdi-car zmdi-hc-fw"></i></span>
+            <span tooltip="Truck" ng-class="{active : activeValue == 'truck'}" ng-click="selectIoc('truck',this)"><i class="zmdi zmdi-truck zmdi-hc-fw"></i></span>
+            <span tooltip="Bus" ng-class="{active : activeValue == 'bus'}" ng-click="selectIoc('bus',this)"><i class="zmdi zmdi-directions-bus zmdi-hc-fw"></i></span>
+            <span tooltip="Taxi" ng-class="{active : activeValue == 'taxi'}" ng-click="selectIoc('taxi',this)"><i class="zmdi zmdi-car-taxi zmdi-hc-fw"></i></span>
+            <span tooltip="Bike" ng-class="{active : activeValue == 'bike'}" ng-click="selectIoc('bike',this)"><i class="zmdi zmdi-directions-bike zmdi-hc-fw"></i></span>
+            <span tooltip="Other" ng-class="{active : activeValue == 'other'}" ng-click="selectIoc('other',this)"><i class="zmdi zmdi-camera-alt zmdi-hc-fw"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Driver name:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.driver_name" placeholder="Enter here">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Driver Mobile:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.driver_mobile" placeholder="Enter here">
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Vehicle Type:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <select ng-model="selectedDevice.device_type" ng-options="dType.type as dType.desc for dType in aVehicleTypes" class="form-control">
+              <option value="" selected> Select Device Type </option>
+            </select>
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Vehicle Group:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.vehicle_group" placeholder="Enter here">
+          </div>
+        </div>
+      </div> -->
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Owner Mobile:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.contact_no" placeholder="Enter here">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Branch:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.branch" placeholder="Enter here">
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Vehicle Type:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.vehicle_type" placeholder="NA" ng-readonly="true">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">User Id:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.remark" placeholder="Enter User Id">
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Remark 1:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.remark2" placeholder="Enter here">
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Remark 2:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.remark3" placeholder="Enter here">
+          </div>
+        </div>
+      </div>
+        <div class="form-group m-b-5">
+            <label for="" class="col-sm-2 control-label">Estimated Distance(KM):</label>
+            <div class="col-sm-4">
+                <div class="fg-line">
+                    <input  type="text" class="form-control" ng-model="selectedDevice.estimated_dist" placeholder="Enter here">
+                </div>
+            </div>
+<!--            <label for="" class="col-sm-2 control-label">Beat:</label>-->
+<!--            <div class="col-sm-4">-->
+<!--                <div class="fg-line">-->
+<!--                    <input type="text"-->
+<!--                           class="form-control"-->
+<!--                           placeholder="Beat Search..."-->
+<!--                           ng-model="selectedDevice.beat"-->
+<!--                           uib-typeahead="item as item.name for item in getBeat(selectedDevice.beat) | limitTo:6">-->
+<!--                    &lt;!&ndash;            <i class="lvh-search-close" ng-click="selectedDevice.beat='';">×</i>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+      <!-- <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">User expiration time:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <input  type="text" class="form-control" ng-model="selectedDevice.expiry_time" ng-disabled="true">
+          </div>
+        </div>
+        <label for="" class="col-sm-6 control-label">&nbsp;</label>
+      </div> -->
+      <!-- <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Activated:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <div class="input-group date">
+                <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                    <input mdc-datetime-picker="" date="true" time="true" type="text"
+                     format="MMMM Do YYYY, h:mm a" max-date="dateTimeEnd" ng-model="selectedDevice.activation_time" class=" md-input" ng-disabled="user.role == 'user'"
+                    id="input_0">
+                </md-input-container>
+            </div>
+          </div>
+        </div>
+        <label for="" class="col-sm-2 control-label">Expired date:</label>
+        <div class="col-sm-4">
+          <div class="fg-line">
+            <div class="input-group date">
+              <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                  <input mdc-datetime-picker="" date="true" time="true" type="text"
+                   format="MMMM Do YYYY, h:mm a" min-date="dateTimeStart"="dateTimeEnd" ng-model="selectedDevice.expiry_time" class=" md-input" ng-disabled="user.role == 'user'" id="input_1">
+                </md-input-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-2 control-label">Pooled/Market Device:</label>
+        <div class="col-sm-4">
+          <label class="checkbox checkbox-inline m-r-20">
+            <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="selectedDevice.pooled">
+              <i class="input-helper"></i>
+          </label>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="modal-footer p-t-0">
+    <button class="btn btn-success waves-effect" type="submit">Update</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 70%;}
+  .md-dialog-container{z-index: 9999;}
+</style>

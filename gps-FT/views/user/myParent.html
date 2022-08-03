@@ -1,0 +1,56 @@
+<div class="my_user">
+  <div class="card-body table-responsive" ng-controller="myParentCtrl">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+        <div class="col-sm-6">
+             
+        </div>
+        <div class="col-sm-2">
+             <button class="btn btn-primary" ng-click="upsertRegisterParent();"><span class="glyphicon glyphicon-plus"></span>Add RFID</button>
+        </div>
+        <div class="col-sm-4">
+          <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+            <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+            <input  class="" type="text" ng-model="name" placeholder="Search By  User Name......" title="Please enter  User Name" aria-describedby="sizing-addon1" style="border: none;width:90%;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive scroll">
+      <table class="table">
+        <thead>
+          <tr>
+<!--            <th>User Id</th>-->
+            <th>Student Name</th>
+            <th>RFID</th>
+            <th>Relation</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Relation</th>
+            <th>Mobile</th>
+            <th>Email</th>
+
+            <th>Operate</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="user in selectedUser.parentRFID | filter: name">
+<!--            <td>{{user.user_id}}</td>-->
+            <td>{{user.student}}</td>
+            <td>{{user.rfid}}</td>
+            <td>{{user.parent1.relation}}</td>
+            <td>{{user.parent1.mobile}}</td>
+            <td>{{user.parent1.email}}</td>
+            <td>{{user.parent2.relation}}</td>
+            <td>{{user.parent2.mobile}}</td>
+            <td>{{user.parent2.email}}</td>
+
+            <td>
+              <a href="" tooltip="Edit" ng-click="upsertRegisterParent(user)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>  
+</div>

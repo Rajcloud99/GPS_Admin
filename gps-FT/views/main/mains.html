@@ -1,0 +1,28 @@
+<div class="head">
+  <div data-ng-include="'template/header.html'"></div>
+</div>
+<div class="main_page"  ng-controller="googleMapZoomCtrl">
+  <div data-ng-include="'template/deviceInfoSidebar.html'"></div>
+  <section class="main">
+    <!--<data ui-view></data>-->
+    <div class="row">
+      <div class="">
+        <div class="user">
+          <div class="" style="height: 530px; overflow: auto;padding: 0;">
+            <div class=" bott">
+              <div class="" style="width:100%;height:520px;border:1px solid"  id= "zoomMap" fullscreen="isFullscreen" ng-class="{full: isFullscreen}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="clearfix"></div>
+</div>
+
+<style>
+  .full{
+    height: 100% !important;
+  }
+</style>

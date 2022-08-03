@@ -1,0 +1,205 @@
+<div class="" ng-controller="playBackCtrl">
+  <div class="container h-set">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align:top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Playback</a>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="report">
+          <h3>Playback</h3>
+          <div class="sub-h">
+          &nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- <button ng-model="timeHalf" class="btn btn-normal waves-effect" ng-click="filterMe('Last Hour')">Last Hour</button>&nbsp;&nbsp; -->
+            <button ng-model="timeNow" class="btn btn-normal waves-effect" ng-click="filterMe('Today')">Today</button>&nbsp;&nbsp;
+            <button ng-model="timeYest" class="btn btn-normal waves-effect" ng-click="filterMe('Yesterday')">Yesterday</button>&nbsp;&nbsp;
+            <button ng-model="timeL2" class="btn btn-normal waves-effect" ng-click="filterMe('Last 2 days')">Last 2 days</button>&nbsp;&nbsp;
+            <button ng-model="timeL3" class="btn btn-normal waves-effect" ng-click="filterMe('Last 3 days')">Last 3 days</button>&nbsp;&nbsp;
+            <button ng-model="timeLW" class="btn btn-normal waves-effect" ng-click="filterMe('Last Week')">Last Week</button>&nbsp;&nbsp;
+            <!-- <button ng-model="timeLM" class="btn btn-normal waves-effect" ng-click="filterMe('Last Month')">Last Month</button> -->
+            <button href="" ng-click="playB()" ng-disabled="!((dateTimeStart) && (dateTimeEnd) && (toEnableBtn) && (!wrongDateRange))" class="btn btn-success pull-right">Play</button>
+            <div class="clearfix"></div>
+          </div>
+          <div class="row m-t-10">
+            <div class="col-sm-6">
+              <div class="time_p">
+                <!-- <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Time From</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <div class="input-group date">
+                            <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                                <input mdc-datetime-picker="" date="true" time="true" type="text"
+                                 format="MMMM Do YYYY, h:mm a" max-date="dateTimeEnd" ng-model="dateTimeStart" class=" md-input"
+                                id="input_0">
+                            </md-input-container>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Time To</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <div class="input-group date">
+                          <md-input-container class="md-input-has-placeholder dateTimepickerInput">
+                              <input mdc-datetime-picker="" date="true" time="true" type="text"
+                               format="MMMM Do YYYY, h:mm a" min-date="dateTimeStart"="dateTimeEnd" ng-model="dateTimeEnd" class=" md-input" id="input_1">
+                            </md-input-container>
+                        </div>
+                      </div>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Time From</label>
+                  <div class="col-sm-3">
+                    <div class="input-group input-group-sm inn" >
+                      <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+                        <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened1 == true }" >
+                          <input ng-click="open($event, 'opened1')" type="text" class=" " uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dateTimeStart" is-open="opened1" datepicker-options="dateOptions1" ng-required="true" close-text="Close" placeholder="Start Date " ng-change="getNoti();toggleMinMaxDate()" style="width: 100%;border: none; padding: 6px;" / >
+                        </div>
+                      </div>
+                    </div>
+                    <p class="red" ng-show="(dateTimeStart && dateTimeEnd && wrongDateRange)">Start Date and Time must be less than End Date </p>
+                  </div>
+                  <label class="col-sm-1 control-label">HH</label>
+                  <div class="col-sm-2">
+                    <div class="select">
+                      <select ng-model="hourSel1" ng-options="sAlert as sAlert for sAlert in aHours" class="form-control" ng-change="getNoti()">
+                      </select>
+                    </div>
+                    <!-- <div class="fg-line">
+                      <input type="number" ng-model="hourSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                    </div> -->
+                  </div>
+                  <label class="col-sm-1 control-label">MM</label>
+                  <div class="col-sm-2">
+                    <div class="select">
+                      <select ng-model="minuteSel1" ng-options="sAlert as sAlert for sAlert in aMinutes" class="form-control"  ng-change="getNoti()">
+                      </select>
+                    </div>
+                    <!-- <div class="fg-line">
+                      <input type="number" ng-model="minuteSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                    </div> -->
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Time to</label>
+                  <div class="col-sm-3">
+                    <div class="input-group input-group-sm inn" >
+                      <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+                        <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened2 == true }">
+                          <input ng-click="open($event, 'opened2')" type="text" class="" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dateTimeEnd" is-open="opened2" datepicker-options="dateOptions2" ng-required="true" close-text="Close" placeholder="End Date" ng-change="getNoti();toggleMinMaxDate()" style="width: 100%;border: none; padding: 6px;"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="col-sm-1 control-label">HH</label>
+                  <div class="col-sm-2">
+                    <div class="select">
+                      <select ng-model="hourSel2" ng-options="sAlert as sAlert for sAlert in aHours" class="form-control" ng-change="getNoti()">
+                      </select>
+                    </div>
+                    <!-- <div class="fg-line">
+                      <input type="number" ng-model="hourSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                    </div> -->
+                  </div>
+                  <label class="col-sm-1 control-label">MM</label>
+                  <div class="col-sm-2">
+                    <div class="select">
+                      <select ng-model="minuteSel2" ng-options="sAlert as sAlert for sAlert in aMinutes" class="form-control" ng-change="getNoti()">
+                      </select>
+                    </div>
+                    <!-- <div class="fg-line">
+                      <input type="number" ng-model="minuteSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                    </div> -->
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">New DateTime Picker</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <div class="input-group">
+                          <input type="text" class="form-control" datetime-picker="dd MMM yyyy HH:mm" ng-model="myDate1" is-open="isOpen1" timepicker-options="timepickerOptions1"/>
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="openCalendar1($event, prop)"><i class="zmdi zmdi-calendar-alt"></i></button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">New DateTime Picker</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <div class="input-group">
+                          <input type="text" class="form-control" datetime-picker="dd MMM yyyy HH:mm" ng-model="myDate2" is-open="isOpen2" timepicker-options="timepickerOptions2"/>
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="openCalendar2($event, prop)"><i class="zmdi zmdi-calendar-alt"></i></button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row">
+                  <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+                    <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                    <input  class="" type="text" ng-model="deviceNum['reg_no']" placeholder="Search By  Vehicle Number......" title="Please enter  Vehicle Number" aria-describedby="sizing-addon1" style="border: none; width:96%;padding: 0 5px;">
+                  </div>
+              </div>
+              <div class="r-truck">
+                <ul class="list-unstyled">
+                  <li ng-if="deviceR.status == 'running'" ng-repeat="deviceR in aTrSheetDevice | filter: deviceNum" ng-class="{'active': true == aSelTruck.selected}">
+                    <label class="radio radio-inline m-r-20" ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                      <input type="radio" name="radio11" ng-click="setDefault(deviceR)" ng-model="selTruck" ng-value="deviceR">
+                      <i class="input-helper"></i>
+                      {{deviceR.reg_no || deviceR.imei}}
+                    </label>
+                  </li>
+                  <li ng-if="deviceR.status == 'stopped'" ng-repeat="deviceR in aTrSheetDevice | filter: deviceNum" ng-class="{'active': true == aSelTruck.selected}">
+                    <label class="radio radio-inline m-r-20" ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                      <input type="radio" name="radio11" ng-click="setDefault(deviceR)" ng-model="selTruck" ng-value="deviceR">
+                      <i class="input-helper"></i>
+                      {{deviceR.reg_no || deviceR.imei}}
+                    </label>
+                  </li>
+                  <li ng-if="deviceR.status == 'offline'" ng-repeat="deviceR in aTrSheetDevice | filter: deviceNum" ng-class="{'active': true == aSelTruck.selected}">
+                    <label class="radio radio-inline m-r-20" ng-class="{'f-online': deviceR.status == 'stopped' , 'f-offline' : deviceR.status == 'offline' , 'f-running' : deviceR.status == 'running', 'f-inactive' : deviceR.status == 'inactive'}">
+                      <input type="radio" name="radio11" ng-click="setDefault(deviceR)" ng-model="selTruck" ng-value="deviceR">
+                      <i class="input-helper"></i>
+                      {{deviceR.reg_no || deviceR.imei}}
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <span class="btn-lst" ng-repeat="sList in lst">{{sList.reg_no || sList.imei}} <a ng-click="removeDeviceArr(sList)"> x </a></span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  .form-horizontal {
+   width:500px;
+}
+
+.datetime-picker-dropdown {
+  
+}
+
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
+  border: 0;
+}
+
+.datetime-picker-dropdown > li.time-picker-menu div > table {
+  
+}
+</style>

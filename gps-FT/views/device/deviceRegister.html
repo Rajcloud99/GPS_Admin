@@ -1,0 +1,80 @@
+<div class="pmb-block">
+    <div class="row" ng-controller="deviceRegiCtrl">
+      <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 50px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+      <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Device Registration</a>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="user" >
+          <form name="deviceRegisForm" ng-submit="deviceRegi(deviceRegisForm)" autocomplete="off"><br>
+            <div class="row">
+              <div class="text-center" style="margin-bottom:20px;">
+                <h2 class="section-heading">New Device Registration</h2>
+                <hr class="hr-primary">
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line" ng-class="{ 'has-error': deviceRegisForm.imei.$touched && deviceRegisForm.imei.$invalid }">
+                      <label for="">IMEI No. <span class="c-red">*</span></label> 
+                      <input ng-model="device.imei" name="imei" type="Number" id="imei" class="form-control" placeholder="Enter IMEI" ng-change="checkDeviceIMEI(device.imei)" required>
+                      <h5 ng-show = "isAvailableIMEI" style="color: #36F45F!important;">{{msg2}}</h5>
+                      <h5 ng-show = "!isAvailableIMEI" class="c-red">{{msg1}}</h5>
+                    </div>
+                    <div class="help-block error" ng-messages="deviceRegisForm.imei.$error" ng-if="deviceRegisForm.imei.$touched">
+                        <small ng-message="minlength">IMEI No. is too short. Enter 15 digit IMEI No.</small>
+                        <small ng-message="maxlength">IMEI No. is too long. Enter 15 digit IMEI No.</small>
+                          <!-- <small ng-message="required">This Field is required.</small> -->
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group fg-line" >
+                    <label for="">Device Type <span class="c-red">*</span></label> 
+                    <!-- <input ng-model="device.device_type" type="text" id="" class="form-control" placeholder="Enter Modal Id"> -->
+                    <select ng-model="device.device_type" ng-options="dType.type as dType.desc for dType in aDeviceType" class="form-control"  required>
+                      <option value="" style="display: none;"> Select Device Type </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="">Sn No.</label> 
+                      <input ng-model="device.sn" name="sn" type="text" id="" class="form-control" placeholder="Enter sn no.">
+                    </div>
+                  </div> -->
+                  
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group fg-line">
+                    <label for="">Modal Name</label> 
+                    <input ng-model="device.name" type="text" id="" class="form-control" placeholder="Enter Modal Name">
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="">Manufacturer</label> 
+                      <input ng-model="device.manufecturer" name="sn" type="text" id="" class="form-control" placeholder="Enter Manufacturer">
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              
+              <div class="row" style="padding-top:10px;">
+                <div class="text-center">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg waves-effect"  ng-disabled="!((device.imei) && (device.device_type))">Register</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>

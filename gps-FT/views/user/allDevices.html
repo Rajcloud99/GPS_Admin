@@ -1,0 +1,84 @@
+<div class="all_devices">
+  <div class="card-body table-responsive" ng-controller="allAdminDevicesCtrl">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+            <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+            <input type="text" ng-model="imei" placeholder="Search By  IMEI" title="Please enter  User Name" aria-describedby="sizing-addon1" ng-blur="searchByImei(imei)" style="border: none;width:90%;">
+          </div>
+        </div>
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+            <span class="glyphicon glyphicon-search" id="sizing-addon2"></span>
+            <input type="text" ng-model="reg_no" placeholder="Search By Vehicle No" title="Please enter  User Name" aria-describedby="sizing-addon2" ng-blur="searchByRegNo(reg_no)" style="border: none;width:90%;text-transform: uppercase;">
+          </div>  
+        </div>
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm inn" >
+            <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+              <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }" >
+                <span class="glyphicon glyphicon-search" id="sizing-addon6"></span>&nbsp;
+                <input ng-click="open($event, 'opened1')" type="text" datepicker-popup="{{format}}" show-weeks="false" ng-model="last_time" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" max-date="maxDate" placeholder="Search By Time " ng-change="searchByTime()" style="width: 88%; border: none; padding: 6px;" / >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 ">
+          <div class="input-group input-group-sm inn">
+            <span class="glyphicon glyphicon-search" id="sizing-addon3"></span>
+            <select class="input-sm" ng-model="status" ng-options="option for option in sAllTripStatus" ng-change="getStatus(status)" style="width: 88%; border: none;">
+            <option value="" style="display: none;">By Status</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive scroll" style="height: 425px;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>S. No.</th>
+            <th>Name(Type)</th>
+            <!-- <th>Imei</th> -->
+            <th>Reg. No.</th>
+            <th>Status</th>
+            <th>Sim No.</th>
+            <th>User Id</th>
+            <th>Last Online</th>
+            <th>IP</th>
+            <th>Operate</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="allDevice in aAllDevicesListForAdmin">
+            <td>{{$index+1}}</td>
+            <td>{{allDevice.name}}({{allDevice.device_type}})</td>
+            <!-- <td>{{allDevice.imei}}</td> -->
+            <td>{{allDevice.reg_no}}</td>
+            <td>{{allDevice.status}}</td>
+            <td>{{allDevice.sim_no || 'NA'}}</td>
+            <td>{{allDevice.user_id || 'NA'}}</td>
+            <td>{{allDevice.positioning_time | date:'dd/MM/yyyy  h:mma' || 'NA'}}</td>
+            <td>{{allDevice.ip || 'NA'}}</td>
+            <td>
+              <a href="" ng-click="edtInAllDevice(allDevice)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+            </td>
+            <td>
+              <!-- <a href="" tooltip="Edit" ng-click="editAllDevice(allDevice)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-show="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="removeSubUser(allDevice)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;
+              <a href="" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span></a>&nbsp;&nbsp;
+              <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Extension upon expire"><span class="glyphicon glyphicon-time"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Tracking"><span class="glyphicon glyphicon-road"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Playback"><span class="glyphicon glyphicon-play-circle"></span></a> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clearfix"></div>
+    <div class="pagin text-center">
+      <pagination ng-change="pageChanged()" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" items-per-page="13"></pagination>
+    </div>
+</div>  
+</div>

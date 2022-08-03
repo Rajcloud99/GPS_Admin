@@ -1,0 +1,148 @@
+<form name="userForm" class=" form-horizontal" ng-submit="createParent(userForm)" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="closeModal()" class="close"
+            data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="text-center" style="margin-bottom:20px;">
+      <h3 class="modal-title" align="center">RFID ({{operationType}})</h3>
+      <hr class="hr-primary">
+    </div>
+
+  </div>
+  <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="user" >
+
+        <div class="row">
+
+          <div class="row">
+<!--            <div class="col-md-4 col-sm-4 col-xs-12">-->
+<!--              <div class="form-group">-->
+<!--                <div class="fg-line">-->
+<!--                  <label for="userId">User Id *</label>-->
+<!--                  <input ng-model="selectedRegisterParent.user_id" name="userId"-->
+<!--                    type="text" id="userId" class="form-control"-->
+<!--                    placeholder="Enter User Id" required>-->
+
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group">
+                <div class="fg-line">
+                  <label for="name">Student Name *</label>
+                  <input ng-model="oRegPar.student" name="student"
+                    type="text" id="student" class="form-control"
+                    placeholder="Enter Student Name" required>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group">
+                <div class="fg-line">
+                  <label for="userId">RFID *</label>
+                  <input ng-model="oRegPar.rfid" name="rfid"
+                         type="text" id="rfid" class="form-control"
+                         placeholder="Enter RFID" required>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12" style="background: #ccc">
+            <label>Parent 1</label>
+          </div>
+        </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group">
+                <div class=" fg-line" ng-class="{ 'has-error': userForm.number.$touched && userForm.number.$invalid }">
+                  <label for="number">Mobile Number *</label>
+                  <input ng-model="oRegPar.parent1.mobile" name="number"
+                         type="number" name ="mobile" class="form-control"
+                         placeholder="Enter Mobile Number" ng-minlength="10" ng-maxlength="10" required>
+                </div>
+                <div class="help-block error" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
+                  <small ng-message="minlength">Your No. is too short.</small>
+                  <small ng-message="maxlength">Your No. is too long.</small>
+                  <!-- <small ng-message="required">This Field is required.</small> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group fg-line">
+                <label for="emailId">Email</label>
+                <input ng-model="oRegPar.parent1.email"
+                       type="email" class="form-control"
+                       placeholder="Enter Email">
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group fg-line">
+                <label>Relation</label>
+                <select ng-model="oRegPar.parent1.relation" ng-options="option as option for option in aRelation" class="form-control" required="">
+                  <option value="" style="display: none;"> Select Relation </option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="background: #ccc">
+              <label>Parent 2</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group">
+                <div class=" fg-line">
+                  <label for="number">Mobile Number</label>
+                  <input ng-model="oRegPar.parent2.mobile" name="number"
+                         type="number" name ="mobile" class="form-control"
+                         placeholder="Enter Mobile Number" ng-minlength="10" ng-maxlength="10" required>
+                </div>
+                <!--<div class="help-block error" ng-messages="userForm.number.$error" ng-if="userForm.number.$touched">
+                   <small ng-message="minlength">Your No. is too short.</small>
+                   <small ng-message="maxlength">Your No. is too long.</small>
+                    <small ng-message="required">This Field is required.</small>
+                </div>-->
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group fg-line">
+                <label for="emailId">Email</label>
+                <input ng-model="oRegPar.parent2.email"
+                       type="email" class="form-control"
+                       placeholder="Enter Email">
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="form-group fg-line">
+                <label>Relation</label>
+                <select ng-model="oRegPar.parent2.relation" ng-options="option for option in aRelation" class="form-control" required="">
+                  <option value="" style="display: none;"> Select Relation </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-top:10px;">
+            <div class="text-center">
+              <div class="form-group">
+                <button type="submit" class="btn btn-success btn-lg waves-effect" ng-disabled="!((oRegPar.student) && (oRegPar.rfid) &&(oRegPar.parent1.mobile) && (oRegPar.parent1.mobile))">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</form>
+    <style type="text/css">
+      .modal-dialog {width: 70%;}
+      .md-dialog-container{z-index: 9999;}
+    </style>

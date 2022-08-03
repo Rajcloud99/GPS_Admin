@@ -1,0 +1,280 @@
+<div class="bg-e">
+    <div class="row sub-head">
+        <a class="wavesUrl waves-effect" ng-click="vm.homePage()"
+           style="height: 16px; margin-left: 15px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+        <a class="wavesUrl waves-effect" ng-click="" style="height: 16px;">Trip Details</a>
+        <div class="col-lg-10 col-md-10 col-sm-10 pull-right">
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <span class="glyphicon glyphicon-search"></span>&nbsp;
+                    <input class="dtt" style="width: 80%;" type="text" ng-model="vm.filter.vehicle"
+                           placeholder="Search By Vehicle No." title="Please Enter Here"
+                           aria-describedby="sizing-addon1" typeahead-wait-ms="9"
+                           uib-typeahead="vehicleImei as vehicleImei.reg_no for vehicleImei in vm.aVehicle | filter:{reg_no: $viewValue} | limitTo:30">
+                    <!--                          typeahead-on-select="vm.onVehicleSelect(vm.filter.vehicle)">-->
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }">
+                            <input ng-click="vm.DatePicker.openDatePicker(this, $event, 'opened1')"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="{{vm.DatePicker.formats[0]}}"
+                                   show-weeks="false"
+                                   ng-model="vm.filter.from_date"
+                                   is-open="opened1"
+                                   datepicker-options="vm.DatePicker.dateSettings"
+                                   close-text="Close"
+                                   placeholder="Start Date"
+                                   name="'Start Date'"
+                                   style="padding: 0px 4px;height: 34px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+                            <input ng-click="vm.DatePicker.openDatePicker(this, $event, 'opened2')"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="{{vm.DatePicker.formats[0]}}"
+                                   show-weeks="false"
+                                   min-date="vm.filter.from_date"
+                                   ng-model="vm.filter.to_date"
+                                   is-open="opened2"
+                                   datepicker-options="vm.DatePicker.dateSettings"
+                                   close-text="Close"
+                                   placeholder="End Date"
+                                   name="'End Date'"
+                                   style="padding: 0px 4px;height: 34px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 pull-right">
+                <div class="form-group m-b-0 text-center">
+                    <button class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Search"
+                            ng-click="vm.getTrips('Trip Details')"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-search zmdi-hc-fw"></i>
+                    </button>
+                    <button class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Clear All"
+                            ng-click="vm.filter={};vm.aVehicleData = [];"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-close zmdi-hc-fw"></i>
+                    </button>
+                    <button ng-disabled="!(vm.filter.from_date && vm.filter.to_date)"
+                            class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Download"
+                            ng-click="vm.downloadList('Trip Details')"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-download zmdi-hc-fw"></i>
+                    </button>
+                    <button class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 12px"
+                            uib-tooltip="Search"
+                            ng-click="vm.showPlayback()"
+                            tooltip-placement="bottom">
+                        Playback
+                    </button>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-6 col-sm-12 col-md-12 col-lg-12" ng-if="vm.aVehicleData.length">
+			  <span class="btn-lst" ng-repeat="select in vm.aVehicleData">
+				      {{select.reg_no}}&nbsp;
+				  <a ng-click="vm.removeVehicle(select,$index)"> X </a></span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row h-set2" style="min-height: 320px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 435px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="background: #aaefed;">Sl. No.</th>
+                        <th style="background: #aaefed;">cTrip no.</th>
+                        <th style="background: #aaefed;">Trip no.</th>
+                        <th style="background: #aaefed;">Vehicle no. </th>
+                        <th style="background: #aaefed;">Driver name</th>
+                        <th style="background: #aaefed;">Driver Mob.</th>
+                        <th style="background: #aaefed;">Passport no. </th>
+                        <th style="background: #aaefed;">Route </th>
+                        <th style="background: #aaefed;">Trip Start date (dd.mm.yyyy) </th>
+                        <th style="background: #aaefed;">Trip Start time (Military format) </th>
+                        <th style="background: #aaefed;">Trip end date (dd.mm.yyyy)</th>
+                        <th style="background: #aaefed;">Trip end time (Military format)</th>
+                        <th style="background: #aaefed;">Count of Overspeeding</th>
+                        <th style="background: #aaefed;">Count of Rapid acceleration </th>
+                        <th style="background: #aaefed;">Count of Rapid deceleration/ harsh braking </th>
+                        <th style="background: #aaefed;">Count of Continuous driving instances </th>
+                        <th style="background: #aaefed;">Count of  Night driving instances </th>
+                        <th style="background: #aaefed;">Count of  Max driving instances </th>
+                        <th style="background: #aaefed;">Action taken to prevent the recurrence of deviations</th>
+                        <th style="background: #aaefed;">Remarks</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pointer selectItem"  ng-repeat="Sheet in vm.aTripSheet"
+                        ng-click="vm.SelectedIndex = $index"
+                        ng-class="$index === vm.SelectedIndex ? 'bg-back' : ''"
+                        class="pointer"
+                        ng-if="vm.aTripSheet.length > 0">
+                        <td>{{$index+1}}</td>
+                        <td>{{Sheet.ctrip}}</td>
+                        <td>{{Sheet.trip_no}}</td>
+                        <td>{{Sheet.vehicle_no || 'NA'}}
+                        <td>{{Sheet.driver && Sheet.driver.name || 'NA'}}</td>
+                        <td>{{Sheet.driver && Sheet.driver.prim_contact_no || 'NA'}}</td>
+                        <td>{{Sheet.driver && Sheet.driver.passportNo || 'NA'}}</td>
+                        <td>{{Sheet.route && Sheet.route.name || 'NA'}}</td>
+                        <td> {{ ((Sheet.statuses | filter:{"status": "Trip started"})[0].date | date:"dd-MMM-yyyy") || 'NA' }}</td>
+                        <td> {{ ((Sheet.statuses | filter:{"status": "Trip started"})[0].date | date:"h:mma") || 'NA' }}</td>
+                        <td> {{ ((Sheet.statuses | filter:{"status": "Trip ended"})[0].date | date:"dd-MMM-yyyy") || 'NA' }}</td>
+                        <td> {{ ((Sheet.statuses | filter:{"status": "Trip ended"})[0].date | date:"h:mma") || 'NA' }}</td>
+                        <td>
+                            <a class="pointer" ng-click="vm.detailView(Sheet, 'over_speed')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((Sheet.alertData | filter:{"code": "over_speed"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="vm.detailView(Sheet, 'ha')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((Sheet.alertData | filter:{"code": "ha"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="vm.detailView(Sheet, 'hb')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((Sheet.alertData | filter:{"code": "hb"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="vm.detailView(Sheet, 'cd')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((Sheet.alertData | filter:{"code": "cd"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="vm.detailView(Sheet, 'nd')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((Sheet.alertData | filter:{"code": "nd"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="vm.detailView(Sheet, 'Tempering')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((Sheet.alertData | filter:{"code": "Tempering"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="vm.actionView(Sheet)"
+                               uib-tooltip="Click for DetailView">
+                                {{ Sheet.actionCount || '0' }}
+                            </a>
+                        </td>
+                        <td>{{Sheet.remarks || 'NA'}}</td>
+                    </tr>
+                    <tr ng-if="vm.aTripSheet.length < 1">
+                        <td colspan="4">Data Not Available !!!</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pagin text-center">
+                <ul uib-pagination ng-change="vm.pageChanged('Trip Details')"
+                    total-items="vm.bigTotalItems"
+                    ng-model="vm.bigCurrentPage"
+                    max-size="vm.maxSize" class="pagination-sm"
+                    boundary-link-numbers="true"
+                    items-per-page="9"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    section.main {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+
+    .form-group label {
+        text-align: left;
+    }
+
+    dashboard .container:not(.ja-containter) {
+        width: 100%;
+    }
+
+    .ja-back {
+        position: absolute;
+        right: 40px;
+        top: 10px;
+        z-index: 1;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .fs-25 {
+        font-size: 25px;
+    }
+
+    .ja-fullscreen {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 40px;
+        width: 100% !important;
+        margin: 0 !important;
+        height: 100vh;
+        background: #0000003d;
+    }
+
+    .ja-fullscreen .card {
+        height: 80% !important;
+        width: 90%;
+        margin: 30px auto;
+        border-radius: 5px;
+    }
+
+    .nvd3-wrapper {
+        height: calc(100% - 40px) !important;
+        width: 100% !important;
+    }
+
+    nvd3, svg {
+        /*height: calc(100% - 40px) !important;*/
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    .unresponsive thead tr th {
+        min-width: 0 !important;
+        max-width: none !important;
+        padding: 5px 10px !important;
+    }
+</style>

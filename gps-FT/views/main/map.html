@@ -1,0 +1,40 @@
+<div class="pmb-block" ng-controller="googleMapCtrl">
+  <div class="row" style="font-size: 12px;">
+      <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style=" margin-left: 10px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align:top;">></span>&nbsp;&nbsp;
+      <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Google Map</a>
+      <div class="col-lg-8 col-md-8 col-xs-8 pull-right">
+            <span><input type="checkbox" ng-model="showIcon" ng-change = "showLandmarks(showIcon)">&nbsp; Show Landmarks</span>
+            &nbsp;&nbsp;
+            <span class="glyphicon glyphicon-map-marker g"></span>&nbsp;Running : {{trackSheetResStore.count.running}}
+            &nbsp;&nbsp;
+            <span class="glyphicon glyphicon-map-marker r"></span>&nbsp;Stopped : {{trackSheetResStore.count.stopped}}
+            &nbsp;&nbsp;
+            <span class="glyphicon glyphicon-map-marker"></span>&nbsp;Offline : {{trackSheetResStore.count.offline}}
+            &nbsp;&nbsp;&nbsp;
+            <a data-ui-sref="main.ListView" uib-tooltip="Toggle View" tooltip-placement="bottom"><span class="glyphicon glyphicon-tasks"></span>&nbsp;TrackSheet</a>&nbsp;&nbsp;
+
+            <a class="pointer" ng-click="toggleFullScreen()" uib-tooltip="Full Screen View" tooltip-placement="bottom"><i class="zmdi zmdi-fullscreen-alt zmdi-hc-fw"></i>Full Screen</a>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="">
+      <div class="user">
+        <div class="" style="height: 550px; overflow: auto;padding: 0;">
+          <div class="bott labelsss" style="margin-bottom:0px;margin-top: 0!important;color: #fff;">
+            <!--<div class="" style="width:100%;height:547px;"  id= "contactMap">
+            </div>-->
+              <!--<div id="progress"><div id="progress-bar"></div></div>-->
+              <div id="map" style="width:100%;height:547px;" fullscreen="isFullscreen" ng-class="{full: isFullscreen}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    .full{
+        height: 100% !important;
+    }
+</style>

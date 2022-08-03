@@ -1,0 +1,68 @@
+<div class="last_online">
+    <div class="card-body table-responsive" ng-controller="lastOnlineCtrl">
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Search by user" ng-model="search.user_id">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchTerm">
+
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive scroll" style="height: 425px;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>S. No.</th>
+                    <th>Imei</th>
+                    <th>Reg. No.</th>
+                    <th>Sim No.</th>
+                    <th>User Id</th>
+                    <th>Last Online</th>
+                    <th>Type</th>
+                    <th>Signal</th>
+                    <th>Addr</th>
+                </tr>
+                </thead>
+                <tbody data-ng-repeat="(key, value) in lastOnlineDevices | groupBy: 'status'">
+                <tr>
+                    <td>
+                        <button type="button" ng-click="allExpanded = !allExpanded">
+                            <span ng-bind="allExpanded ? '-' : '+'"></span>
+                        </button>
+                    </td>
+                    <td colspan="6">{{key}} ({{filtered.length}}) {{key=='Healthy' ? 'Online in less than 2 Hrs' : key == 'Okay' ? 'Online between 2-10 Hrs' : key == 'Unhealthy' ? 'Online between 10-24 Hrs' : key == 'Alert' ? 'Online between 24-48 Hrs' : key == 'Alarm' ? 'Online between 48-96 Hrs' : key == 'Forgotten' ? 'Online before 96 Hrs' : 'Never online'}}
+                    </td>
+                </tr>
+                <tr ng-repeat="device in value | filter:search:true | filter:searchTerm as filtered" ng-show="allExpanded">
+                    <td>{{$index+1}}</td>
+                    <td>{{device.imei}}</td>
+                    <td>{{device.reg_no}}</td>
+                    <td>{{device.sim_no}}</td>
+                    <td>{{device.user_id}}</td>
+                    <td>{{(device.last_online/60/60).toFixed(2)}} Hrs.</td>
+                    <td>{{device.device_type}}</td>
+                    <td>{{device.gsm_signal_str}}</td>
+                    <td>{{device.address}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- <ul>
+              <li ng-repeat="(key, value) in lastOnlineDevices | groupBy: 'status'">
+                Group name: {{ key }}
+                <ul>
+                  <li ng-repeat="device in value">
+                    device: {{ device.imei }}
+                  </li>
+                </ul>
+              </li>
+            </ul> -->
+
+
+        </div>
+
+
+    </div>
+</div>

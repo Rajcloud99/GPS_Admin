@@ -1,0 +1,139 @@
+<!--controller: vehicleExceptionViewController-->
+<!--controllerAs: veVm-->
+<form name="vehicleExceptionView"  novalidate autocomplete="off">
+
+    <div class="modal-header" >
+        <button type="button" ng-click="veVm.closeModal()" class="close"
+                data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" align="center">
+            <span class="c-black"><b>Vehicle Exception View</b></span>
+        </h4>
+    </div>
+    <div class="row h-set2" style="min-height: 520px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 435px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="background: #aaefed;">SrNo</th>
+                        <th style="background: #aaefed;">vehicle No</th>
+                        <th style="background: #aaefed;">Harsh Brake Count</th>
+                        <th style="background: #aaefed;">Harsh Acceleration Count</th>
+                        <th style="background: #aaefed;">Continuous Driving Count</th>
+                        <th style="background: #aaefed;">Count Of Overspeeding</th>
+                        <th style="background: #aaefed;">Max Driving Count</th>
+                        <th style="background: #aaefed;">Night Driving Count</th>
+                        <th style="background: #aaefed;">Speed Violation Count</th>
+<!--                        <th style="background: #aaefed;">POI Violation Count</th>-->
+<!--                        <th style="background: #aaefed;">POI Hit Count</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="exception in veVm.oExceptionData"
+                        ng-click="veVm.SelectedIndex = $index"
+                        class="pointer"
+                        ng-if="veVm.oExceptionData.length > 0">
+                        <td>{{$index+1}}</td>
+                        <td>{{exception.vehicle || "NA" }}</td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'hb')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "hb"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'ha')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "ha"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'cd')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "cd"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'over_speed')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "over_speed"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'fw')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "fw"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'nd')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "nd"})[0].count) || '0' }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="pointer" ng-click="veVm.detailView(exception, 'halt')"
+                               uib-tooltip="Click for DetailView">
+                                {{ ((exception.aCode | filter:{"code": "halt"})[0].count) || '0' }}
+                            </a>
+                        </td>
+<!--                        <td>-->
+<!--                            <a class="pointer" ng-click="veVm.detailView(exception, 'rt')"-->
+<!--                               uib-tooltip="Click for DetailView">-->
+<!--                                {{ ((exception.aCode | filter:{"code": "rt"})[0].count) || '0' }}-->
+<!--                            </a>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <a class="pointer" ng-click="veVm.detailView(exception, 'sos')"-->
+<!--                               uib-tooltip="Click for DetailView">-->
+<!--                                {{ ((exception.aCode | filter:{"code": "sos"})[0].count) || '0' }}-->
+<!--                            </a>-->
+<!--                        </td>-->
+
+
+                    </tr>
+                    <tr ng-if="!veVm.oExceptionData.length">
+                        <td colspan="4">No Exception Data available !!!</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="pagin text-center">
+                <ul uib-pagination ng-change="veVm.pageChanged()"
+                    total-items="veVm.bigTotalItems"
+                    ng-model="veVm.bigCurrentPage"
+                    max-size="veVm.maxSize" class="pagination-sm"
+                    boundary-link-numbers="true"
+                    items-per-page="9"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning"
+                type="button"
+                ng-click="veVm.closeModal()">Close</button>
+    </div>
+
+</form>
+
+
+<style>
+
+    form .col-md-3{
+        height: 50px;
+    }
+
+    .container{
+        width: 98% !important;
+    }
+
+    .modal-dialog{
+        width: 90%;
+    }
+
+</style>

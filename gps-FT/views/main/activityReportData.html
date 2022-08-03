@@ -1,0 +1,250 @@
+<div class="">
+  <div class="">
+
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Select time frame for more activity report.</h4>
+        <div class="time_p">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Time From</label>
+              <div class="col-sm-3">
+                <div class="input-group input-group-sm inn" >
+                  <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+                    <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened1 == true }" >
+                      <input ng-click="open($event, 'opened1')" type="text" class=" " uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="obj111.dateTimeSt" is-open="$parent.opened1" datepicker-options="dateOptions1" ng-required="true" close-text="Close" placeholder="Start Date " ng-change="getNoti();toggleMinMaxDate()" style="width: 100%;border: none; padding: 6px;" / >
+                    </div>
+                  </div>
+                </div>
+                <p class="red" ng-show="wrongDateRange">Start Date must be less than End Date </p>
+              </div>
+              <label class="col-sm-1 control-label">HH</label>
+              <div class="col-sm-2">
+                <div class="select">
+                  <select ng-model="hourSel1" ng-options="sAlert as sAlert for sAlert in aHours" class="form-control" ng-change="hrChange1(hourSel1)">
+                  </select>
+                </div>
+                <!-- <div class="fg-line">
+                  <input type="number" ng-model="hourSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                </div> -->
+              </div>
+              <label class="col-sm-1 control-label">MM</label>
+              <div class="col-sm-2">
+                <div class="select">
+                  <select ng-model="minuteSel1" ng-options="sAlert as sAlert for sAlert in aMinutes" class="form-control" ng-change="minChange1(minuteSel1)">
+                  </select>
+                </div>
+                <!-- <div class="fg-line">
+                  <input type="number" ng-model="minuteSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                </div> -->
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Time To</label>
+              <div class="col-sm-3">
+                <div class="input-group input-group-sm inn" >
+                  <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+                    <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened2 == true }">
+                      <input ng-click="open($event, 'opened2')" type="text" class="" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="obj111.dateTimeEn" is-open="$parent.opened2" datepicker-options="dateOptions2" ng-required="true" close-text="Close" placeholder="End Date" ng-change="getNoti();toggleMinMaxDate()" style="width: 100%;border: none; padding: 6px;"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <label for="" class="col-sm-1 control-label">HH</label>
+              <div class="col-sm-2">
+                <div class="select">
+                  <select ng-model="hourSel2" ng-options="sAlert as sAlert for sAlert in aHours" class="form-control" ng-change="hrChange2(hourSel2)">
+                  </select>
+                </div>
+                <!-- <div class="fg-line">
+                  <input type="number" ng-model="hourSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                </div> -->
+              </div>
+              <label for="" class="col-sm-1 control-label">MM</label>
+              <div class="col-sm-2">
+                <div class="select">
+                  <select ng-model="minuteSel2" ng-options="sAlert as sAlert for sAlert in aMinutes" class="form-control" ng-change="minChange2(minuteSel2)">
+                  </select>
+                </div>
+                <!-- <div class="fg-line">
+                  <input type="number" ng-model="minuteSel2" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                </div> -->
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-4">
+            <div class="select">
+              <select ng-model="vehObjSel" ng-options="option.reg_no for option in reportData[0].userDevicesforDropDown" ng-change="changeDeviceId(vehObjSel)" style="width: 100%;border: 0;border-bottom: 1px solid #d5d5d5;">
+                <option value="" style="display: none;">Vehicle Select</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <a class="btn btn-success" ng-click="getActReportWithTime()">Activity Report</a>
+          </div>
+          <div class="clearfix"></div>
+          <br>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="">
+        <div style="min-height: 520px;">
+          <h3><span class="f14">{{reportHeader()}}</span>
+              <!-- <span class="f14"> &nbsp;&nbsp;&nbsp;&nbsp; {{dateStart();}}&nbsp;&nbsp;&nbsp;&nbsp; {{dateEnd();}}&nbsp;&nbsp;&nbsp;&nbsp; {{timeLimit();}}&nbsp;&nbsp;&nbsp;&nbsp;{{speedLimit();}}</span> -->
+              <span>
+                <a href="" class="btn btn-primary" ng-click="dwnldXlsxAct(reportData)">Export Excel</a>
+              </span>
+          </h3>
+          <div class="row">
+            <div class="col-sm-12">
+              <h4>Get detailed activity report for all running devices.</h4>
+              <div class="form-group">
+                <label class="col-sm-2 control-label bold">Time Interval</label>
+                <div class="col-sm-2">
+                  <div class="fg-line">
+                    <select ng-model="actMinHours" ng-options="minT.scope as minT.name for minT in aMinHours" class="form-control" ng-change="changHour(actMinHours)">
+                      <option value="" selected style="display: none;"> Select min hours </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="fg-line">
+                    <select ng-model="actMinMinutes" ng-options="minT.scope as minT.name for minT in aMinMinutes" class="form-control" ng-change="changMinute(actMinMinutes)">
+                      <option value="" selected style="display: none;"> Select min minutes </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                    <a href="" ng-click="getDetailedActReport22()" class="btn btn-success">Get Detailed Report</a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+          <div ng-repeat="bidData in reportData">
+            <uib-accordion close-others="oneAtATime">
+              <div uib-accordion-group class="panel-default" is-open="status.open1">
+                <uib-accordion-heading>
+                  Summary <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open1, 'glyphicon-chevron-right': !status.open1}"></i>
+                </uib-accordion-heading>
+                <div class="" style="padding: 0 15px;">
+                  <div class="table-responsive">
+                    <table class="table table-condensed">
+                      <thead>
+                        <tr>
+                          <th ng-if="bidData.localDataArray[0].reg_no">Registration No.</th>
+                          <th ng-if="bidData.localDataArray[0].num_stops">Total no of Stops</th>
+                          <th ng-if="bidData.localDataArray[0].dur_stop">Duration of stops</th>
+                          <!-- <th ng-if="bidData.localDataArray[0].num_idle">Total no of Idle</th>
+                          <th ng-if="bidData.localDataArray[0].dur_idle">Duration of Idle (Hour)</th> -->
+                          <!-- <th ng-if="bidData.localDataArray[0].num_of_overspeed">Total no of Overspeed</th> -->
+                          <!-- <th ng-if="bidData.localDataArray[0].dur_total">Total Duration (Hour)</th> -->
+                          <th ng-if="bidData.localDataArray[0].distance">Distance</th>
+                          <th ng-if="bidData.localDataArray[0].duration">Duration</th>
+                          <th ng-if="bidData.localDataArray[0].average_speed">Average Speed (Kmph)</th>
+                          <th ng-if="bidData.request == 'report_overspeed' && bidData.localDataArray[0].top_speed">Top Speed (Kmph)</th>
+                          <th ng-if="bidData.localDataArray[0].tot_dist">Total Distance (Km)</th>
+                          <th ng-if="bidData.localDataArray[0].data_message">Data Not Available!!!</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="dataX in bidData.localDataArray">
+                          <td ng-if="dataX.reg_no">{{dataX.reg_no}}</td>
+                          <td ng-if="dataX.num_stops">{{dataX.num_stops}}</td>
+                          <td ng-if="dataX.dur_stop">{{dataX.dur_stop}}</td>
+                          <!-- <td ng-if="dataX.num_idle">{{dataX.num_idle}}</td>
+                          <td ng-if="dataX.dur_idle">{{dataX.dur_idle}}</td> -->
+                          <!-- <td ng-if="dataX.num_of_overspeed">{{dataX.num_of_overspeed}}</td> -->
+                          <!-- <td ng-if="dataX.dur_total">{{dataX.dur_total}}</td> -->
+                          <td ng-if="dataX.distance">{{dataX.distance}} </td>
+                          <td ng-if="dataX.duration">{{dataX.duration}}</td>
+                          <td ng-if="dataX.average_speed">{{dataX.average_speed}}</td>
+                          <td ng-if="bidData.request == 'report_overspeed' && dataX.top_speed">{{dataX.top_speed}}</td>
+                          <td ng-if="dataX.tot_dist">{{dataX.tot_dist}}</td>
+                          <th ng-if="dataX.data_message">{{dataX.data_message}}</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div uib-accordion-group class="panel-default" is-open="status.open2">
+                <uib-accordion-heading>
+                    Details <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open2, 'glyphicon-chevron-right': !status.open2}"></i>
+                </uib-accordion-heading>
+                <div class="" style="padding: 0 15px;">
+                  <div ng-repeat="dataX in bidData.localDataArray">
+                    <div class="card-header">
+                        <h2>{{dataX.reg_no}}</h2>
+                    </div>
+
+                    <div class="table-responsive">
+                      <table class="table table-condensed" ng-if="bidData.request == 'report_activity'">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Start Time</th>
+                            <th>Start Location</th>
+                            <th>End Time</th>
+                            <th>End Location</th>
+                            <th>Speed (Kmph)</th>
+                            <th>Duration</th>
+                            <th>Category</th>
+                            <th>Distance travelled (Kms)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="sReport in dataX.data" ng-if="dataX.data.length > 0">
+                            <td>{{$index+1}}</td>
+                            <td>{{sReport.start_time}}</td>
+                            <td style="width: 30%;">
+                              <a href="" ng-click="showOnMap(sReport,true)">{{sReport.start_addr || ''}}</a>
+                            </td>
+                            <td>{{sReport.end_time}}</td>
+                            <td style="width: 30%;">
+                              <a href="" ng-click="showOnMap(sReport)">{{sReport.stop_addr || ''}}</a>
+                            </td>
+                            <td>{{sReport.average_speed}}</td>
+                            <td>{{sReport.duration}}</td>
+                            <td>
+                              <a ng-if="sReport.driveStatus=='Running'" href="" ng-click="goForDetailReport(sReport)">{{sReport.driveStatus}}</a>
+                              <span ng-if="sReport.driveStatus!='Running'">{{sReport.driveStatus}}</span>
+                            </td>
+                            <td>{{sReport.distance}}</td>
+                          </tr>
+                          <tr ng-if="dataX.data.length < 1">
+                            <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  p{margin-bottom: 10px;}
+  .nav-tabs > li {
+    border-radius: 20px 20px 1px 1px;
+    background: #d1d1d1;
+  }
+  .u_mid ul.nav li.active {
+      background: #fff;
+      border-radius: 20px 20px 0px 0px;
+  }
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{border: 0px;}
+</style>

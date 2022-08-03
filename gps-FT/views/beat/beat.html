@@ -1,0 +1,188 @@
+<div class="">
+    <div class="row sub-head">
+        <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px; margin-left: 50px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+        <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Beat Master</a>
+        <div class="clearfix"></div>
+        <div class="col-lg-10 col-md-10 col-sm-10 pull-right">
+
+<!--            <div class="col-sm-2">-->
+<!--                <div class="input-group input-group-sm inn">-->
+<!--                    <span class="glyphicon glyphicon-search"></span>&nbsp;-->
+<!--                    <input class="dtt" style="width: 80%;" type="text" ng-model="filter.reg_no"-->
+<!--                           placeholder="Vehicle No" title="Please Enter Here"-->
+<!--                           aria-describedby="sizing-addon1" typeahead-wait-ms="9">-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <span class="glyphicon glyphicon-search"></span>&nbsp;
+                    <input class="dtt" style="width: 80%;" type="text" ng-model="filter.vehicleNo"
+                           placeholder="Search By Vehicle No." title="Please Enter Here"
+                           aria-describedby="sizing-addon1" typeahead-wait-ms="9"
+                           uib-typeahead="veh as veh.reg_no for veh in aVehicle | filter:{reg_no: $viewValue} | limitTo:30">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }">
+                            <input ng-click="DatePicker.openDatePicker(this, $event, 'opened1')"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="{{DatePicker.formats[0]}}"
+                                   show-weeks="false"
+                                   ng-model="filter.from"
+                                   is-open="opened1"
+                                   datepicker-options="DatePicker.dateSettings"
+                                   close-text="Close"
+                                   placeholder="Start Date"
+                                   name="'Start Date'"
+                                   style="padding: 0px 4px;height: 34px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group input-group-sm inn">
+                    <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }">
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+                            <input ng-click="DatePicker.openDatePicker(this, $event, 'opened2')"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="{{DatePicker.formats[0]}}"
+                                   show-weeks="false"
+                                   min-date="vm.filter.from_date"
+                                   ng-model="filter.to"
+                                   is-open="opened2"
+                                   datepicker-options="DatePicker.dateSettings"
+                                   close-text="Close"
+                                   placeholder="End Date"
+                                   name="'End Date'"
+                                   style="padding: 0px 4px;height: 34px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="form-group m-b-0 text-center">
+                    <button class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Search"
+                            ng-click="getAllBeat()"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-search zmdi-hc-fw"></i>
+                    </button>
+                    <button class="btn btn-primary p-t-0 p-b-0"
+                            type="button"
+                            style="margin-bottom: 3px;  font-size: 16px"
+                            uib-tooltip="Clear Search"
+                            ng-click="filter = {}"
+                            tooltip-placement="bottom">
+                        <i class="zmdi zmdi-close zmdi-hc-fw"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="head-row pull-right">
+               <span>
+        <a class="btn btn-primary" uib-tooltip="Add Beat" ng-click="upsertBeat('add')"><span class="glyphicon glyphicon-plus"></span></a>
+      </span>
+            </div>
+
+        </div>
+<!--        <div class="form-group m-b-0 text-center pull-left" style="margin-bottom: -28px;font-size: 20px;margin: 11px">-->
+<!--            <button class="btn btn-primary p-t-0 p-b-0"-->
+<!--                    type="button"-->
+<!--                    style="margin-bottom: 3px;  font-size: 16px"-->
+<!--                    uib-tooltip="Search"-->
+<!--                    ng-click="getAllBeat()"-->
+<!--                    tooltip-placement="bottom">-->
+<!--                <i class="zmdi zmdi-search zmdi-hc-fw"></i>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--        <div class="head-row">-->
+<!--           -->
+<!--        </div>-->
+    </div>
+
+    <div class="row h-set2" style="max-height: 100px;">
+        <div class="col-sm-12 toggle-table">
+            <div class="table-responsive" style="min-height: 350px;height: 480px;">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th style="background: #aaefed;">#</th>
+                        <th style="background: #aaefed;">Vehicle No</th>
+                        <th style="background: #aaefed;">Beat SSE</th>
+                        <th style="background: #aaefed;">Beat Section</th>
+                        <th style="background: #aaefed;">Start Time</th>
+                        <th style="background: #aaefed;">End Time</th>
+                        <th style="background: #aaefed;">Starting Landmark</th>
+                        <th style="background: #aaefed;">Starting Address</th>
+                        <th style="background: #aaefed;">Starting Latitude</th>
+                        <th style="background: #aaefed;">Starting Longitude</th>
+                        <th style="background: #aaefed;">Starting KM</th>
+                        <th style="background: #aaefed;">Starting Meter</th>
+                        <th style="background: #aaefed;">Ending Landmark</th>
+                        <th style="background: #aaefed;">Ending Address</th>
+                        <th style="background: #aaefed;">Ending Latitude</th>
+                        <th style="background: #aaefed;">Ending Longitude</th>
+                        <th style="background: #aaefed;">Ending KM</th>
+                        <th style="background: #aaefed;">Ending Meter</th>
+                        <th style="background: #aaefed;">Create Time</th>
+                        <th style="background: #aaefed;">Operate</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pointer selectItem"  ng-repeat="item in aBeatList" ng-if="aBeatList.length > 0">
+                        <td>{{$index+1}}</td>
+                        <td>{{item.reg_no}}</td>
+                        <td>{{item.beatSSE}}</td>
+                        <td>{{item.beatSection}}</td>
+                        <td>{{item.startTime | date : 'h:mma'}}</td>
+                        <td>{{item.endTime | date : 'h:mma'}}</td>
+                        <td>{{item.beatStart.landmark || 'NA'}}
+                        <td>{{item.beatStart.address || 'NA'}}
+                        <td>{{item.beatStart.latitude}}</td>
+                        <td>{{item.beatStart.longitude}}</td>
+                        <td>{{item.beatStart.km}}</td>
+                        <td>{{item.beatStart.meter}}</td>
+
+                        <td>{{item.beatEnd.landmark || 'NA'}}
+                        <td>{{item.beatEnd.address || 'NA'}}
+                        <td>{{item.beatEnd.latitude}}</td>
+                        <td>{{item.beatEnd.longitude}}</td>
+                        <td>{{item.beatEnd.km}}</td>
+                        <td>{{item.beatEnd.meter}}</td>
+                        <td>{{item.created_at | date: "dd-MM-yyyy"}}</td>
+                        <td>
+                            <a href="" ng-click="upsertBeat('edit' ,item)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="" ng-click="deleteBeat(item)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                    <tr ng-if="aBeatList.length < 1">
+                        <td colspan="4">Data Not Available !!!</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+            <div class="pagin text-center">
+                <ul uib-pagination ng-change="pageChanged()"
+                    total-items="bigTotalItems"
+                    ng-model="bigCurrentPage"
+                    max-size="maxSize" class="pagination-sm"
+                    boundary-link-numbers="true"
+                    items-per-page="9"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    section.main{width: 100%;float: none;margin: 0;}
+    .form-group label {text-align: left;}
+    .selectItem:hover{background: #dddddd;}
+
+</style>

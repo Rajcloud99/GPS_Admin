@@ -1,0 +1,44 @@
+<div class="" ng-controller="reportsMilage2Ctrl">
+  <div class="container">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="report()">Reports</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="">Reports Data</a>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="report" style="min-height: 520px;">
+            <h3><span class="f14">{{report2Header()}}</span>
+                <span class="f14"> &nbsp;&nbsp;&nbsp;&nbsp; {{dateStart();}}&nbsp;&nbsp;&nbsp;&nbsp; {{dateEnd();}}&nbsp;&nbsp;&nbsp;&nbsp; {{timeLimit();}}&nbsp;&nbsp;&nbsp;&nbsp;{{speedLimit();}}</span>
+                <span>
+                    <a href="" class="btn btn-primary" ng-click="dwnldXlsx()">Export Excel</a>
+                </span>
+            </h3>
+            <div class="" style="padding: 0 15px;">
+                <div class="table-responsive  unresponsive">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th ng-repeat="head in aTableHeader">{{head}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in aTableData">
+                                <td ng-repeat="header in aTableDataHeader ">{{data[header]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+  p{margin-bottom: 10px;}
+  .table > thead > tr > th {
+    text-transform: capitalize;
+    min-width: 100px;
+    }
+</style>

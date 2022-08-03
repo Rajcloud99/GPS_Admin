@@ -1,0 +1,53 @@
+<div class="my_user">
+  <div class="card-body table-responsive" ng-controller="myUserCtrl">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-right">
+        <div class="col-sm-3 ">
+             
+        </div>
+        <div class="col-sm-5 ">
+             
+        </div>
+        <div class="col-sm-4 ">
+          <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+            <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+            <input  class="" type="text" ng-model="name" placeholder="Search By  User Name......" title="Please enter  User Name" aria-describedby="sizing-addon1" style="border: none;width:90%;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Type</th>
+            <th>User Name</th>
+            <th>Mobile</th>
+            <th>Device Qty.</th>
+            <th>Balance</th>
+            <th>Operate</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="user in selectedUser.sub_users | filter: name">
+            <td><input type="checkbox" ng-model="user.selected"> {{user.user_id}}</td>
+            <td>{{user.type}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.mobile}}</td>
+            <td>{{user.device_qty || 'NA'}}</td>
+            <td>{{user.balance || 'NA'}}</td>
+            <td>
+              <a href="" ng-show="localStorageUser.role == 'admin'" tooltip="Update User" ng-click="editUser(user)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-show="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="removeSubUser(user)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;
+              <!-- <a href="" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span></a>&nbsp;&nbsp;  -->
+              <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Extension upon expire"><span class="glyphicon glyphicon-time"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Tracking"><span class="glyphicon glyphicon-road"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Playback"><span class="glyphicon glyphicon-play-circle"></span></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>  
+</div>

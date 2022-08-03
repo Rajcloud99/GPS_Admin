@@ -1,0 +1,32 @@
+<form name="commandForm" class=" form-horizontal" ng-submit="commandF(commandForm)" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Commands</h3>
+  </div>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <div class="col-md-12">
+      <div class="form-group m-b-5">
+        <label for="" class="col-sm-5 control-label">Commands</label>
+        <div class="col-sm-7">
+          <div class="fg-line">
+            <select ng-model="commandType" ng-options="command as command.desc for command in aFilterCommandTypes" class="form-control" required>
+              <option value="" style="display: none;"> Select Command Type </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <div class="modal-footer p-t-0">
+    <button class="btn btn-success waves-effect" type="submit">Get</button>
+  </div>
+</form>
+<style type="text/css">
+  
+</style>

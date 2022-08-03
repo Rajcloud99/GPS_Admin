@@ -1,0 +1,35 @@
+	<div class="jumbo-container" ng-controller="userLogin">
+    <div class="login_box">
+      <div class="wrapper">
+        <div ng-show="loader">
+            <div class="ldr-shad-login">
+                <img id="spinner" class="loader-login" ng-src="img/spinner.gif">
+            </div>
+        </div>
+        <form class="form-signin" name="user" novalidate>  
+          <div class="lgo text-center">
+            <img class="" ng-src="{{distributerInfo.logo_url}}" alt="Logo">
+          </div>
+          <h2 class="form-signin-heading text-center m-b-10">Welcome to {{distributerInfo.name}}</h2>
+          <div class="form-group">
+            <input type="text" class="form-control" ng-model="user.user_id" name="username" placeholder="User id" ng-required="true" autofocus="" ng-blur="getPass(user.user_id)"/>
+          </div>
+          
+          <div class="form-group">
+            <input type="password" class="form-control" ng-model="user.password" name="password" placeholder="Password" ng-required="true"/>
+          </div>
+          
+          <div class="checkbox m-b-15">
+            <label>
+              <input type="checkbox" ng-model="user.rememberMe">
+              <i class="input-helper"></i> Remember me
+            </label>
+          </div>
+
+          <button class="btn btn-lg btn-success btn-block" type="submit" ng-click="userLogin(user)" id="add" >Login</button>
+          <a href="" ng-click="fPassword()"><h5 class="f-password"><u>Forgot your password?</u></h5></a>
+          </form>
+      </div>
+    </div>
+   
+	</div>

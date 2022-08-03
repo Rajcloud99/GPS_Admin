@@ -1,0 +1,235 @@
+<form name="commandForm" class=" form-horizontal" ng-submit="advSearch(commandForm)" novalidate autocomplete="off">
+    <div class="modal-header p-t-10 p-b-0">
+        <button type="button" ng-click="cancel()" class="close"
+                data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title" align="center">Advance Search</h3>
+    </div>
+    <br>
+    <!-- Body Start -->
+    <div class="modal-body" style="overflow: auto;">
+        <div class="col-md-12">
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('vehicle_type')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Vehicle Type</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.vehicle_type"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-sm-6" ng-if="!(setSearchFields.indexOf('driver_name')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Driver</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.driver_name"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('status')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By GPS Status</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.status"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('vehicle_status')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Vehicle Status</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.vehicle_status"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('trip_status')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Trip Status</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.trip_status"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('route')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Route</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.route"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('owner_group')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Owner Group</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.owner_group"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('customer')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Customer</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.customer"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('nearest_landmark')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Nearest Landmark</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.nearest_landmark"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('positioning_time')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">Position Time Start</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm inn">
+                            <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }"
+                                 style="width: 100%;">
+                                <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened1 == true }">
+                                    <input ng-click="open($event, 'opened1')" type="text" datepicker-popup="{{format}}"
+                                           show-weeks="false" ng-model="searchData.positionTimeStart" is-open="$parent.opened1"
+                                           datepicker-options="dateOptions" ng-required="true" max-date="minDate"
+                                           close-text="Close" placeholder="Position Start Date "
+                                           style="width: 100%;border: none; padding: 6px;" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('positioning_time')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">Position Time End</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm inn">
+                            <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }"
+                                 style="width: 100%;">
+                                <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened2 == true }">
+                                    <input ng-disabled="!searchData.positionTimeStart" ng-click="open($event, 'opened2')" type="text" class=" "
+                                           datepicker-popup="{{format}}" show-weeks="false" ng-model="searchData.positionTimeEnd"
+                                           is-open="$parent.opened2" datepicker-options="dateOptions" ng-required="true"
+                                           max-date="minDate" close-text="Close"
+                                           placeholder="Position End Date "
+                                           style="width: 100%;border: none; padding: 6px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('location_time')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">Location Time Start</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm inn">
+                            <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened3 == true }"
+                                 style="width: 100%;">
+                                <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened3 == true }">
+                                    <input ng-click="open($event, 'opened3')" type="text" class=" "
+                                           datepicker-popup="{{format}}" show-weeks="false" ng-model="searchData.locationTimeStart"
+                                           is-open="$parent.opened3" datepicker-options="dateOptions" ng-required="true"
+                                           max-date="minDate" close-text="Close" placeholder="Location Start Date "
+                                           style="width: 100%;border: none; padding: 6px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('location_time')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">Location Time End</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm inn">
+                            <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened4 == true }"
+                                 style="width: 100%;">
+                                <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened4 == true }">
+                                    <input ng-disabled="!searchData.locationTimeStart" ng-click="open($event, 'opened4')" type="text" class=" "
+                                           datepicker-popup="{{format}}" show-weeks="false" ng-model="searchData.locationTimeEnd"
+                                           is-open="$parent.opened4" datepicker-options="dateOptions" ng-required="true"
+                                           max-date="minDate" close-text="Close" placeholder="Location End Date "
+                                           style="width: 100%;border: none; padding: 6px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="col-sm-6" ng-if="!(setSearchFields.indexOf('speed')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Speed</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.speed"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('dist_today')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Today KM.</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.dist_today"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="!(setSearchFields.indexOf('dist_yesterday')==-1)">
+                <div class="form-group m-b-5">
+                    <label class="col-sm-5 control-label">By Yesterday KM.</label>
+                    <div class="col-sm-7">
+                        <div class="fg-line">
+                            <input type="text" class="form-control" ng-model="searchData.dist_yesterday"
+                                   placeholder="Enter ....">
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+    <div class="modal-footer p-t-0">
+        <button class="btn btn-success waves-effect" type="submit">Search</button>
+    </div>
+</form>
+<style type="text/css">
+    .modal-dialog {
+        width: 70%;
+    }
+</style>

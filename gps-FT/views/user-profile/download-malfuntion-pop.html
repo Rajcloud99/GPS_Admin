@@ -1,0 +1,25 @@
+<form name="downloadReportForm" class=" form-horizontal" novalidate  autocomplete="off">
+  <div class="modal-header p-t-10 p-b-0" >
+    <button type="button" ng-click="cancel()" class="close"
+      data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" align="center">Download</h3>
+  </div>
+    <hr>
+    <br>
+  <!-- Body Start -->
+  <div class="modal-body" style="overflow: auto;">
+    <p>Confirm Download Malfunctioning Report.</p>
+  </div>
+  <hr>
+
+  <div class="modal-footer p-t-0">
+    <a target="_blank" href="{{selectedMalRef}}" class="btn btn-success waves-effect" ng-click="downloadConfirm()">Download</a>
+    <!-- <button class="btn btn-danger waves-effect" type="submit">Download</button> -->
+    <button type="button" ng-click="cancel()" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+  </div>
+</form>
+<style type="text/css">
+  .modal-dialog {width: 50%;}
+</style>

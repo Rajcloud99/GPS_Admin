@@ -1,0 +1,87 @@
+<div class="" ng-controller="complaintCtrl">
+  <div class="">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<span style="vertical-align: top;">></span>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="">Complaints</a>
+    <div class="searchbar">
+      <div class="col-sm-3 ">
+        <div class="input-group input-group-sm inn" >
+          <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>&nbsp;
+          <input  class="dtt" type="text" ng-model="vehicleNum" placeholder="Search By Vehicle" title="Please Enter Here" aria-describedby="sizing-addon1" typeahead-wait-ms="9" typeahead="reg_no as vehicleNum.reg_no for vehicleNum in aComplaints | filter:$viewValue | limitTo:8" typeahead-on-select="onSelectVehicle($item, $model, $label)" ng-change="remVehicle(vehicleNum)" style="width: 80%;">
+        </div>
+      </div>
+      <!-- <div class="col-sm-3 ">
+        <div class="input-group input-group-sm inn" >
+          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+            <div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }" >
+              <span class="glyphicon glyphicon-search" id="sizing-addon6"></span>&nbsp;
+              <input ng-click="open($event, 'opened1')" type="text" datepicker-popup="{{format}}" show-weeks="false" ng-model="start_date" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" max-date="maxDate" placeholder="Search by start date " ng-change="searchByStartDate()" style="width: 88%; border: none; padding: 2px 6px;" / >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 ">
+        <div class="input-group input-group-sm inn" >
+          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }" style="width: 100%;">
+            <div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }" >
+              <span class="glyphicon glyphicon-search" id="sizing-addon6"></span>&nbsp;
+              <input ng-click="open($event, 'opened2')" type="text" datepicker-popup="{{format}}" show-weeks="false" ng-model="end_date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" max-date="maxDate" placeholder="Search by end date " ng-change="searchByEndDate()" style="width: 88%; border: none; padding: 2px 6px;" / >
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="col-sm-3 ">
+      </div>
+      <div class="col-sm-3 ">
+      </div>
+      <div class="col-sm-3 ">
+        <a href="" class="btn btn-normal" ng-click="dwnldClick()">Download Report</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="report h-set4">
+          <div class="col-md-3">
+            <div class="side-bx h-set4">
+              <div class="side-bx-sec" ng-repeat="sComplaint in aComplaints" ng-click="selectedItem(sComplaint, $index)">
+                <div class="col-md-4">
+                  {{sComplaint.reg_no}}
+                </div>
+                <div class="col-md-8">
+                  {{sComplaint.notice_date}}
+                </div>
+                <div class="col-md-12">
+                  {{sComplaint.reason}}
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="main-bx">
+              <!-- <div class="main-head">
+                <a href="" ng-click="" tooltip="Delete" tooltip-placement="bottom"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp; 
+                <a href="" ng-click="editComplaint(selComplaint)" tooltip="Edit" tooltip-placement="bottom"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+                <a href="" ng-click="" tooltip="Reply" tooltip-placement="bottom"><span class="glyphicon glyphicon-repeat"></span></a>&nbsp;&nbsp;
+              </div> -->
+              <div class="main-cont">
+                  <div class="">
+                    <h4 class="bold"><span tooltip="vehicle no." tooltip-placement="bottom">{{selComplaint.reg_no}}</span>&nbsp;&nbsp;&nbsp;&nbsp; <span tooltip="Reason" tooltip-placement="bottom">{{selComplaint.reason}}</span></h4>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="">
+                  <p><span tooltip="Remarks" tooltip-placement="bottom">{{selComplaint.remark}}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  
+</style>

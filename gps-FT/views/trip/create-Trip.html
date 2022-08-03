@@ -1,0 +1,173 @@
+<div ng-controller="createTripCtrl">
+    <div class="container">
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="homePage()" style="height: 14px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="tripList()" style="height: 14px;">Trip List</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+    <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Create Trip</a>
+    <div class="row h-set">
+      <div class="col-sm-12">
+        <div class="report">
+          <h3>Create Trip</h3>
+          <div class="row m-t-10">
+          <form name="TripForm" autocomplete="off" novalidate>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="source">Source *</label> 
+                      <input ng-model="tripData.source" name="source" 
+                        type="text" id="source" class="form-control"
+                        placeholder="Enter Source" typeahead="geoName for geoName in aGeoZoneList | filter:$viewValue | limitTo:8">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="destination">Destination *</label> 
+                      <input ng-model="tripData.destination" name="destination" 
+                        type="text" id="destination" class="form-control"
+                        placeholder="Enter Destination" typeahead="geoName for geoName in aGeoZoneList | filter:$viewValue | limitTo:8">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Vehicle No. *</label> 
+                      <input ng-model="tripData.vehicle" name="vehicle" 
+                        type="text" id="vehicle" class="form-control"
+                        placeholder="Enter Vehicle number" typeahead="vehicle for vehicle in vehicleOptions | filter:$viewValue | limitTo:8" typeahead-editable="false">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="" class="col-sm-12 control-label">Start Time *(24 hour time format)</label> 
+                      <div class="col-sm-3">
+                        <div class="input-group input-group-sm inn" >
+                          <div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }" style="width: 100%;">
+                            <div class="fg-line" style="padding:0;" ng-class="{ 'fg-toggled': opened1 == true }" >
+                              <input ng-click="open($event, 'opened1')" type="text" class=" " datepicker-popup="{{format}}" show-weeks="false" ng-model="dateTimeStart" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="Start Date " ng-change="getNoti()" style="width: 100%;border: none; padding: 6px;" / >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <label for="" class="col-sm-1 control-label">HH</label>
+                      <div class="col-sm-2">
+                        <div class="fg-line">
+                          <input type="number" ng-model="hourSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aHours | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                        </div>
+                      </div>
+                      <label for="" class="col-sm-1 control-label">MM</label>
+                      <div class="col-sm-2">
+                        <div class="fg-line">
+                          <input type="number" ng-model="minuteSel1" class="form-control" typeahead-wait-ms="10" typeahead="sAlert as sAlert for sAlert in aMinutes | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $model, $label)" >
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Duration </label> 
+                      <div class="input-group">
+                        <input type="number" class="form-control input-sm" ng-model="tripData.days" placeholder="0" style="text-align: center;"/>
+                        <span class="input-group-addon" style="width: 18%;background-color: rgb(143, 255, 250);text-align: center"><b>Day(s)</b></span>
+                        <span class="input-group-btn" style="width: 84px;"></span>
+                        <input type="number" class="form-control input-sm" ng-model="tripData.hours" placeholder="0" style="text-align: center;"/>
+                        <span class="input-group-addon" style="width: 18%;background-color: rgb(143, 255, 250);text-align: center"><b>Hour(s)</b></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Consignor</label> 
+                      <input ng-model="tripData.consignor" 
+                        type="text" class="form-control"
+                        placeholder="Enter Consignor Name">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Consignee</label> 
+                      <input ng-model="tripData.consignee" 
+                        type="text" class="form-control"
+                        placeholder="Enter Consignee Name">
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Estimated Time Of Arrival</label> 
+                      <input ng-model="tripData.etoa" 
+                        type="text" class="form-control"
+                        placeholder="Enter ETOA">
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Estimated Distance (KM)</label> 
+                      <input ng-model="tripData.est_dist" 
+                        type="number" class="form-control"
+                        placeholder="Enter Estimated Distance">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Forworder</label> 
+                      <input ng-model="tripData.forworder" 
+                        type="text" class="form-control"
+                        placeholder="Enter forworder">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="fg-line">
+                      <label for="vehicle">Manager</label> 
+                      <input ng-model="tripData.manager" 
+                        type="text" class="form-control"
+                        placeholder="Enter manager">
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="row" style="padding-top:10px;">
+                <div class="text-center">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg waves-effect" ng-disabled="!((tripData.source)&&(tripData.destination)&&(tripData.vehicle))" ng-click="createTrip(TripForm)">Create</button>
+                  </div>
+                </div>
+              </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  section.main{width: 100%;float: none;margin: 0;}
+  .form-group label {text-align: left;}
+</style>

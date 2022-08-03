@@ -1,0 +1,51 @@
+<form name="">
+    <div class="modal-header p-t-10 p-b-0">
+        <button type="button" ng-click="cancel()" class="close"
+            data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">Create Landmark</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Name <span style="color: #ff0000;"> * </span></label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <input type="text" class="form-control input-sm" ng-model="popData.name" placeholder="Enter Name" required>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Address</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <input type="text" class="form-control input-sm" ng-model="popData.addr" ng-disabled="true">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Latitude</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <input type="text" class="form-control input-sm" ng-model="popData.lat" ng-disabled="true">
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-sm-4 control-label">Longitude</label>
+                    <div class="col-sm-8">
+                      <div class="fg-line">
+                        <input type="text" class="form-control input-sm" ng-model="popData.lng" ng-disabled="true">
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer p-t-0">
+        <button class="btn btn-success" ng-disabled="!popData.name" ng-click="saveInfoLandmark()">Create</button>
+        <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+    </div>
+</form>
