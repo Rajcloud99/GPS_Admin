@@ -1,0 +1,60 @@
+<form name="LoginForm" ng-submit="login(LoginForm)">
+	<div class="col-md-4 col-sm-3 col-xs-3 log" style="margin-left: -14px;">
+		<div class="lgo">
+        <a class="company_logo" ng-click="redirectToHome()">
+		   		<!-- <i class="zmdi zmdi-truck zmdi-hc-fw"></i> Future Trucks -->
+          <img ng-src="{{distributerInfo.logo_url}}" alt="Logo ">
+			</a>
+		</div>
+	</div>
+	<div ng-if="!verifyOtp" class="col-md-2 col-sm-3 col-xs-3 pdl in1 mbl-lgn">
+     <div class="input-group" ng-class="{ 'has-error': LoginForm.mobileNumber.$touched && LoginForm.mobileNumber.$invalid }">
+        <div class="fg-line">
+          <input type="number" class="p-0-10 form-control" title="Mobile Number" placeholder="Enter Mobile Number" name="mobileNumber" ng-model="user.mobileNumber" 
+             id="mobileNumber" ng-minlength="10" ng-maxlength="10" ng-pattern="/^[1-9]{1}[0-9]{9}$/" ng-required="true">
+        </div>
+         <!-- <small ng-messages="LoginForm.mobileNumber.$error" ng-messages-include="error-messages"></small> -->
+        <div class="help-block" ng-messages="LoginForm.mobileNumber.$error" ng-if="LoginForm.mobileNumber.$touched">
+          <small ng-message="minlength">Your No. is too short.</small>
+          <small ng-message="maxlength">Your No. is too long.</small>
+          <small ng-message="required">Your No. is required.</small>
+        </div>
+     </div>
+	</div>
+	<div ng-if="!verifyOtp" class="col-md-2 col-sm-3 col-xs-3 pdr in2 mbl-lgn">
+     <div class="input-group m-b-10" ng-class="{ 'has-error': LoginForm.password.$touched && LoginForm.password.$invalid }">
+         <div class="fg-line">
+             <input type="password" class="p-0-10 form-control" title="Password" placeholder="Enter Password" ng-model="user.password" name="password" ng-required="true">
+             <a ng-click="forgot_pass()" class="pointer wht">Forgot Password</a>
+         </div>
+         <!-- <small ng-messages="LoginForm.password.$error" ng-messages-include="error-messages"></small> -->
+         <div class="help-block" ng-messages="LoginForm.password.$error" ng-if="LoginForm.password.$touched">
+          <small ng-message="required">Password is required.</small>
+        </div>
+     </div>
+	</div>
+	<div ng-if="verifyOtp" class="col-md-6 col-sm-6 col-xs-5">
+    <div class="col-md-6 col-sm-6 col-xs-5">
+  		<div class="input-group m-b-20">
+         <div class="fg-line">
+             <input type="test" class="form-control" placeholder="Enter OTP" name="enterOtp"
+             ng-model="user.otp" ng-required="true">
+         </div>
+         <small ng-messages="LoginForm.enterOtp.$error" ng-messages-include="error-messages"></small>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-5">
+      <button tooltip="Register" type="submit" ng-click="verifyOTPAPI()" class="btn btn-success" ng-class="{disabled:loading}" value="Register">Register</button>
+      <button tooltip="Resend OTP" type="button" class="btn btn-primary nopadding" ng-click="resendOTP()"><span class="glyphicon glyphicon-send" aria-hidden="false"></span></button>
+    </div>
+	</div>
+
+	<div ng-if="!verifyOtp" class="col-md-3 col-sm-3 col-xs-3 lgn-btn pdl">
+		<button style="min-height: 33px;" title="Sign-In" class="br0 sign-in btn btn-primary waves-effect" type="submit"><i class="zmdi zmdi-arrow-forward"></i> &nbsp;Sign In</button>
+		<button style="min-height: 33px;" title="Create Account" class="br0 sign-up btn btn-success waves-effect" ng-click="redirect('register.html')"><i class="zmdi zmdi-account-add zmdi-hc-fw"></i> &nbsp;Sign Up</button>
+	</div>
+</form>
+
+  <div ng-controller="gpsCtrl" class="col-md-1 col-sm-1 col-xs-1 pd-l-r4">
+    <button ng-if="!verifyOtp" style="min-height: 33px;" class="btn btn-primary waves-effect" ng-click="redirectToGPS()" > &nbsp;GPS Sign In</button>
+  </div>

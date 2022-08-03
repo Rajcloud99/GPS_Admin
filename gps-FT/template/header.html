@@ -1,0 +1,150 @@
+<div ng-controller="headerCtrl">
+    <ul class="header-inner">
+        <!-- <li id="menu-trigger" data-target="mainmenu" data-toggle-sidebar data-model-left="mactrl.sidebarToggle.left" data-ng-class="{ 'open': mactrl.sidebarToggle.left === true }">
+            <div class="line-wrap">
+                <div class="line top"></div>
+                <div class="line center"></div>
+                <div class="line bottom"></div>
+            </div>
+        </li>
+         -->
+        <li class="logo">
+            <a data-ui-sref="main.map" ng-click="states.actItm='map_view'">
+                <div class="company_logo">
+                    <img ng-src="{{distributerInfo.logo_url}}" alt="Logo">
+                </div>&nbsp;&nbsp; <span>{{distributerInfo.name}}</span>
+            </a>
+            <div class="clearfix"></div>
+        </li>
+
+        <li class="pull-right">
+            <ul class="top-menu">
+                <!--<li ng-class="{'h-light': 'map_view' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="states.actItm='map_view'">
+                    <a data-ui-sref="main.map">Map View</a>
+                </li>-->
+
+                <li class="open-sub" ng-class="{'h-light': 'cPanel' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin' || !(selectedUser.gps_view)" ng-click="states.actItm='cPanel'">
+                    <a href="" class="drpdwn">Trip Sheet</a>
+                    <ul class="main-menu drp">
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.tripDetails" data-ng-click="mactrl.sidebarStat($event)">Trip Details</a></li>
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.oderDetails" data-ng-click="mactrl.sidebarStat($event)">Order Details</a></li>
+                    </ul>
+                </li>
+
+<!--                <li ng-class="{'h-light': 'tripSheet' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin' || !(selectedUser.gps_view)" ng-click="states.actItm='tripSheet'">-->
+<!--                    <a data-ui-sref="main.tripSheet">TripSheet</a>-->
+<!--                </li>-->
+                <li ng-class="{'h-light': 'List_View' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="states.actItm='List_View'">
+                    <a data-ui-sref="main.ListView">TrackSheet</a>
+                </li>
+                <li ng-class="{'h-light': 'playback' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="states.actItm='playback'">
+                    <a data-ui-sref="main.playBack">Playback</a>
+                </li>
+                <li ng-class="{'h-light': 'report' == states.actItm}" ng-hide="selectedUser.role == 'admin'" ng-click="states.actItm='report'">
+                    <a data-ui-sref="main.basicReports">Reports</a>
+                </li>
+                <!--<li ng-class="{'h-light': 'trip' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="states.actItm='trip'">
+                    <a data-ui-sref="main.tripList">Trips</a>
+                </li>-->
+                <li ng-class="{'h-light': 'landmark' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="states.actItm='landmark'">
+                    <a data-ui-sref="main.landmark">Landmark</a>
+                </li>
+                <li ng-class="{'h-light': 'beat' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'  || !(selectedUser.beat)" ng-click="states.actItm='beat'">
+                    <a data-ui-sref="main.beat">Beat</a>
+                </li>
+                <li ng-class="{'h-light': 'geozones' == states.actItm}" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="states.actItm='geozones'">
+                    <a data-ui-sref="main.geozonesList">Geofence</a>
+                </li>
+                <li ng-class="{'h-light': 'analytic' == states.actItm}" ng-click="states.actItm='analytic'">
+                    <a data-ui-sref="main.analytic">Analytics</a>
+                </li>
+                <li ng-class="{'h-light': 'alert' == states.actItm}" ng-click="states.actItm='alert'">
+                    <a data-ui-sref="main.otherNotification" href="javascript:void(0)" ng-click="alertCount=undefined">Alert<i class="tmn-counts">{{alertCount}}</i></a>
+                </li>
+
+                <li class="open-sub" ng-class="{'h-light': 'cPanel' == states.actItm}" ng-click="states.actItm='cPanel'"  ng-hide="selectedUser.role == 'user'">
+                    <a href="" class="drpdwn">Control Panel</a>
+                    <ul class="main-menu drp">
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.userCreate" data-ng-click="mactrl.sidebarStat($event)">Register User</a></li>
+                        <li ng-click="states.actItm='cPanel'" ng-hide="selectedUser.role == 'dealer'"><a data-ui-sref="main.deviceRegister" data-ng-click="mactrl.sidebarStat($event)">Register Device</a></li>
+                        <!-- <li><a data-ui-sref="main.addDevice" data-ng-click="mactrl.sidebarStat($event)">Add Device</a></li>
+                        <li><a href="#">Associate User</a></li> -->
+                    </ul>
+                </li>
+                <!-- <li>
+                    <a href="index.html#!/map1" >Live Map</a>
+                </li> -->
+                <li ng-class="{'h-light': 'userP' == states.actItm}" ng-click="states.actItm='userP'">
+                    <a data-ui-sref="main.user">User</a>
+                </li>
+                <!-- <li ng-class="{'h-light': 'alert' == states.actItm}" ng-click="states.actItm='alert'">
+                    <a data-ui-sref="main.alertList">Alerts</a>
+                </li> -->
+
+                <li id="settings" class="open-sub" ng-class="{'h-light': 'cPanel' == states.actItm}" ng-click="states.actItm='cPanel'">
+                    <a href=""><i class="zmdi zmdi-settings"></i></a>
+                    <ul class="main-menu drp" style="right: 0; left: auto;">
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.user" data-ng-click="mactrl.sidebarStat($event)">Back Home</a></li>
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.profile" data-ng-click="mactrl.sidebarStat($event)">Profile</a></li>
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.complaints" data-ng-click="mactrl.sidebarStat($event)">Complaints</a></li>
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.passChange" data-ng-click="mactrl.sidebarStat($event)">Change Password</a></li>
+                        <li ng-click="states.actItm='cPanel'"><a data-ui-sref="main.alertList" data-ng-click="mactrl.sidebarStat($event)">Setting</a></li>
+                        <li id="logout">
+                            <a ng-click="logout()" class="pointer">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- <li id="toggle-width">
+                    <div class="toggle-switch" style="margin-top:5px">
+                        <input id="tw-switch" type="checkbox" hidden="hidden" data-change-layout="mactrl.layoutType">
+                        <label for="tw-switch" class="ts-helper"></label>
+                    </div>
+                </li> -->
+            </ul>
+        </li>
+
+        <div class="clearfix"></div>
+</ul>
+<div class="clearfix"></div>
+<div ng-show="loader">
+    <div class="ldr-shad">
+        <img id="spinner" class="loader" ng-src="img/ajax-loader.gif">
+    </div>
+</div>
+<div ng-show="reconnectDiv">
+    <p class="reconnect">Reconnecting... &nbsp;&nbsp;<a href="" ng-click="reconnectRequest()">Try Now</a></p>
+</div>
+
+</div>
+
+<style>
+    .cut-text1 {
+        display: inline-block;
+        width: 180px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+    }
+    .cut-text {
+        /*display: inline-block;*/
+        display: inline-list-item;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 160px;
+        height: 1.2em;
+        white-space: nowrap;
+    }
+    .lvs-header {
+        text-align: center;
+        padding: 5px 5px 5px;
+        line-height: 100%;
+        text-transform: uppercase;
+        border-bottom: 1px solid #F0F0F0;
+        font-weight: 500;
+        color: #4C4C4C;
+        margin-bottom: 0px;
+    }
+
+</style>
+
+

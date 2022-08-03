@@ -1,0 +1,120 @@
+<aside id="sidebar-2" class="sidebar">
+    <div ng-controller="sidebarCtrl">
+        <div class="side_in" id="top-content">
+            <!-- <h1>Sidebar goes here ...</h1> -->
+            <!-- Nested node template -->
+            <script type="text/ng-template" id="nodes_renderer.html">
+                <div ui-tree-handle class="tree-node tree-node-content"
+                     ng-class="{'active': node.user_id == states.activeItem}"
+                     ng-click="states.activeItem = node.user_id;  preserveSelectedUser(node); showDevice(node); toggle(this)">
+                    <a class="btn btn-success btn-xs" data-nodrag ng-click="">
+                        <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}"></span>
+                    </a>
+                    <a class="nnm"> &nbsp;
+                        <span class="glyphicon glyphicon-user"
+                         ng-class="{'blk': node.type=='dealer','hblk': node.type!='dealer'}"
+                         aria-hidden="true"></span> &nbsp; {{node.name}}
+                        ({{node.type}})
+                    </a>
+                    <span ng-if="node.sub_users.length > 0" class="badge"
+                     uib-tooltip-placement="left"
+                     uib-tooltip="Sub Users">{{node.sub_users.length}}</span>
+                </div>
+                <ol ui-tree-nodes="" ng-model="node.sub_users" ng-class="{hidden: collapsed}">
+                    <li ng-repeat="node in node.sub_users | filter: userName" ui-tree-node collapsed="true"
+                        ng-include="'nodes_renderer.html'">
+                    </li>
+                </ol>
+            </script>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group m-b-5">
+                        <div class="input-group input-group-sm"
+                             style="border: 1px solid #E8E8E8;padding: 6px; width:100%;margin-top: 2px;">
+                            <span class="glyphicon glyphicon-search" id="sizing-addon4"></span>
+                            <input class="" type="text" ng-model="userName" placeholder="Search users here..."
+                                   title="Please enter user name" aria-describedby="sizing-addon4"
+                                   style="border: none; width:66%;padding: 0 5px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-sm-12">
+                    <div ui-tree data-drag-enabled="false" id="tree-root">
+                        <ol ui-tree-nodes ng-model="data">
+                            <li ng-repeat="node in data | filter: userName" ui-tree-node collapsed="false"
+                                ng-include="'nodes_renderer.html'"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- <hr> -->
+        <div id="bottom-content" class="side_down"
+             ng-hide=" selectedUser.role == 'dealer' || selectedUser.role == 'admin' || !sidebarDevices">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="devices">
+                        <div class="input-group input-group-sm"
+                             style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+                            <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                            <input class="" type="text" ng-model="vehicleNum"
+                                   placeholder="Search By  Vehicle Number......" title="Please enter  Vehicle Number"
+                                   aria-describedby="sizing-addon1" style="border: none; width:66%;padding: 0 5px;">
+                        </div>
+                        <ul>
+                            <li ng-repeat="device in aTrSheetDevice | filter: vehicleNum"
+                                ng-class="{'bg_dark': device.imei == stat2.activeItem}"
+                                ng-click=" stat2.activeItem = device.imei">
+                                <a href=""
+                                   ng-class="{'f-online': device.status == 'stopped' , 'f-offline' : device.status == 'offline' , 'f-running' : device.status == 'running', 'f-inactive' : device.status == 'inactive'}"
+                                   ng-click="zoomDeviceInMap(device);">
+                                    {{device.reg_no || device.imei}}
+                                </a>&nbsp;&nbsp;
+                                <span class="pull-right">
+                                    <a ng-class="{gray:device.status == 'inactive', gray: device.status == 'offline'}" href="" uib-tooltip="Tracking" ng-click="trackLive(device)"><span
+                                            class="glyphicon glyphicon-road"></span></a>&nbsp;&nbsp;
+                                    <a ng-click="commands(device)" href="" uib-tooltip="Commands"><span
+                                            class="glyphicon glyphicon-tasks"></span></a>&nbsp;&nbsp;
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content-resizer"
+             resizer="horizontal"
+             resizer-height="6"
+             resizer-top="#top-content"
+             resizer-bottom="#bottom-content">
+        </div>
+    </div>
+</aside>
+<div id="sidebar-resizer"
+     resizer="vertical"
+     resizer-width="6"
+     resizer-left="#sidebar-2"
+     resizer-right="#content-2"
+     resizer-max="400">
+</div>
+
+<style>
+    .red {
+        color: red;
+    }
+
+    .gray {
+        color: gray !important;
+    }
+
+    .gray:hover {
+        color: gray;
+    }
+
+    .blue {
+        color: #2196F3;
+    }
+</style>

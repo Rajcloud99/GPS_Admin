@@ -1,0 +1,67 @@
+<aside class="sidebar" style="width: 21%;">
+  <div>
+    <div class="side_in">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="back('home')" style="height: 14px; margin-left: 5px;">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+            <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="back('back')"  style="height: 14px;">Map</a>&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;
+            <a ng-model="timeHalf" class="wavesUrl waves-effect" ng-click="" style="height: 14px;">Device</a>
+            <!-- <h4 class="m-t-5">
+              <a href="" ng-click="back()" class="btn btn-primary waves-effect sign-in">
+                <i class="zmdi zmdi-long-arrow-return zmdi-hc-fw"></i> <span>BACK</span>
+              </a>
+            </h4> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div >
+             <div class="map-sidePopup" >
+                  <!-- <p ng-if="deviceInfo.device_id">Device ID: <span> {{deviceInfo.device_id }} </span></p> -->
+                  <p>Vehicle No: <span> {{deviceInfoB.reg_no }} </span></p>
+                  <p>Speed: <span>{{setValueSidebar.speed }} Km/h </span></p>
+                  <p ng-if="acc_high">ACC: <span>{{acc_high }} </span></p>
+                  <p>Date Time: <span>{{setValueSidebar.datetime }}</span></p>
+                  <!-- <p>Position: <span>Lat:{{sLat}}, Long:{{sLng}}</span></p> -->
+                  <button class="pointer btn btn-info" ng-click="toggleFullScreen()" uib-tooltip="Full Screen View" tooltip-placement="bottom" style="margin-left: 20%;margin-top: 10%;font-size:40px;">
+                     <i class="zmdi zmdi-fullscreen-alt zmdi-hc-fw"></i>
+                  </button>
+                  <div>
+                    <span><input type="checkbox" ng-model="showIcon" ng-change = "showLandmarks(showIcon)">&nbsp; Show Landmarks</span>
+                  </div>
+                  <!-- <div class="row" style="height: 20%;"> -->
+                    <div class="col-sm-12">
+                        <div class="devices">
+                            <div class="input-group input-group-sm"
+                                  style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
+                                <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
+                                <input class="" type="text" ng-model="vehicleNum"
+                                        placeholder="Search By  Vehicle Number......" title="Please enter  Vehicle Number"
+                                        aria-describedby="sizing-addon1" style="border: none; width:66%;padding: 0 5px;">
+                            </div>
+                            <ul style="height: 260px; overflow-y: scroll;">
+                                <li ng-repeat="device in aTrSheetDevice | filter: vehicleNum"
+                                    ng-class="{'bg_dark': device.imei == stat2.activeItem}"
+                                    >
+                                    <label class="radio radio-inline m-r-20"
+                                        ng-class="{'f-online': device.status == 'stopped' , 'f-offline' : device.status == 'offline' , 'f-running' : device.status == 'running', 'f-inactive' : device.status == 'inactive'}"
+                                        >
+                                        <input type="radio" name="radio12" ng-click="showDevice(device,true);"  ng-model="device_selected" ng-value="device" />
+                                        <i class="input-helper"></i>
+                                        {{device.reg_no || device.imei}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,35 @@
+<ul class="header-inner">
+    <!-- <li id="menu-trigger" data-target="mainmenu" data-toggle-sidebar data-model-left="mactrl.sidebarToggle.left" data-ng-class="{ 'open': mactrl.sidebarToggle.left === true }">
+        <div class="line-wrap">
+            <div class="line top"></div>
+            <div class="line center"></div>
+            <div class="line bottom"></div>
+        </div>
+    </li>
+     -->
+    <li class="logo">
+        <a data-ui-sref="login">
+            <div class="company_logo">
+                <img ng-src="{{distributerInfo.logo_url}}" alt="Logo">
+            </div>&nbsp;&nbsp; <span>{{distributerInfo.name}}</span>
+        </a>
+        <div class="clearfix"></div>
+    </li>
+    
+    <li class="pull-right">
+        <h5>Tracking Vehicle --  <b>{{sharedVehicleNo}}</b></h5>
+    </li>
+
+      <div class="clearfix"></div>
+  </div>
+</ul>
+<div class="clearfix"></div>
+<div ng-show="loader">
+    <div class="ldr-shad">
+        <img id="spinner" class="loader" ng-src="img/ajax-loader.gif">
+    </div>
+</div>
+<div ng-show="reconnectDiv">
+    <p class="reconnect">Reconnecting... &nbsp;&nbsp;<a href="" ng-click="reconnectRequest()">Try Now</a></p>
+</div>
+
