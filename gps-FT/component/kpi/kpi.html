@@ -1,0 +1,181 @@
+<div class="container m-b-10 m-l-5 m-r-0" ng-class="{ 'ja-fullscreen' : vm.showFullscreen}">
+	<div class="card m-b-0" id="messages-main" ng-style="vm.getHeight(vm.graphNo.type)">
+
+		<div class="col-md-12">
+			<div ng-hide="false"
+				 class="jaGraphType"
+				 ja-value="">
+			</div>
+			<h4 class="pull-left">
+				<u>{{vm.graph.name}}</u>
+			</h4>
+			<div class="pull-right p-t-5">
+				<ul class="lv-actions actions m-r-0">
+					<li class="btn-wave"
+						ng-if="vm.graph.description">
+						<div class="ja-tooltip">
+							<a href="javascript:void(0)">
+								<i class="zmdi zmdi-help-outline zmdi-hc-fw pointer"
+								   style="font-size: 18px; color: #adadad"></i>
+							</a>
+							<span class="ja-tooltiptext">{{vm.graph.description}}</span>
+						</div>
+					</li>
+					<li class="btn-wave" data-ui-sref-active="active">
+						<a href="javascript:void(0)"
+						   uib-tooltip="Fullscreen"
+						   ng-if="vm.fullscreen"
+						   tooltip-placement="bottom"
+						   ng-click="vm.loadFullscreen();">
+							<i class="zmdi zmdi-fullscreen zmdi-hc-fw fs-25 pointer" ng-if="!vm.showFullscreen"></i>
+							<i class="zmdi zmdi-fullscreen-exit zmdi-hc-fw fs-25 pointer" ng-if="vm.showFullscreen"></i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)"
+						   uib-tooltip="Filter"
+						   tooltip-placement="bottom"
+						   ng-if="false"
+						   ng-click="mactrl.sideFilter.toggle()">
+							<i class="zmdi zmdi-filter-list zmdi-hc-fw fs-25 pointer"></i>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)"
+						   uib-tooltip="Setting"
+						   tooltip-placement="bottom"
+						   ng-if="vm.setting"
+						   ng-click="vm.showSetting()">
+							<i class="zmdi zmdi-settings zmdi-hc-fw fs-25 pointer"></i>
+						</a>
+					</li>
+				</ul>
+				<ng-transclude></ng-transclude>
+			</div>
+		</div>
+
+		<div class="col-md-12 m-b-5" ng-if="vm.activateChangeOnFullscreen || vm.showFullscreen">
+			<div class="col-sm-2">
+				<div class="form-group m-b-0" ng-if="vm.graph.graphType.length > 1">
+					<select chosen
+							class="form-control"
+							disable-search=true
+							ng-model="vm.graphNo"
+							ng-options="item as item.type for item in vm.graph.graphType">
+					</select>
+				</div>
+			</div>
+			<form novalidate
+				  name="kpiForm"
+				  ng-if="vm.graph.filter">
+				<div class="col-sm-2" ng-if="vm.graph.filter.aAggregatedBy">
+					<div class="form-group m-b-0">
+						<select chosen
+								class="form-control"
+								disable-search=true
+								ng-model="vm.filter.aggregateByValue"
+								ng-change="vm.refreshAnalytic(kpiForm)"
+								ng-options="item.value as item.name for item in vm.graph.filter.aAggregatedBy">
+							<option value="" selected disabled>Aggregated By</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-sm-2" >
+					<div class="form-group m-b-0">
+						<div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened1 == true }">
+							<div class="fg-line" ng-class="{ 'fg-toggled': opened1 == true }">
+								<input ng-click="vm.DatePicker.openDatePicker(this, $event, 'opened1')"
+									   type="text"
+									   class="form-control"
+									   uib-datepicker-popup="{{DatePicker.formats[0]}}"
+									   show-weeks="false"
+									   ng-model="vm.filter.from"
+									   is-open="opened1"
+									   datepicker-options="vm.DatePicker.dateSettings"
+									   ng-change="vm.setMaxDate()"
+									   close-text="Close"
+									   placeholder="From"
+									   required
+									   style="padding: 0px 4px;height: 34px;" />
+							</div>
+							<span class="input-group-btn">
+										<button type="button" class="btn btn-default m-t-0 f12"
+												ng-click="vm.DatePicker.openDatePicker(this, $event, 'opened1')">
+											<i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="form-group m-b-0">
+						<div class="date-picker input-group dp-blue" ng-class="{ 'is-opened': opened2 == true }">
+							<div class="fg-line" ng-class="{ 'fg-toggled': opened2 == true }">
+								<input ng-click="vm.DatePicker.openDatePicker(this, $event, 'opened2')"
+									   type="text"
+									   class="form-control"
+									   uib-datepicker-popup="{{DatePicker.formats[0]}}"
+									   show-weeks="false"
+									   ng-model="vm.filter.to"
+									   ng-disabled="!vm.filter.from"
+									   min-date="vm.filter.from"
+									   max-date="vm.maxDate"
+									   ng-change="vm.refreshAnalytic(kpiForm)"
+									   is-open="opened2"
+									   datepicker-options="vm.DatePicker.dateSettings"
+									   close-text="Close"
+									   placeholder="To"
+									   required
+									   style="padding: 0px 4px;height: 34px;" />
+							</div>
+							<span class="input-group-btn">
+										<button type="button" class="btn btn-default m-t-0 f12"
+												ng-click="vm.DatePicker.openDatePicker(this, $event, 'opened1')">
+											<i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2" ng-if="vm.graph.filter.aAggregatedBy.aLevel.length && vm.filter.aggregateByValue === 'Date Wise'">
+					<div class="form-group m-b-0">
+						<select chosen
+								class="form-control"
+								disable-search=true
+								ng-model="vm.filter.levelValue"
+								ng-change="vm.refreshAnalytic(kpiForm)"
+								ng-options="item.value as item.name for item in vm.graph.filter.aAggregatedBy.aLevel">
+							<option value="" selected disabled>Level</option>
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="col-md-12 nvd3-wrapper"
+			 style=""
+			 ng-if="vm.graphNo.type !== 'table' && vm.resetGraphVal">
+			<nvd3 options="vm.chart.options"
+				  api="vm.graph.api"
+				  data="vm.chart.data" ></nvd3>
+		</div>
+
+		<div class="col-md-12"
+			 ng-if="vm.graphNo.type === 'table'">
+			<div class="detailsList card" style="background: white">
+				<div class="" style="overflow-y: auto;">
+					<table class="table table-bordered unresponsive invoiceDetail">
+						<thead>
+							<tr>
+								<th ng-repeat="head in vm.chart.options.chart.head">{{head}}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="body in vm.chart.data">
+								<td ng-repeat="head in vm.chart.options.chart.head">{{body[head]}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
