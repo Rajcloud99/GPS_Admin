@@ -6,3 +6,6 @@
 /node_modules/
 /gps-FT/package-lock.json
 /package-lock.json
+/gps-FT/lib/
+/gps-FT/.project
+/gps-FT/build.bat
