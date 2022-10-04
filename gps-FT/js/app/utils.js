@@ -3,7 +3,7 @@
  */
 
 
-materialAdmin.factory('utils', function($rootScope, $http, $uibModal, $localStorage, GoogleMapService) {
+materialAdmin.factory('utils', function($rootScope, $http, $uibModal, $localStorage, GoogleMapService, gpsAnalyticService) {
 	var utils = {
 		sayHello: function() {
 			return "Hello Ajju ..... ";
@@ -93,27 +93,40 @@ materialAdmin.factory('utils', function($rootScope, $http, $uibModal, $localStor
         return markerClusterLayer;
     };
 
-	utils.getAddress = function (info, callback){
-		if(info.start && info.start.latitude && info.start.longitude){
-			var lat = info.start.latitude;
-			var lng = info.start.longitude;
-		}else{
-			var lat = info.lat;
-			var lng = info.lng;
-		}
-		//var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
-		var latlngUrl = "http://13.229.178.235:4242/reverse?lat="+lat+"&lon="+lng;
-		$http({
-			method : "GET",
-			url : latlngUrl
-		}).then(function mySucces(response) {
-			info.formatedAddr = response.data.display_name;
-			callback();
-		}, function myError(response) {
-			info.formatedAddr = response.statusText;
-		});
+    utils.getAddress = function (info, callback) {
+        if (info.start && info.start.latitude && info.start.longitude) {
+            var lat = info.start.latitude;
+            var lng = info.start.longitude;
+        } else {
+            var lat = info.lat;
+            var lng = info.lng;
+        }
 
-	};
+        var searchValue = {lat:lat,lon:lng};
+        gpsAnalyticService.getAddress(searchValue,success,failure);
+
+        function success(response){
+            console.log(response);
+            info.formatedAddr = response.display_name;
+            callback();
+        }
+        function failure(response){
+            console.log(response);
+            info.formatedAddr = response.statusText;
+        }
+
+        //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
+        // var latlngUrl = "http://3.6.84.38:4242/reverse?lat=" + lat + "&lon=" + lng;
+        // $http({
+        // 	method: "GET",
+        // 	url: latlngUrl
+        // }).then(function mySucces(response) {
+        // 	info.formatedAddr = response.data.display_name;
+        // 	callback();
+        // }, function myError(response) {
+        // 	info.formatedAddr = response.statusText;
+        // });
+    };
 
     utils.addOnCluster = function (mapObj, marker, obj) {
         var a = obj;

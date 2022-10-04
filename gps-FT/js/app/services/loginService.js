@@ -1,10 +1,22 @@
-materialAdmin.service('LoginService', ['$rootScope', '$localStorage', 'socketio', function($rootScope, $localStorage, socketio) {
+materialAdmin.service('LoginService', ['$rootScope', '$localStorage', 'socketio', 'HTTPConnection', 'URL',function($rootScope, $localStorage, socketio, HTTPConnection, URL) {
 	/*this.userLogin = function(loginData, response) {
 		var sUser = loginData;
 		socketio.emit('message',sUser);
 		$rootScope.authenticationCallback = response;
 		//socketio.on('message', response);
 	};*/
+
+	this.getSubUserV2     = getSubUserV2;
+
+	function getSubUserV2(request, successCallback) {
+
+		HTTPConnection.post(URL.GET_SUB_USER, request, onSuccess);
+
+		function onSuccess(data) {
+			if(typeof successCallback === 'function')
+				successCallback(data.data);
+		}
+	}
 
 	this.getCurrentUser = function() {
 		var curUser = {};
@@ -16,6 +28,10 @@ materialAdmin.service('LoginService', ['$rootScope', '$localStorage', 'socketio'
 		var sSubUser = subUserData;
 		socketio.emit('message',sSubUser);
 		$rootScope.subUserCallback = response;
+	};
+	this.getUser = function(userData, response) {
+		socketio.emit('message',userData);
+		$rootScope.getUserCallback = response;
 	};
 
 	this.getDevice = function(deviceData, response) {

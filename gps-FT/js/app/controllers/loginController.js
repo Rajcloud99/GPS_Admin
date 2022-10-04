@@ -13,6 +13,7 @@ materialAdmin.controller("userLogin", ['$rootScope', '$scope', '$localStorage', 
                     }
                 }
                 $localStorage.user = oRes.data;
+                $rootScope.loginUser = oRes.data;
                 $localStorage.preservedSelectedUser = $localStorage.user;
                 if (oRes.data.role === 'user') {
                     $rootScope.redirect('/#!/main/ListView');
@@ -191,6 +192,11 @@ materialAdmin.controller("sidebarCtrl", ['$rootScope', '$scope', '$localStorage'
     $scope.showDevice = function (node) {
         //!*******fetch sub users start*******!//
         $rootScope.selectedUser.sub_users = $rootScope.selectedUser.sub_users || [];
+        $scope.s1 = true;
+        for(var i=2; i<=8; i++){
+            $scope['s'+(i)] = false;
+        }
+
 
         if($rootScope.maps && $rootScope.maps.clusterL && $rootScope.maps.clusterL.Cluster && $rootScope.maps.clusterL.Cluster._markers && $rootScope.maps.clusterL.Cluster._markers.length>0) {
             $rootScope.maps.clusterL.Cluster._markers = [];  // remove all old markers when sidebar user clicked

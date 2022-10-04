@@ -532,7 +532,7 @@ ul.s_menu_left {
 @media screen and (max-width: 439px) {
     .logo{width: 150px;}
 }
-@media screen and (max-width: 319px) { ... }
+@media screen and (max-width: 319px) {}
 
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {

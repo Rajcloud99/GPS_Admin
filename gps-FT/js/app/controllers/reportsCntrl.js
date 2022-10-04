@@ -1208,7 +1208,9 @@ materialAdmin.controller('reportsDataCtrl', function ($rootScope, $localStorage,
     /********************** reverse geocoding google server *****************************/
 
     /*************** reverse geocoding own server ****************/
-    $rootScope.viewAddr = function (index) {
+
+    $rootScope.viewAddr = function(index){
+
         if (index.start && index.start.latitude && index.start.longitude) {
             var lat = index.start.latitude;
             var lng = index.start.longitude;
@@ -1216,21 +1218,25 @@ materialAdmin.controller('reportsDataCtrl', function ($rootScope, $localStorage,
             var lat = index.lat;
             var lng = index.lng;
         }
-        //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
-        var latlngUrl = "http://13.229.178.235:4242/reverse?lat=" + lat + "&lon=" + lng;
-        $http({
-            method: "GET",
-            url: latlngUrl
-        }).then(function mySucces(response) {
-            //$scope.myWelcome = response.data;
 
-            index.formatedAddr = response.data.display_name;
+        if(!lat || !lng){
+            return;
+        }
+
+        var searchValue = {lat:lat,lon:lng};
+        gpsAnalyticService.getAddress(searchValue,success,failure);
+
+        function success(response){
+            console.log(response);
+            index.formatedAddr = response.display_name;
             index.showBtn = false;
-        }, function myError(response) {
-            //$scope.myWelcome = response.statusText;
+        }
+        function failure(response){
+            console.log(response);
             index.formatedAddr = response.statusText;
             index.showBtn = false;
-        });
+        }
+
     }
     /*************** reverse geocoding own server ****************/
     //$rootScope.reportData

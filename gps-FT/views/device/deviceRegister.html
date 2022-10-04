@@ -15,7 +15,7 @@
                   <div class="form-group">
                     <div class="fg-line" ng-class="{ 'has-error': deviceRegisForm.imei.$touched && deviceRegisForm.imei.$invalid }">
                       <label for="">IMEI No. <span class="c-red">*</span></label> 
-                      <input ng-model="device.imei" name="imei" type="Number" id="imei" class="form-control" placeholder="Enter IMEI" ng-change="checkDeviceIMEI(device.imei)" required>
+                      <input ng-model="device.imei" name="imei" type="Number" id="imei" class="form-control" placeholder="Enter IMEI" ng-model-options="{ updateOn: 'blur' }" ng-change="checkDeviceIMEI(device.imei)" required>
                       <h5 ng-show = "isAvailableIMEI" style="color: #36F45F!important;">{{msg2}}</h5>
                       <h5 ng-show = "!isAvailableIMEI" class="c-red">{{msg1}}</h5>
                     </div>
@@ -29,9 +29,9 @@
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                   <div class="form-group fg-line" >
-                    <label for="">Device Type <span class="c-red">*</span></label> 
+                    <label for="">Device Type </label>
                     <!-- <input ng-model="device.device_type" type="text" id="" class="form-control" placeholder="Enter Modal Id"> -->
-                    <select ng-model="device.device_type" ng-options="dType.type as dType.desc for dType in aDeviceType" class="form-control"  required>
+                    <select ng-model="device.device_type" ng-options="dType.type as dType.desc for dType in aDeviceType" class="form-control">
                       <option value="" style="display: none;"> Select Device Type </option>
                     </select>
                   </div>

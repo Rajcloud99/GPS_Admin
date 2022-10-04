@@ -163,8 +163,7 @@ function tripSheetController(
             oFilter.type = type;
 
         if ($localStorage.user.lms_url)
-           // oFilter.url = $localStorage.user.lms_url + 'api/trips/getTrip';
-           oFilter.url = "http://localhost:3002/" + 'api/trips/getTrip';
+            oFilter.url = $localStorage.user.lms_url + 'api/trips/getTrip';
 
         if ($localStorage.user.lms_token)
             oFilter.lms_token = $localStorage.user.lms_token;

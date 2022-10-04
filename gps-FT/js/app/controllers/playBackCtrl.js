@@ -618,16 +618,16 @@ materialAdmin.controller('playPositionCtrl', function ($rootScope, $scope, DateU
         $scope.hourSel2 = eDT.getHours();
         $scope.minuteSel2 = eDT.getMinutes();
 
-        $scope.totalDistance = 0;
-
-        for (var i = 0; i < $scope.aPlayPosiData.length; i++) {
-            if ($scope.aPlayPosiData[i]) {
-                $scope.totalDistance = $scope.totalDistance + parseFloat($scope.aPlayPosiData[i].distance);
-            }
-        }
-        $scope.totalDistance = $scope.totalDistance.toFixed(2);
+        // $scope.totalDistance = 0;
+        //
+        // for (var i = 0; i < $scope.aPlayPosiData.length; i++) {
+        //     if ($scope.aPlayPosiData[i]) {
+        //         $scope.totalDistance = $scope.totalDistance + parseFloat($scope.aPlayPosiData[i].distance);
+        //     }
+        // }
+        // $scope.totalDistance = $scope.totalDistance.toFixed(2);
         //$scope.totalDistance = $scope.totalDistance/1000;
-        $scope.playData.tot_dist = $scope.totalDistance;
+        // $scope.playData.tot_dist = $scope.totalDistance;
 
         //********play marker ************/
         $scope.showStop = false;

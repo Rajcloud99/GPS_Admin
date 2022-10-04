@@ -318,7 +318,6 @@ body #content{padding: 0;}
 .marquee p:nth-child(7) {animation: left-seven 20s ease infinite;}
 .card{background: #f7f5ee;}
 .card .col-md-12 {background: #fff;}
-.card .col-mdg-12 {background: ;}
 .cal {margin-left: 17px;}
 .cal  h3{color: #fff;}
 .w50{width: 50%;}

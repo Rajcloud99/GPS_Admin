@@ -1,4 +1,4 @@
-materialAdmin.controller('tripListCtrl', function ($rootScope,$localStorage,$scope,$http,$uibModal,DateUtils,TripService,$timeout) {
+materialAdmin.controller('tripListCtrl', function ($rootScope,$localStorage,$scope,$http,$uibModal,DateUtils,TripService,gpsAnalyticService,$timeout) {
   $rootScope.showSideBar = false;
   $scope.progressHide = true; 
   $scope.aPageState = [
@@ -287,30 +287,60 @@ materialAdmin.controller('tripListCtrl', function ($rootScope,$localStorage,$sco
   };
 
   /*************** reverse geocoding own server ****************/
-    $rootScope.showAdd = function(trip){
-      if(trip.start && trip.start.latitude && trip.start.longitude){
-        var lat = trip.start.latitude;
-        var lng = trip.start.longitude;
-      }else{
-        var lat = trip.cur_location.lat;
-        var lng = trip.cur_location.lng;
-      }
-      //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
-      var latlngUrl = "http://13.229.178.235:4242/reverse?lat="+lat+"&lon="+lng;
-      $http({
-        method : "GET",
-        url : latlngUrl
-      }).then(function mySucces(response) {
-          //$scope.myWelcome = response.data;
-          
-          trip.formatedAddr = response.data.display_name;
-          trip.showBtn = false;
-      }, function myError(response) {
-          //$scope.myWelcome = response.statusText;
-          trip.formatedAddr = response.statusText;
-          trip.showBtn = false;
-      });
+  $rootScope.showAdd = function(trip){
+
+    if(trip.start && trip.start.latitude && trip.start.longitude){
+      var lat = trip.start.latitude;
+      var lng = trip.start.longitude;
+    }else{
+      var lat = trip.cur_location.lat;
+      var lng = trip.cur_location.lng;
     }
+
+    if(!lat || !lng){
+      return;
+    }
+
+    var searchValue = {lat:lat,lon:lng};
+    gpsAnalyticService.getAddress(searchValue,success,failure);
+
+    function success(response){
+      console.log(response);
+      trip.formatedAddr = response.display_name;
+      trip.showBtn = false;
+    }
+    function failure(response){
+      console.log(response);
+      trip.formatedAddr = response.statusText;
+      trip.showBtn = false;
+    }
+
+  }
+
+    // $rootScope.showAdd = function(trip){
+    //   if(trip.start && trip.start.latitude && trip.start.longitude){
+    //     var lat = trip.start.latitude;
+    //     var lng = trip.start.longitude;
+    //   }else{
+    //     var lat = trip.cur_location.lat;
+    //     var lng = trip.cur_location.lng;
+    //   }
+    //   //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
+    //   var latlngUrl = "http://3.6.84.38:4242/reverse?lat="+lat+"&lon="+lng;
+    //   $http({
+    //     method : "GET",
+    //     url : latlngUrl
+    //   }).then(function mySucces(response) {
+    //       //$scope.myWelcome = response.data;
+    //
+    //       trip.formatedAddr = response.data.display_name;
+    //       trip.showBtn = false;
+    //   }, function myError(response) {
+    //       //$scope.myWelcome = response.statusText;
+    //       trip.formatedAddr = response.statusText;
+    //       trip.showBtn = false;
+    //   });
+    // }
   /*************** reverse geocoding own server ****************/
 
   $scope.removeTrip = function (trip) {
@@ -398,27 +428,28 @@ materialAdmin.controller('tripListCtrl', function ($rootScope,$localStorage,$sco
           console.log(info);
 
           //*********get address on marker by own server start ************//
-            function getAddress (info, callback){
-              if(info.cur_location.start && info.cur_location.start.latitude && info.cur_location.start.longitude){
-                var lat = info.cur_location.start.latitude;
-                var lng = info.cur_location.start.longitude;
-              }else{
-                var lat = info.cur_location.lat;
-                var lng = info.cur_location.lng;
-              }
-              //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
-              var latlngUrl = "http://13.229.178.235:4242/reverse?lat="+lat+"&lon="+lng;
-              $http({
-                method : "GET",
-                url : latlngUrl
-              }).then(function mySucces(response) {
-                  info.cur_location.formatedAddr = response.data.display_name;
-                  callback();
-              }, function myError(response) {
-                  info.cur_location.formatedAddr = response.statusText;
-              });
-                
+            function getAddress(info, callback) {
+            if(info.cur_location.start && info.cur_location.start.latitude && info.cur_location.start.longitude){
+              var lat = info.cur_location.start.latitude;
+              var lng = info.cur_location.start.longitude;
+            }else{
+              var lat = info.cur_location.lat;
+              var lng = info.cur_location.lng;
             }
+
+            var searchValue = {lat:lat,lon:lng};
+            gpsAnalyticService.getAddress(searchValue,success,failure);
+
+            function success(response){
+              console.log(response);
+              info.cur_location.formatedAddr = response.display_name;
+              callback();
+            }
+            function failure(response){
+              console.log(response);
+              info.cur_location.formatedAddr = response.statusText;
+            }
+          }
           //*******get address end ************//
 
           if(info.cur_location.status == 'online' && info.cur_location.speed > 0){

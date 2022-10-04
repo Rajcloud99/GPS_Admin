@@ -375,7 +375,7 @@ materialAdmin.controller('googleMapZoomCtrl', function ($rootScope, $localStorag
             $scope.aSelectedLandmark = SelectedLandmark;
             $uibModal.open({
                 templateUrl: 'views/landmark/upsertLandmark.html',
-                controller: ['$rootScope', '$http', '$scope', '$timeout', '$uibModalInstance', '$localStorage', 'landmarkService', 'otherUtils', 'otherData', 'utils', landmarkUpsertController],
+                controller: ['$rootScope', '$http', '$scope', '$timeout', '$uibModalInstance', '$localStorage', 'landmarkService', 'otherUtils', 'otherData', 'utils', 'gpsAnalyticService', landmarkUpsertController],
                 controllerAs: 'luVm',
                 resolve: {
                     otherData: function () {
@@ -615,7 +615,7 @@ materialAdmin.controller('googleMapZoomCtrl', function ($rootScope, $localStorag
         var stopMap = {};
         if ($stateParams.device_id) {
             stopMap.device_id = $stateParams.device_id;
-            if ($rootScope.hmapAllDevices[stopMap.device_id] && $rootScope.hmapAllDevices[stopMap.device_id].device_type) {
+            if ($rootScope.hmapAllDevices && $rootScope.hmapAllDevices[stopMap.device_id] && $rootScope.hmapAllDevices[stopMap.device_id].device_type) {
                 stopMap.device_type = $rootScope.hmapAllDevices[stopMap.device_id].device_type;
             }
             stopMap.user_id = $localStorage.selectedUser.user_id;
@@ -1365,7 +1365,7 @@ materialAdmin.controller('ListViewController', function ($rootScope, $scope, $ht
         $scope.aSelectedLandmark = SelectedLandmark;
         $uibModal.open({
             templateUrl: 'views/landmark/upsertLandmark.html',
-            controller: ['$rootScope', '$http', '$scope', '$timeout', '$uibModalInstance', '$localStorage', 'landmarkService', 'otherUtils', 'otherData', 'utils', landmarkUpsertController],
+            controller: ['$rootScope', '$http', '$scope', '$timeout', '$uibModalInstance', '$localStorage', 'landmarkService', 'otherUtils', 'otherData', 'utils', 'gpsAnalyticService', landmarkUpsertController],
             controllerAs: 'luVm',
             resolve: {
                 otherData: function () {
@@ -1992,7 +1992,33 @@ materialAdmin.controller('reportsBasicCtrl', function ($rootScope, $localStorage
     }
 
     /*************** reverse geocoding own server ****************/
-    $rootScope.viewAddr = function (index) {
+    // $rootScope.viewAddr = function (index) {
+    //     if (index.start && index.start.latitude && index.start.longitude) {
+    //         var lat = index.start.latitude;
+    //         var lng = index.start.longitude;
+    //     } else {
+    //         var lat = index.lat;
+    //         var lng = index.lng;
+    //     }
+    //     //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
+    //     var latlngUrl = "http://3.6.84.38:4242/reverse?lat=" + lat + "&lon=" + lng;
+    //     $http({
+    //         method: "GET",
+    //         url: latlngUrl
+    //     }).then(function mySucces(response) {
+    //         //$scope.myWelcome = response.data;
+    //
+    //         index.formatedAddr = response.data.display_name;
+    //         index.showBtn = false;
+    //     }, function myError(response) {
+    //         //$scope.myWelcome = response.statusText;
+    //         index.formatedAddr = response.statusText;
+    //         index.showBtn = false;
+    //     });
+    // }
+
+    $rootScope.viewAddr = function(index){
+
         if (index.start && index.start.latitude && index.start.longitude) {
             var lat = index.start.latitude;
             var lng = index.start.longitude;
@@ -2000,21 +2026,25 @@ materialAdmin.controller('reportsBasicCtrl', function ($rootScope, $localStorage
             var lat = index.lat;
             var lng = index.lng;
         }
-        //var latlngUrl = "http://52.220.18.209/reverse?format=json&lat="+lat+"&lon="+lng+"&zoom=18&addressdetails=0";
-        var latlngUrl = "http://13.229.178.235:4242/reverse?lat=" + lat + "&lon=" + lng;
-        $http({
-            method: "GET",
-            url: latlngUrl
-        }).then(function mySucces(response) {
-            //$scope.myWelcome = response.data;
 
-            index.formatedAddr = response.data.display_name;
+        if(!lat || !lng){
+            return;
+        }
+
+        var searchValue = {lat:lat,lon:lng};
+        gpsAnalyticService.getAddress(searchValue,success,failure);
+
+        function success(response){
+            console.log(response);
+            index.formatedAddr = response.display_name;
             index.showBtn = false;
-        }, function myError(response) {
-            //$scope.myWelcome = response.statusText;
+        }
+        function failure(response){
+            console.log(response);
             index.formatedAddr = response.statusText;
             index.showBtn = false;
-        });
+        }
+
     }
     /*************** reverse geocoding own server ****************/
     //$rootScope.reportData

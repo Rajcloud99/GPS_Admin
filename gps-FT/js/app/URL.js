@@ -36,6 +36,10 @@ materialAdmin.service('URL', ['DateUtils','$location', function(DateUtils,$locat
     this.GET_TRIPS = this.LMS_URL + 'api/trips/getTrip';
     this.LIVE_TRACKER_VEHICLE = 'api/tracking/vehiclewise';
     this.VEHICLE_PLAYBACK = this.TRUCKU_URL + 'api/reports/playback';
+    this.GET_ADDRESS = this.GEO_URL + "reverse";
+
+    this.GET_SUB_USER = this.TRUCKU_URL + 'api/user/getAllSubUser';
+
 
     // Student Parent
     this.ADD_PARENT_RFID    = this.GEO_URL + 'parentDetail/add';

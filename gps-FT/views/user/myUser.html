@@ -24,8 +24,8 @@
             <th>Type</th>
             <th>User Name</th>
             <th>Mobile</th>
-            <th>Device Qty.</th>
-            <th>Balance</th>
+            <th>Stock</th>
+            <th>Total</th>
             <th>Operate</th>
         </tr>
         </thead>
@@ -35,8 +35,8 @@
             <td>{{user.type}}</td>
             <td>{{user.name}}</td>
             <td>{{user.mobile}}</td>
-            <td>{{user.device_qty || 'NA'}}</td>
-            <td>{{user.balance || 'NA'}}</td>
+            <td>{{user.stock || '0'}}</td>
+            <td>{{user.total_device || '0'}}</td>
             <td>
               <a href="" ng-show="localStorageUser.role == 'admin'" tooltip="Update User" ng-click="editUser(user)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
               <a href="" ng-show="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="removeSubUser(user)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;

@@ -2,9 +2,11 @@
 materialAdmin.service('gpsAnalyticService',
     [	'HTTPConnection',
         'URL',
+        'otherUtils',
         function(
             HTTPConnection,
-            URL
+            URL,
+            otherUtils
         ){
 
             // functions Identifiers
@@ -22,9 +24,21 @@ materialAdmin.service('gpsAnalyticService',
             this.getDayWiseTagReport    = getDayWiseTagReport;
             this.getRfidName            = getRfidName;
             this.getDevice              = getDevice;
-            this.getTrips              = getTrips;
+            this.getTrips               = getTrips;
+            this.getAddress             = getAddress;
 
             // Actual Functions
+
+            function getAddress(oQuery,success,failure) {
+                var parseSuccessResp = function(data){
+                    success(data.data);
+                };
+                var parseFailureResp = function(data){
+                    failure(data);
+                };
+                var url_with_params = URL.GET_ADDRESS + otherUtils.prepareQeuryParams(oQuery);
+                HTTPConnection.get(url_with_params, parseSuccessResp, parseFailureResp);
+            }
 
             function getReport(request, successCallback) {
 

@@ -91,7 +91,42 @@ materialAdmin.controller("myUserCtrl",['$rootScope', '$scope','$localStorage','$
     });
 
     $rootScope.sUser = user;
+
   };
+
+  $scope.getAllSubUserV2 = function (resUser){
+    function subUserRes(response){
+      if(response){
+        if(response.status == 'OK' && response.data){
+          response.data.forEach(obj=> {
+            $scope.selectedUser.sub_users.forEach(obj2=> {
+              if(obj2.user_id === obj.user_id) {
+                obj2.stock = obj.stock || 0;
+                obj2.total_device = obj.total_device || 0;
+              }
+            })
+          })
+          // $scope.selectedUser.sub_users = response.data;
+          // $scope.$apply(function() {
+          //   $scope.selectedUser = $scope.selectedUser;
+          // });
+          //node.sub_users = oRes.data.sub_users;
+        }
+        else if(response.status == 'ERROR'){
+          //swal(oRes.message, "", "error");
+        }
+      }
+    }
+
+    var sUsr = {};
+    sUsr.user_id = resUser.user_id;
+    sUsr.selected_uid = resUser.user_id;
+    sUsr.login_uid = resUser.user_id;
+    sUsr.subUser = resUser.sub_users.map(o=> o.user_id);
+    LoginService.getSubUserV2(sUsr,subUserRes);
+  }
+  $scope.getAllSubUserV2($scope.selectedUser);
+
   $scope.getAllSubUser = function (resUser){
       //$scope.selectedUserNew = resUser.data;
       function subUserRes(response){
@@ -193,6 +228,7 @@ materialAdmin.controller("editUserCtrl",['$rootScope', '$scope', '$localStorage'
       selectedUser.request = 'update_user';
       selectedUser.login_uid = $localStorage.user.user_id;
       selectedUser.selected_uid = selectedUser.user_id;
+      selectedUser.update_uid = selectedUser.user_id;
       RegistrationService.userUpdateByAdmin(selectedUser,updateResp);
     }
   };
@@ -201,6 +237,29 @@ materialAdmin.controller("editUserCtrl",['$rootScope', '$scope', '$localStorage'
 }]);
 materialAdmin.controller("myDeviceCtrl",['$rootScope', '$scope','$uibModal','$localStorage','LoginService','RegistrationService', function($rootScope, $scope,$uibModal,$localStorage,LoginService,RegistrationService) {
   $rootScope.showSideBar = true;
+
+  $scope.getloginUser = function (resUser){
+    //$scope.selectedUserNew = resUser.data;
+    function userSuccess(response){
+      var oRes = JSON.parse(response);
+      if(oRes){
+        if(oRes.status == 'OK'){
+          $scope.selectedUser.sub_users = oRes.data.sub_users;
+        }
+        else if(oRes.status == 'ERROR'){
+          //swal(oRes.message, "", "error");
+        }
+      }
+    };
+
+    var sUsr = {};
+    sUsr.user_id = resUser.user_id;
+    sUsr.request = 'get_user';
+    sUsr.loadUsers = true;
+    LoginService.getUser(sUsr,userSuccess);
+  }
+  // $scope.getloginUser($localStorage.user);
+
   /*
 //!************get device **************!/
   //!*******fetch devices*******!//

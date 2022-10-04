@@ -263,7 +263,7 @@ materialAdmin.controller('landmarkListCtrl', function
 
         $uibModal.open({
             templateUrl: 'views/landmark/upsertLandmark.html',
-            controller: ['$rootScope', '$http', '$scope', '$timeout', '$uibModalInstance', '$localStorage', 'landmarkService', 'otherUtils', 'otherData', 'utils', landmarkUpsertController],
+            controller: ['$rootScope', '$http', '$scope', '$timeout', '$uibModalInstance', '$localStorage', 'landmarkService', 'otherUtils', 'otherData', 'utils', 'gpsAnalyticService', landmarkUpsertController],
             controllerAs: 'luVm',
             resolve: {
                 otherData: function () {
@@ -365,7 +365,8 @@ materialAdmin.controller('landmarkCreateCtrl', function (
     GoogleMapService,
     LoginService,
     otherUtils,
-    limitToFilter
+    limitToFilter,
+    gpsAnalyticService
 ) {
     $rootScope.showSideBar = false;
     $rootScope.states = {};
@@ -651,21 +652,26 @@ materialAdmin.controller('landmarkCreateCtrl', function (
 
     };
 
-    $scope.getAddress = function (lat, lng) {
+    $scope.getAddress = function(lat, lng){
+
         $scope.lat = lat;
         $scope.lng = lng;
         if (!lat || !lng) {
             return;
         }
 
-        var url = "http://13.229.178.235:4242/reverse?lat=" + lat + "&lon=" + lng;
-        $http({
-            method: "get",
-            url: url
-        }).then(function (response) {
-            $scope.address = response.data.display_name;
-            $scope.oLandmark.address = response.data.display_name;
-        });
+        var searchValue = {lat:lat,lon:lng};
+        gpsAnalyticService.getAddress(searchValue,success,failure);
+
+        function success(response){
+            console.log(response);
+            $scope.address = response.display_name;
+            $scope.oLandmark.address = response.display_name;
+        }
+        function failure(response){
+            console.log(response);
+        }
+
     }
 
     $scope.landmark = {};
@@ -676,18 +682,22 @@ materialAdmin.controller('landmarkCreateCtrl', function (
         }
     };
 
-    function getAddressByLatLng(lat, lng, callbackData) {
-        var latlngUrl = "http://13.229.178.235:4242/reverse?lat=" + lat + "&lon=" + lng;
-        $http({
-            method: "GET",
-            url: latlngUrl
-        }).then(function mySucces(response) {
-            //$scope.myWelcome = response.data;
+    function getAddressByLatLng(lat, lng, callback) {
+        if(!lat || !lng){
+            return;
+        }
 
-            callbackData(response.data.display_name);
-        }, function myError(response) {
-            callbackData(0)
-        });
+        var searchValue = {lat:lat,lon:lng};
+        gpsAnalyticService.getAddress(searchValue,success,failure);
+
+        function success(response){
+            console.log(response);
+            callback(response.display_name);
+        }
+        function failure(response){
+            console.log(response);
+            callback(0)
+        }
     }
 
     $rootScope.addLandDataCallback = function (response) {
@@ -769,7 +779,8 @@ function landmarkUpsertController(
     landmarkService,
     otherUtils,
     otherData,
-    utils
+    utils,
+    gpsAnalyticService
 ) {
 
     let vm = this;
@@ -895,21 +906,27 @@ function landmarkUpsertController(
         });
     }
 
-    function getAddress(lat, lng) {
+
+    function getAddress(lat,lng){
+
         vm.lat = lat;
         vm.lng = lng;
-        if (!lat || !lng) {
+        if(!lat || !lng){
             return;
         }
 
-        var url = "http://13.229.178.235:4242/reverse?lat=" + lat + "&lon=" + lng;
-        $http({
-            method: "get",
-            url: url
-        }).then(function (response) {
-            vm.address = response.data.display_name;
-            vm.oLandmark.address = response.data.display_name;
-        });
+        var searchValue = {lat:lat,lon:lng};
+        gpsAnalyticService.getAddress(searchValue,success,failure);
+
+        function success(response){
+            console.log(response);
+            vm.address = response.display_name;
+            vm.oLandmark.address = response.display_name;
+        }
+        function failure(response){
+            console.log(response);
+        }
+
     }
 
 

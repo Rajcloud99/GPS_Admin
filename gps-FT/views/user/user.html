@@ -14,12 +14,12 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3" ng-if="selectedUser.user_id == loginUser.user_id">
           <div class="adj2">
             <span class="glyphicon glyphicon-inbox ttt"></span>
             <span class="ttt">Stock/Total</span>
             <br>
-            <span>{{selectedUser.devices.length || 0}} / {{selectedUser.devices.length || 0}}</span>
+            <span>{{selectedUser.stock || 0}} / {{selectedUser.total_device || 0}}</span>
           </div>
         </div>
         <div class="col-sm-3">

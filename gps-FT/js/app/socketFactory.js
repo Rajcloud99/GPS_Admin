@@ -172,6 +172,8 @@ materialAdmin.factory('socketio', ['$rootScope', '$localStorage', '$sessionStora
                 return $rootScope.mapStopCallback(args);
             } else if (oRes.request === "sub_users") {
                 return $rootScope.subUserCallback(args);
+            } else if (oRes.request === "get_user") {
+                return $rootScope.getUserCallback(args);
             } else if (oRes.request === "register_device") {
                 return $rootScope.deviceRegisCallback(args);
             } else if (oRes.request === "get_devide_types") {
