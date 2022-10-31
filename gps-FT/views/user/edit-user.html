@@ -14,7 +14,7 @@
         <label for="" class="col-sm-2 control-label">User Name:</label>
         <div class="col-sm-4">
           <div class="fg-line">
-            <input type="text" ng-model="selectedUser.name" class="form-control">
+            <input type="text" ng-model="selectedUser.name" class="form-control" ng-disabled="true">
           </div>
         </div>
         <label for="" class="col-sm-2 control-label">User Type:</label>
@@ -28,13 +28,19 @@
         <label for="" class="col-sm-2 control-label">Mobile:</label>
         <div class="col-sm-4">
           <div class="fg-line">
-            <input type="text" ng-model="selectedUser.mobile" class="form-control">
+            <input type="text" ng-model="selectedUser.mobile" class="form-control" ng-disabled="true">
           </div>
         </div>
         <label for="" class="col-sm-2 control-label">Password:</label>
         <div class="col-sm-4">
-          <div class="fg-line">
-            <input  type="text" ng-model="selectedUser.password" class="form-control">
+          <div class="fg-line form-group">
+            <!-- <input  type="password" ng-model="selectedUser.password" class="form-control"> -->
+              <div class="input-group">
+               <input type="{{inputType}}" name="password" class="form-control" ng-model="inputPassword" placeholder="" />
+               <span class="input-group-addon">
+                <i class="{{showHideClass}}" ng-click="showPassword(selectedUser.password)" style="cursor:pointer"></i>
+               </span>
+             </div>
           </div>
         </div>
       </div>

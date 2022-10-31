@@ -245,11 +245,15 @@ materialAdmin.controller(
                     $rootScope.plotMarkerOnMap(res.data); // create markers ion map with new data...
 
                     $rootScope.totalCount = res.total_count || 0;   // total count of devices show ...
-
+                    $rootScope.getDeviceByUsers();
                     //$rootScope.aUpdateData = res.data;
                     if ($rootScope.aTrSheetDevice.length < res.total_count) {
                         $rootScope.aTrSheetDevice = $rootScope.aTrSheetDevice.concat(res.data)
                     }
+                    if($rootScope.aTrSheetDevice.length == res.total_count){
+                        $rootScope.enableRefresh=true;
+                    }
+                    
                     //$rootScope.aTrSheetDevice = ()?$rootScope.aTrSheetDevice.concat(res.data):;
 
                     /////////////////////////////////////////////////////////////////////////////////
@@ -274,6 +278,29 @@ materialAdmin.controller(
 
                 }
             };
+            $rootScope.getDeviceByUsers = function (){
+                function subUser(oRes){
+                    if(oRes){
+                        if(oRes.status == 'OK'){
+                            if(oRes && oRes.data){
+                                $rootScope.aMyTrSheetDevice = oRes.data;
+                            }
+                        }
+                        else if(oRes.status == 'ERROR'){
+                            //swal(oRes.message, "", "error");
+                        }
+                    }
+                };
+
+
+                var sUsr = {};
+                let selected_uid = $localStorage.preservedSelectedUser && $localStorage.preservedSelectedUser.user_id ||'';
+                let login_uid = $rootScope.localStorageUser && $rootScope.localStorageUser.user_id ||'';
+                sUsr.user_id = selected_uid;
+                sUsr.selected_uid = selected_uid;
+                sUsr.login_uid = login_uid;
+                $rootScope.getDeviceByUser(sUsr,subUser);
+            }
             $rootScope.plotMarkerOnMap = function (data) {
                 if (data && data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
@@ -339,6 +366,7 @@ materialAdmin.controller(
 
             $rootScope.softRefreshPage = function () {
                 ///if logged in
+                $rootScope.enableRefresh=false;
                 if ($localStorage.preservedSelectedUser) {
                     if (!socketio.socket()) {
                         var onSuccessConnect = function () {

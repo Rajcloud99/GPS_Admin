@@ -93,6 +93,28 @@ materialAdmin.controller("myUserCtrl",['$rootScope', '$scope','$localStorage','$
     $rootScope.sUser = user;
 
   };
+  $scope.downloadRpt = function () {
+   let resUser =  $scope.selectedUser;
+    var sUsr = {};
+    sUsr.user_id = resUser.user_id;
+    sUsr.selected_uid = resUser.user_id;
+    sUsr.login_uid = resUser.user_id;
+    sUsr.download = true;
+    sUsr.subUser = resUser.sub_users.map(o=> o.user_id);
+    LoginService.getSubUserV2(sUsr,onSuccess);
+
+    function onSuccess(data) {
+      if (data.data) {
+        var a = document.createElement('a');
+        a.href = data.data;
+        a.download = data.data;
+        a.target = '_blank';
+        a.click();
+      } else {
+        swal("warning", res.data.message, "warning");
+      }
+    }
+  }
 
   $scope.getAllSubUserV2 = function (resUser){
     function subUserRes(response){
@@ -103,6 +125,7 @@ materialAdmin.controller("myUserCtrl",['$rootScope', '$scope','$localStorage','$
               if(obj2.user_id === obj.user_id) {
                 obj2.stock = obj.stock || 0;
                 obj2.total_device = obj.total_device || 0;
+                obj2.password=obj.password||'';
               }
             })
           })
@@ -128,28 +151,29 @@ materialAdmin.controller("myUserCtrl",['$rootScope', '$scope','$localStorage','$
   $scope.getAllSubUserV2($scope.selectedUser);
 
   $scope.getAllSubUser = function (resUser){
-      //$scope.selectedUserNew = resUser.data;
-      function subUserRes(response){
-        var oRes = JSON.parse(response);
-        if(oRes){
-          if(oRes.status == 'OK'){
-            $scope.selectedUser.sub_users = oRes.data.sub_users;
-            $scope.$apply(function() {
-              $scope.selectedUser = $scope.selectedUser;
-            });
-            //node.sub_users = oRes.data.sub_users;
-          }
-          else if(oRes.status == 'ERROR'){
-            //swal(oRes.message, "", "error");
-          }
+
+    function subUser(oRes){
+      if(oRes){
+        if(oRes.status == 'OK'){
+          $scope.selectedUser.sub_users = oRes.data.sub_users || [];
+          $rootScope.localStorageUser.sub_users=$scope.selectedUser.sub_users;          
+          $scope.$apply(function() {
+            $scope.selectedUser = $scope.selectedUser;
+          });
+          //node.sub_users = oRes.data.sub_users;
         }
-      };
+        else if(oRes.status == 'ERROR'){
+          //swal(oRes.message, "", "error");
+        }
+      }
+    };
 
       var sUsr = {};
-      sUsr.user_id = resUser.data.selected_uid;
-      sUsr.request = 'sub_users';
-      sUsr.sub_user = resUser.data.selected_uid;
-      LoginService.getSubUser(sUsr,subUserRes);
+      let userId = resUser.data.selected_uid
+      sUsr.user_id = userId;
+      sUsr.selected_uid = userId;
+      sUsr.login_uid = userId;
+      LoginService.getAllUser(sUsr,subUser);
     }
   //DELETE GPS GAADI
     $scope.removeSubUser = function(user){
@@ -199,6 +223,7 @@ materialAdmin.controller("myUserCtrl",['$rootScope', '$scope','$localStorage','$
 
 materialAdmin.controller("editUserCtrl",['$rootScope', '$scope', '$localStorage','$window', '$uibModal', '$uibModalInstance','$interval','$state', '$timeout','RegistrationService', function($rootScope, $scope, $localStorage,$window, $uibModal, $uibModalInstance, $interval,$state, $timeout,RegistrationService) {
   $rootScope.showSideBar = true;
+  $scope.decriptPassword=decriptPassword;
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
@@ -206,6 +231,35 @@ materialAdmin.controller("editUserCtrl",['$rootScope', '$scope', '$localStorage'
   /*$scope.selectedDevice = {
      pooled : 0
   };*/
+
+  $scope.inputType = 'password';
+  $scope.showHideClass = 'glyphicon glyphicon-eye-open';
+  $scope.inputPassword='************';
+
+  $scope.showPassword = function(password){
+   if(password != null)
+   {
+    if($scope.inputType == 'password')
+    {
+      $scope.inputType = 'text';
+      decriptPassword(password);
+      $scope.showHideClass = 'glyphicon glyphicon-eye-close';
+    }
+    else
+    {
+      $scope.inputType = 'password';
+      $scope.showHideClass = 'glyphicon glyphicon-eye-open';
+    }
+   }
+  };
+
+  function decriptPassword(password){
+    const myPassword = "Ash123";
+    let decrypted = CryptoJS.AES.decrypt(password, myPassword);
+    $scope.inputPassword = decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+  
 
   //******* edit device *************//
 
@@ -393,8 +447,7 @@ $scope.partner_d = true;*!/
         });
   };
 
-  function removeResDevice(response){
-    var oRes = JSON.parse(response);
+  function removeResDevice(oRes){
     if(oRes){
       //$rootScope.getDeviceByUid();
       $rootScope.softRefreshPage();
@@ -411,12 +464,12 @@ $scope.partner_d = true;*!/
   $scope.removeGPSGaadiConfirm = function (selectedVehicle) {
     $scope.selectedDeleted = {};
     if(selectedVehicle){
-      $scope.selectedDeleted.request = 'remove_gpsgaadi';
+      //$scope.selectedDeleted.request = 'remove_gpsgaadi';
       $scope.selectedDeleted.selected_uid = $scope.selectedUser.user_id;
+      $scope.selectedDeleted.login_uid=$localStorage.user.user_id;
       $scope.selectedDeleted.imei = selectedVehicle.imei;
-      $scope.selectedDeleted.created_at = selectedVehicle.created_at;
-
-      RegistrationService.removeGPSGaadi($scope.selectedDeleted,removeResDevice);
+      //$scope.selectedDeleted.created_at = selectedVehicle.created_at||new Date();
+      RegistrationService.removeGPSDevice($scope.selectedDeleted,removeResDevice);
     }
   };
 
@@ -958,7 +1011,9 @@ materialAdmin.controller("allocateDeviceCtrl",['$rootScope', '$scope', '$localSt
           $uibModalInstance.dismiss('cancel');
         }
         else if(oRes.status == 'ERROR'){
+          $rootScope.softRefreshPage();
           swal(oRes.message, "", "error");
+          $uibModalInstance.dismiss('cancel');
         }
       }
     };

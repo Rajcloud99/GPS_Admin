@@ -7,4 +7,3 @@ var getClientConfig = function () {
 	};
 	return oClientCoinfig;
 };
-

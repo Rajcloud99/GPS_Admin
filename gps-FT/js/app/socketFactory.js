@@ -222,6 +222,8 @@ materialAdmin.factory('socketio', ['$rootScope', '$localStorage', '$sessionStora
                 return $rootScope.addGeozoneCallback(args);
             } else if (oRes.request === "get_geozone") {
                 return $rootScope.GeozoneListCallback(args);
+            } else if (oRes.request === "get_geozone_download") {
+                return $rootScope.GeozoneDownloadCallback(args);
             } else if (oRes.request === "get_landmark") {
                 return $rootScope.landmarkListCallback(args);
             } else if (oRes.request === "get_nearest_landmark_for_point") {

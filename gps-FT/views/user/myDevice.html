@@ -52,7 +52,7 @@
         </tr>
         </thead>
         <tbody>
-          <tr data-ng-repeat="device in aTrSheetDevice | filter: deviceImei"  ng-hide = "!device.ownershipOwn && device.ownershipPart || device.ownershipOwn && !device.ownershipPart">
+          <tr data-ng-repeat="device in aMyTrSheetDevice | filter: deviceImei"  ng-hide = "!device.ownershipOwn && device.ownershipPart || device.ownershipOwn && !device.ownershipPart">
             <td>{{$index+1}}</td>
             <td><input type="checkbox" ng-model="device.selected" ng-hide="selectedUser.role == 'user'"> {{device.reg_no || device.name}}</td>
             <td>{{device.branch }}</td>

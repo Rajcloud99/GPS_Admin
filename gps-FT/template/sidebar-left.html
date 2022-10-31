@@ -65,7 +65,7 @@
                                    aria-describedby="sizing-addon1" style="border: none; width:66%;padding: 0 5px;">
                         </div>
                         <ul>
-                            <li ng-repeat="device in aTrSheetDevice | filter: vehicleNum"
+                            <li ng-repeat="device in aMyTrSheetDevice | filter: vehicleNum"
                                 ng-class="{'bg_dark': device.imei == stat2.activeItem}"
                                 ng-click=" stat2.activeItem = device.imei">
                                 <a href=""

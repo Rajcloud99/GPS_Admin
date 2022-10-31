@@ -649,7 +649,10 @@ materialAdmin.controller('ListViewController', function ($rootScope, $scope, $ht
         $rootScope.getAllTracksheetData($localStorage.preservedSelectedUser.user_id);
     }
     $scope.refreshData = function () {
-        $rootScope.softRefreshPage();
+        if($rootScope.enableRefresh){
+            $rootScope.softRefreshPage();
+        }
+        
     };
     $rootScope.states = {};
     $rootScope.states.actItm = 'List_View';

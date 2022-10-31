@@ -39,6 +39,9 @@ materialAdmin.service('URL', ['DateUtils','$location', function(DateUtils,$locat
     this.GET_ADDRESS = this.GEO_URL + "reverse";
 
     this.GET_SUB_USER = this.TRUCKU_URL + 'api/user/getAllSubUser';
+    this.GET_ALL_USER = this.TRUCKU_URL + 'api/user/getUser';
+    this.GET_DEVICE_BY_USER=this.TRUCKU_URL + 'api/device/getDeviceByUser';
+    this.REMOVE_GPS_DEVICE=this.TRUCKU_URL + 'api/device/removeDeviceFromUser';
 
 
     // Student Parent

@@ -400,8 +400,35 @@ materialAdmin.controller('geozonesListCtrl', function ($rootScope,$scope,$uibMod
         getGeoList.token = $localStorage.user.token;
         LoginService.getGeozoneList(getGeoList,geoListResponse);
     };
+    $rootScope.getGeoZone();
+    //****call geo list function
 
-    $rootScope.getGeoZone();   //****call geo list function
+
+    $rootScope.getGeoZoneDownload = function(){
+        function geoDownloadResponse(response){
+            var oRes = JSON.parse(response);
+            if(oRes){
+                if(oRes.status === 'OK'){
+                    $scope.sheetDownloadResp = oRes.data;
+                    console.log($scope.sheetDownloadResp);
+                    var a = document.createElement('a');
+                    a.href = $scope.sheetDownloadResp;
+                    a.download = $scope.sheetDownloadResp;
+                    a.target = '_blank';
+                    a.click();
+                }
+                else if(oRes.status === 'ERROR'){
+                }
+
+            }
+        }
+
+        var getGeoDownload = {};
+        getGeoDownload.request = 'get_geozone_download';
+        LoginService.getGeozoneDownload(getGeoDownload,geoDownloadResponse);
+    };
+
+
     //****** geo list get function **********//
     //****************pagination code start ************//
     $scope.setPage = function (pageNo) {

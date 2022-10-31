@@ -7,10 +7,32 @@ materialAdmin.service('LoginService', ['$rootScope', '$localStorage', 'socketio'
 	};*/
 
 	this.getSubUserV2     = getSubUserV2;
+	this.getAllUser = getAllUser;
+	$rootScope.getDeviceByUser = getDeviceByUser;
+
+	function getDeviceByUser(request, successCallback) {
+
+		HTTPConnection.post(URL.GET_DEVICE_BY_USER, request, onSuccess);
+
+		function onSuccess(data) {
+			if(typeof successCallback === 'function')
+				successCallback(data.data);
+		}
+	}
 
 	function getSubUserV2(request, successCallback) {
 
 		HTTPConnection.post(URL.GET_SUB_USER, request, onSuccess);
+
+		function onSuccess(data) {
+			if(typeof successCallback === 'function')
+				successCallback(data.data);
+		}
+	}
+
+	function getAllUser(request, successCallback) {
+
+		HTTPConnection.post(URL.GET_ALL_USER, request, onSuccess);
 
 		function onSuccess(data) {
 			if(typeof successCallback === 'function')
@@ -58,7 +80,10 @@ materialAdmin.service('LoginService', ['$rootScope', '$localStorage', 'socketio'
 		socketio.emit('message',geozoneListData);
 		$rootScope.GeozoneListCallback = response;
 	};
-
+	this.getGeozoneDownload = function(geozoneDownloadData, response) {
+		socketio.emit('message',geozoneDownloadData);
+		$rootScope.GeozoneDownloadCallback = response;
+	};
 	this.getDeviceInfoService = function(deviceInfoData, response) {
 		socketio.emit('message',deviceInfoData);
 		$rootScope.deviceInfoDataCallback = response;

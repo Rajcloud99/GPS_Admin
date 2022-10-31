@@ -72,42 +72,64 @@ materialAdmin.controller("userCreateCtrl",['$rootScope', '$scope','$timeout','Re
 		if(oRes){
             $rootScope.loader = false;
 			if(oRes.status == 'OK'){
-        swal({
-            title: "User successfully Registered",
-            /*text: "Go to User List page?",*/
-            type: "success",
-            showCancelButton: true,
-            cancelButtonColor: "rgb(77, 179, 224)",
-            cancelButtonText: "Register Another",
-            confirmButtonColor: "rgb(77, 179, 224)",
-            confirmButtonText: "User List",
-            closeOnConfirm: true,
-            html: false
-          }, function(isConfirm){
-             if (isConfirm) {
-              $rootScope.redirect('/#!/main/user');
-            } else {
-              $rootScope.redirect('/#!/main/userCreate');
+          function subUserRes(response){
+            var oRes = response;
+            if(oRes){
+              if(oRes.status == 'OK'){
+                $scope.selectedUser.sub_users = oRes.data.sub_users || [];
+                $rootScope.localStorageUser.sub_users=$scope.selectedUser.sub_users;
+                swal({
+                  title: "User successfully Registered",
+                  /*text: "Go to User List page?",*/
+                  type: "success",
+                  showCancelButton: true,
+                  cancelButtonColor: "rgb(77, 179, 224)",
+                  cancelButtonText: "Register Another",
+                  confirmButtonColor: "rgb(77, 179, 224)",
+                  confirmButtonText: "User List",
+                  closeOnConfirm: true,
+                  html: false
+                }, function(isConfirm){
+                   if (isConfirm) {
+                    $rootScope.redirect('/#!/main/user');
+                  } else {
+                    $rootScope.redirect('/#!/main/userCreate');
+                  }
+                  /*swal("Deleted!", "MY Device.", "success");*/
+                  
+                });
+                //swal(oRes.message, "", "success");
+                $scope.$apply(function() {
+                  $scope.registration = ''; 
+                  $scope.msg1 = '';
+                  $scope.msg2 = '';
+                  $scope.user.user_type = '';
+                  $scope.userType = '';
+                  $scope.registration = {
+                    role: 'user'
+                  };
+                  $scope.subTypeofUser = true;
+                  $scope.typeofDealer = false;
+                });
+                // $scope.$apply(function() {
+                //   $scope.selectedUser = $scope.selectedUser;
+                //   //$scope.selectedUser.sub_users = $scope.selectedUser.sub_users || [];
+                //   //$scope.selectedUser.sub_users.push(oRes.data.sub_users);
+                // });
+                //node.sub_users = oRes.data.sub_users;
+              }
+              else if(oRes.status == 'ERROR'){
+                //swal(oRes.message, "", "error");
+              }
             }
-            /*swal("Deleted!", "MY Device.", "success");*/
-            
-          });
-  				//swal(oRes.message, "", "success");
-          $scope.$apply(function() {
-            $scope.registration = ''; 
-            $scope.msg1 = '';
-            $scope.msg2 = '';
-            $scope.user.user_type = '';
-            $scope.userType = '';
-            $scope.registration = {
-              role: 'user'
-            };
-            $scope.subTypeofUser = true;
-            $scope.typeofDealer = false;
-          });
+          };
 
-        $scope.selectedUser.sub_users = $scope.selectedUser.sub_users || [];
-        $scope.selectedUser.sub_users.push(oRes.data);
+      var sUsr = {};
+      let resUser = $rootScope.localStorageUser
+      sUsr.user_id = resUser.user_id;
+      sUsr.selected_uid = resUser.user_id;
+      sUsr.login_uid = resUser.user_id;
+      LoginService.getAllUser(sUsr,subUserRes);
 			}
 			else if(oRes.status == 'ERROR'){
 				swal(oRes.message, "", "error");

@@ -6,12 +6,21 @@
              
         </div>
         <div class="col-sm-5 ">
-             
+
         </div>
-        <div class="col-sm-4 ">
+        <div class="col-sm-3">
+          <div class="adj2">
           <div class="input-group input-group-sm" style="border: 1px solid #E8E8E8;padding: 6px; width:100%;">
             <span class="glyphicon glyphicon-search" id="sizing-addon1"></span>
             <input  class="" type="text" ng-model="name" placeholder="Search By  User Name......" title="Please enter  User Name" aria-describedby="sizing-addon1" style="border: none;width:90%;">
+          </div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <div class="adj2">
+          <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" ng-click="downloadRpt(user)"><i class="zmdi zmdi-download zmdi-hc-fw"></i></button>
+              </span>
           </div>
         </div>
       </div>
@@ -38,7 +47,7 @@
             <td>{{user.stock || '0'}}</td>
             <td>{{user.total_device || '0'}}</td>
             <td>
-              <a href="" ng-show="localStorageUser.role == 'admin'" tooltip="Update User" ng-click="editUser(user)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
+              <a href="" ng-show="localStorageUser.role == 'admin'" tooltip="Update User" ng-click="editUser(user)"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
               <a href="" ng-show="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" ng-click="removeSubUser(user)" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;
               <!-- <a href="" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span></a>&nbsp;&nbsp;  -->
               <a href="" ng-hide="selectedUser.role == 'dealer' || selectedUser.role == 'admin'" tooltip="Extension upon expire"><span class="glyphicon glyphicon-time"></span></a>&nbsp;&nbsp; 

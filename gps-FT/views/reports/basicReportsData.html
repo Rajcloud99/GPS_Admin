@@ -163,7 +163,7 @@
                                                 <td>{{sReport.average_speed}}</td>
                                                 <td>{{sReport.duration}}</td>
                                                 <td>{{sReport.driveStatus}}</td>
-                                                <td>{{sReport.distance}}</td>
+                                                <td>{{(sReport.driveStatus === "Stopped") ? 0 : sReport.distance}}</td>
                                             </tr>
                                             <tr ng-if="dataX.data.length < 1">
                                               <td colspan="4"><h4>Report data is not available for vehicle for given time duration. </h4></td>

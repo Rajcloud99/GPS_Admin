@@ -4,6 +4,17 @@ materialAdmin.service('RegistrationService', ['$rootScope', 'socketio','HTTPConn
     this.addStudentParent     = addStudentParent;
     this.updateStudentParent  = updateStudentParent;
     this.getStudentParent     = getStudentParent;
+    this.removeGPSDevice = removeGPSDevice;
+
+    function removeGPSDevice(request, successCallback) {
+
+      HTTPConnection.post(URL.REMOVE_GPS_DEVICE, request, onSuccess);
+
+      function onSuccess(data) {
+        if(typeof successCallback === 'function')
+          successCallback(data.data);
+      }
+    }
 
     function addStudentParent(request, successCallback) {
 
