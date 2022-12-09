@@ -28,16 +28,16 @@
         </div>
       </div>
       <div ng-hide="localStorageUser.role == 'user'" class="form-group m-b-5">
-        <label class="col-sm-2 control-label">Device SIM card no.:</label>
+        <label class="col-sm-2 control-label">Mobile No.:</label>
         <div class="col-sm-4">
           <div class="fg-line">
             <input  type="text" class="form-control" ng-model="selectedDevice.sim_no" placeholder="Enter sim no.">
           </div>
         </div>
-        <label class="col-sm-2 control-label">SN no.:</label>
+        <label class="col-sm-2 control-label">SN No.:</label>
         <div class="col-sm-4">
           <div class="fg-line">
-            <input  type="text" class="form-control" ng-model="selectedDevice.sn" placeholder="Enter sn no." ng-disabled="true">
+            <input  type="text" class="form-control" ng-model="selectedDevice.sn" placeholder="Enter sn no.">
           </div>
         </div>
       </div>
@@ -198,11 +198,13 @@
         <div class="col-sm-4">
           <div class="fg-line">
             <div class="input-group date">
-                <md-input-container class="md-input-has-placeholder dateTimepickerInput">
-                    <input mdc-datetime-picker="" date="true" time="true" type="text"
-                     format="MMMM Do YYYY, h:mm a" max-date="dateTimeEnd" ng-model="selectedDevice.activation_time" class=" md-input" ng-disabled="user.role == 'user'"
-                    id="input_0">
-                </md-input-container>
+                <input ng-click="open($event, 'opened1')" type="text" class="form-control"
+											   uib-datepicker-popup="{{format}}" show-weeks="false"
+											   ng-model="selectedDevice.activation_time" is-open="opened1" datepicker-options="dateOptions1"
+											   close-text="Close" placeholder="From Date"
+                         max-date="selectedDevice.expiry_time"
+                         ng-disabled="user.role == 'user'"
+											   style="padding: 0px 4px;height: 34px;"/>
             </div>
           </div>
         </div>
@@ -210,10 +212,13 @@
         <div class="col-sm-4">
           <div class="fg-line">
             <div class="input-group date">
-              <md-input-container class="md-input-has-placeholder dateTimepickerInput">
-                  <input mdc-datetime-picker="" date="true" time="true" type="text"
-                   format="MMMM Do YYYY, h:mm a" min-date="dateTimeStart"="dateTimeEnd" ng-model="selectedDevice.expiry_time" class=" md-input" ng-disabled="user.role == 'user'" id="input_1">
-                </md-input-container>
+                  <input ng-click="open($event, 'opened2')" type="text" class="form-control"
+											   uib-datepicker-popup="{{format}}" show-weeks="false"
+											   ng-model="selectedDevice.expiry_time" is-open="opened2" datepicker-options="dateOptions2"
+											   close-text="Close" placeholder="To Date"
+                         min-date="selectedDevice.activation_time"
+                         ng-disabled="user.role == 'user'"
+											   style="padding: 0px 4px;height: 34px;"/>
             </div>
           </div>
         </div>

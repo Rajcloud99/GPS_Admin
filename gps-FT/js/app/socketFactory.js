@@ -381,7 +381,7 @@ materialAdmin.factory('socketio', ['$rootScope', '$localStorage', '$sessionStora
                 if ($localStorage) {
                     var reOuthData = data;
                     if ($localStorage.preservedSelectedUser) {
-                        reOuthData.selected_uid = $localStorage.preservedSelectedUser.user_id;
+                        reOuthData.selected_uid =reOuthData.selected_uid?reOuthData.selected_uid: $localStorage.preservedSelectedUser.user_id;
                     }
                     if ($localStorage.user) {
                         reOuthData.login_uid = $localStorage.user.user_id;

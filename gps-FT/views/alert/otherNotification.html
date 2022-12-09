@@ -135,6 +135,7 @@
                             <th style="background: #aaefed;">Event</th>
                             <th style="background: #aaefed;">Driver</th>
                             <th style="background: #aaefed;">Value</th>
+                            <th style="background: #aaefed;">Speed</th>
                             <th style="background: #aaefed;">Address</th>
                         </tr>
                     </thead>
@@ -149,6 +150,7 @@
                             <td>{{noti.code || "NA" }}</td>
                             <td>{{noti.driver || "NA" }}</td>
                             <td>{{noti.extra || "NA" }}</td>
+                            <td>{{noti.location && noti.location.speed   || "NA" }}</td>
                             <td>{{noti.location && noti.location.address || "NA" }}</td>
                         </tr>
                         <tr ng-if="!aOtherNotifications.length">

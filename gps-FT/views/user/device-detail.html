@@ -27,8 +27,8 @@
             <td>{{deviceDetail.reg_no || deviceDetail.name}}</td>
             <td>{{deviceDetail.imei}}</td>
             <td>{{deviceDetail.device_type}}</td>
-            <td>{{deviceDetail.activation_time || 'time'}}</td>
-            <td>{{deviceDetail.expiry_time || 'time'}}</td>
+            <td>{{deviceDetail.activation_time | date: "dd-mm-yyyy hh:MMa"}}</td>
+            <td>{{deviceDetail.expiry_time | date: "dd-mm-yyyy hh:MMa"}}</td>
             <td>
               <a href="" ng-click="edtDevice(deviceDetail)" tooltip="Edit"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp; 
               <a href="" ng-hide="selectedUser.role == 'user'" ng-click="allocDevice(deviceDetail)" tooltip="Device allocation"><span class="glyphicon glyphicon-retweet"></span></a>&nbsp;&nbsp; 

@@ -202,7 +202,7 @@ materialAdmin.controller('playBackCtrl', function ($rootScope, $localStorage, Da
     function playBackResponse(response) {
         var oRes = JSON.parse(response);
         $rootScope.loader = false;
-        if (oRes) {
+        if (oRes && oRes.data && oRes.data.length) {
             if (oRes.status === 'OK') {
                 for (var i = 0; i < oRes.data.length; i++) {
                     oRes.data[i].start_time_cal = oRes.data[i].start_time;
@@ -229,7 +229,10 @@ materialAdmin.controller('playBackCtrl', function ($rootScope, $localStorage, Da
             else if (oRes.status === 'ERROR') {
                 //swal(oRes.message, "", "error");
             }
+        } else {
+            $rootScope.loader = false;
         }
+
     }
 
     $scope.playB = function () {
@@ -262,6 +265,33 @@ materialAdmin.controller('playBackCtrl', function ($rootScope, $localStorage, Da
                 playBack.start_time = $scope.dateTimeStart;
                 playBack.end_time = $scope.dateTimeEnd;
 
+                if($scope.selTruck && $scope.selTruck.activation_time && $scope.selTruck.expiry_time){
+                    let dateF = new Date($scope.selTruck.activation_time);
+                    dateF.setHours(00);
+                    dateF.setMinutes(00);
+                    dateF.setSeconds(00);
+                    dateF.setMilliseconds(00);
+                    $scope.selTruck.activation_time=dateF.toISOString();
+                    let dateT = new Date($scope.selTruck.expiry_time);
+                    dateT.setHours(23);
+                    dateT.setMinutes(59);
+                    dateT.setSeconds(59);
+                    dateT.setMilliseconds(999);
+                    $scope.selTruck.expiry_time=dateT.toISOString();
+
+                    let diffYr=new Date($scope.selTruck.expiry_time).getTime()>(new Date().getTime()-(3*31557600000));
+                    if(diffYr){
+                        let isStartTimeValid=new Date($scope.selTruck.activation_time).getTime()<=new Date(playBack.start_time).getTime();
+                        //let isEndTimeValid = new Date($scope.selTruck.expiry_time).getTime()>=new Date(playBack.end_time).getTime();
+                        let isEndTimeValid = true;
+                        if(!(isStartTimeValid && isEndTimeValid)){
+                            // return swal('Error',"Please select date range between device activation and expiry",'error');
+                             return swal('Error',"Please select start date greater or equal to device activation date",'error');
+                            }
+                        
+                    }
+                }
+
                 //playBack.login_uid = $localStorage.user.user_id;
                 //playBack.token = $localStorage.user.token;
                 $rootScope.selectedDevicekGlobalData = $scope.selTruck;
@@ -270,7 +300,7 @@ materialAdmin.controller('playBackCtrl', function ($rootScope, $localStorage, Da
                 $rootScope.loader = true;
                 $timeout(function () {
                     $rootScope.loader = false;
-                }, 50000);
+                }, 30000);
             } else {
                 swal("Please select vehicle ");
             }

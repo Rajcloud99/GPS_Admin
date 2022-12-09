@@ -612,11 +612,17 @@ materialAdmin.factory('utils', function($rootScope, $http, $uibModal, $localStor
 
     $rootScope.allocateDevice = function(){
         $rootScope.aDevice = [];
-        angular.forEach($rootScope.selectedUser.devices, function(device, key) {
-            if(device.selected) {
-                $rootScope.aDevice.push(device);
+        // angular.forEach($rootScope.selectedUser.devices, function(device, key) {
+        //     if(device.selected) {
+        //         $rootScope.aDevice.push(device);
+        //     }
+        // });
+        for(let i=0; i<$rootScope.aMyTrSheetDevice.length; i++){
+            if($rootScope.aMyTrSheetDevice[i].selected){
+                $rootScope.aDevice.push($rootScope.aMyTrSheetDevice[i]);
             }
-        });
+        }
+
         if($rootScope.aDevice && $rootScope.aDevice.length>0) {
             var modalInstance = $uibModal.open({
                 templateUrl: 'views/user/allocate-device.html',

@@ -299,7 +299,7 @@ materialAdmin.controller(
                 sUsr.user_id = selected_uid;
                 sUsr.selected_uid = selected_uid;
                 sUsr.login_uid = login_uid;
-                $rootScope.getDeviceByUser(sUsr,subUser);
+                $rootScope.getDeviceByUser &&  $rootScope.getDeviceByUser(sUsr,subUser);
             }
             $rootScope.plotMarkerOnMap = function (data) {
                 if (data && data.length > 0) {

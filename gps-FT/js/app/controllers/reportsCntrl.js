@@ -154,10 +154,10 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
                             }
                              */
                         }
-                        var oAllow = {};
-                        oAllow.scope = "report_beat_analysis";
-                        oAllow.name = 'Beat Report';
-                        $scope.aReportTypes.push(oAllow);
+                        // var oAllow = {};
+                        // oAllow.scope = "report_beat_analysis";
+                        // oAllow.name = 'Beat Report';
+                        // $scope.aReportTypes.push(oAllow);
                     }
                 }
             }
@@ -211,7 +211,7 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
                 var someDate1 = angular.copy($scope.dateTimeEnd);
                 var numberOfDaysToSub = 30;
                 someDate1.setDate(someDate1.getDate() - numberOfDaysToSub);
-                $scope.dateOptions1.minDate = someDate1;
+                $scope.dateOptions1.minDate = new Date(someDate1).getTime()<new Date().getTime()?someDate1:new Date();
             }
         }
 
@@ -220,7 +220,7 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             var someDate = angular.copy($scope.dateTimeStart || new Date());
             var numberOfDaysToAdd = 30;
             someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
-            $scope.dateOptions2.maxDate = someDate;
+            $scope.dateOptions2.maxDate = new Date(someDate).getTime()>new Date().getTime()?new Date():someDate;
         }
     };
     //$scope.toggleMin();
@@ -345,9 +345,15 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             fromTime.minute(00);
             fromTime.second(00);
             fromTime.millisecond(00);
-            toTime.hour(23);
-            toTime.minute(59);
-            toTime.second(59);
+            let toDay=new Date();
+            let hh=toDay.getHours();
+            let mm=toDay.getMinutes();
+            let ss=toDay.getSeconds();
+            $scope.hourSel2 = hh;
+            $scope.minuteSel2 = mm;
+            toTime.hour(hh);
+            toTime.minute(mm);
+            toTime.second(ss);
             $scope.dateTimeEnd = toTime._d;
             $scope.dateTimeStart = fromTime._d;
         } else if (timeFilter == 'Yesterday') {
@@ -361,6 +367,8 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             toTime.hour(23);
             toTime.minute(59);
             toTime.second(59);
+            $scope.hourSel2 = 23;
+            $scope.minuteSel2 = 59;
             $scope.dateTimeEnd = toTime._d;
             $scope.dateTimeStart = fromTime._d;
         } else if (timeFilter == 'Last 2 days') {
@@ -373,6 +381,8 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             currentDate.hour(23);
             currentDate.minute(59);
             currentDate.second(59);
+            $scope.hourSel2 = 23;
+            $scope.minuteSel2 = 59;
             $scope.dateTimeEnd = currentDate._d;
             $scope.dateTimeStart = last2Day._d;
         } else if (timeFilter == 'Last 3 days') {
@@ -385,6 +395,8 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             currentDate.hour(23);
             currentDate.minute(59);
             currentDate.second(59);
+            $scope.hourSel2 = 23;
+            $scope.minuteSel2 = 59;
             $scope.dateTimeEnd = currentDate._d;
             $scope.dateTimeStart = last3day._d;
         } else if (timeFilter == 'Last Week') {
@@ -397,6 +409,8 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             currentDate.hour(23);
             currentDate.minute(59);
             currentDate.second(59);
+            $scope.hourSel2 = 23;
+            $scope.minuteSel2 = 59;
             $scope.dateTimeEnd = currentDate._d;
             $scope.dateTimeStart = lastweek._d;
         } else if (timeFilter == 'Last Month') {
@@ -409,6 +423,8 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             currentDate.hour(23);
             currentDate.minute(59);
             currentDate.second(59);
+            $scope.hourSel2 = 23;
+            $scope.minuteSel2 = 59;
             $scope.dateTimeEnd = currentDate._d;
             $scope.dateTimeStart = lastMonth._d;
         } else if (timeFilter == 'Month Wise') {
@@ -416,6 +432,8 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
                 var today = new Date(month);
                 var startDate = moment([today.getFullYear(), today.getMonth()]);
                 var endDate = moment(startDate.clone()).endOf('month');
+                $scope.hourSel2 = 23;
+                $scope.minuteSel2 = 59;
 
                 $scope.dateTimeStart = startDate._d;
                 $scope.dateTimeEnd = endDate._d;
@@ -838,6 +856,14 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
     };
 
     $scope.generateR = function (download = false) {
+        let today=new Date();
+        today.setHours(23);
+        today.setMinutes(59);
+        today.setSeconds(59);
+        today.setMilliseconds(999);
+        if(new Date($scope.dateTimeEnd).getTime()>today.getTime() || new Date($scope.dateTimeStart).getTime()>today.getTime()){
+            return swal('warning', 'Future date not allowed', 'warning');
+        }
         if ($scope.dateTimeEnd && $scope.dateTimeStart) {
             //**** custom time add with date ******//
             var xx = $scope.dateTimeStart;
@@ -849,6 +875,40 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
             yy.setHours($scope.hourSel2);
             yy.setMinutes($scope.minuteSel2);
             $scope.dateTimeEnd = yy;
+            let selDevices =[];
+            for (var i = 0; i < $scope.lst.length; i++) {
+                if($scope.lst[i].activation_time && $scope.lst[i].expiry_time){
+                    selDevices.push($scope.lst[i]);
+                }
+            }
+            let deviceR = selDevices && selDevices[0];
+            if (deviceR){
+                let dateF = new Date(deviceR.activation_time);
+                dateF.setHours(00);
+                dateF.setMinutes(00);
+                dateF.setSeconds(00);
+                dateF.setMilliseconds(00);
+                deviceR.activation_time=dateF.toISOString();
+                let dateT = new Date(deviceR.expiry_time);
+                dateT.setHours(23);
+                dateT.setMinutes(59);
+                dateT.setSeconds(59);
+                dateT.setMilliseconds(999);
+                deviceR.expiry_time=dateT.toISOString();
+    
+                let diffYr=new Date(deviceR.expiry_time).getTime()>(new Date().getTime()-(3*31557600000));
+                if(diffYr){
+                    let isStartTimeValid=new Date(deviceR.activation_time).getTime()<=new Date($scope.dateTimeStart).getTime();
+                    //let isEndTimeValid = new Date(deviceR.expiry_time).getTime()>=new Date($scope.dateTimeEnd).getTime();
+                    let isEndTimeValid = true;
+                    if(!(isStartTimeValid && isEndTimeValid)){
+                        //  return swal('Error',"Please select date range between device activation and expiry",'error');
+                         return swal('Error',"Please select start date greater or equal to device activation date",'error');
+                    }
+                    
+                }
+            }
+            
 
             //**** custom time add with date ******//
             if ($scope.reportType == 'get_trips') {

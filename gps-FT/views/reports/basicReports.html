@@ -61,7 +61,7 @@
                         <div class="col-sm-6">
                             <div class="r-field">
                                 <!-- apply ng-if or ng-show in below field based on some client configuration-->
-                                <div class="form-group">
+                                <div ng-if="false" class="form-group">
                                     <label for="" class="col-sm-4 control-label">Group</label>
                                     <div class="col-sm-8">
                                         <div class="select">
@@ -236,7 +236,7 @@
                                                            datepicker-options="dateOptions1" ng-required="true"
                                                            close-text="Close"
                                                            placeholder="Start Date " ng-change="getNoti();toggleMinMaxDate()"
-                                                           style="width: 100%;border: none; padding: 6px;">
+                                                           style="width: 100%;border: none;z-index: 5; padding: 6px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -428,6 +428,7 @@
 <style type="text/css">
     section.main {
         width: 100%;
+        height: 90%;
         float: none;
         margin: 0;
     }

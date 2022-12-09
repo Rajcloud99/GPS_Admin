@@ -604,9 +604,35 @@ function myDeviceSearchCtrl(
   };
 }
 
-materialAdmin.controller("editDeviceCtrl",['$rootScope', '$scope', '$localStorage','$window', '$uibModal', '$uibModalInstance','$interval','$state', '$timeout','RegistrationService', function($rootScope, $scope, $localStorage,$window, $uibModal, $uibModalInstance, $interval,$state, $timeout,RegistrationService) {
+materialAdmin.controller("editDeviceCtrl",['$rootScope', '$scope', '$localStorage','$window', '$uibModal', '$uibModalInstance','$interval','$state', '$timeout','DateUtils','RegistrationService', function($rootScope, $scope, $localStorage,$window, $uibModal, $uibModalInstance, $interval,$state, $timeout, DateUtils, RegistrationService) {
   $rootScope.showSideBar = true;
   $scope.localStorageUser = $localStorage.user;
+
+  $scope.formats = ['dd-MMM-yyyy', 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
+  $scope.format = DateUtils.format;
+  $scope.open = function ($event, opened) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope[opened] = true;
+};
+
+if($scope.selectedDevice){
+  $scope.selectedDevice.activation_time = new Date();
+  $scope.selectedDevice.expiry_time = new Date();
+}
+
+
+$scope.dateOptions1 = {
+    formatYear: 'yy',
+    startingDay: 1
+};
+$scope.dateOptions2 = {
+    formatYear: 'yy',
+    startingDay: 1
+}
+
+
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
     if($scope.selectedDevice.activation_time || $scope.selectedDevice.expiry_time){
@@ -667,7 +693,7 @@ materialAdmin.controller("editDeviceCtrl",['$rootScope', '$scope', '$localStorag
   $scope.editDeviceF = function (selectedDevice) {
     if(selectedDevice){
       selectedDevice.request = 'update_device';
-      if(selectedDevice.sos_nos[0] || selectedDevice.sos_nos[1]) {
+      if(selectedDevice.sos_nos && selectedDevice.sos_nos.length && (selectedDevice.sos_nos[0] || selectedDevice.sos_nos[1])) {
         const acopyMobile = Object.values(selectedDevice.sos_nos);
         selectedDevice.sos_nos = acopyMobile;
       } 
@@ -679,6 +705,24 @@ materialAdmin.controller("editDeviceCtrl",['$rootScope', '$scope', '$localStorag
 
       }else{
         selectedDevice.user_id = $scope.selectedUser.user_id;
+      }
+
+      if(selectedDevice.activation_time){
+        let date = new Date(selectedDevice.activation_time);
+        date.setHours(00);
+        date.setMinutes(00);
+        date.setSeconds(00);
+        selectedDevice.activation_time=date.toISOString();
+      }
+      if(selectedDevice.expiry_time){
+        let date = new Date(selectedDevice.expiry_time);
+        date.setHours(23);
+        date.setMinutes(59);
+        date.setSeconds(59);
+        selectedDevice.expiry_time=date.toISOString();
+      }
+      if(new Date(selectedDevice.activation_time).getTime()>new Date(selectedDevice.expiry_time)){
+        return swal('warning', 'End date should be greater then start date', 'warning');
       }
       //selectedDevice.icon = $scope.icon;
       RegistrationService.deviceUpdate(selectedDevice,updateResponse);
@@ -1022,7 +1066,7 @@ materialAdmin.controller("allocateDeviceCtrl",['$rootScope', '$scope', '$localSt
       if(selectedDevice){
         var alloDevice = {};
         alloDevice.request = 'associate_device';
-        alloDevice.selected_uid = $scope.selectedUser.user_id;
+        alloDevice.selected_uid = selectedDevice && selectedDevice[0].user_id || $scope.selectedUser.user_id;
         alloDevice.new_uid = $scope.selectedUserNew.user_id;
         alloDevice.login_uid = $localStorage.user.user_id;
         alloDevice.devices = [];
