@@ -392,6 +392,7 @@ materialAdmin.controller(
             };
             $rootScope.softRefreshPage();
             $rootScope.preserveSelectedUser = function (node) {
+                $rootScope.aMyTrSheetDevice=[];
                 $localStorage.preservedSelectedUser = node;
                 $rootScope.selectedUser = node;
             }

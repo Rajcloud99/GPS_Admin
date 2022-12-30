@@ -546,13 +546,14 @@ materialAdmin.controller('playPositionCtrl', function ($rootScope, $scope, DateU
                 polylinePoints.push(pointmid);
                 arrLatLng.push([$scope.aPlayPosiData[i].stop.latitude, $scope.aPlayPosiData[i].stop.longitude]);
                 $scope.newDriveAllPoints.push($scope.aPlayPosiData[i]);
+                let NearLandMark=$scope.aPlayPosiData[i] && $scope.aPlayPosiData[i].NearLandMark || ($scope.aPlayPosiData[i].nearest_landmark && $scope.aPlayPosiData[i].nearest_landmark.name && $scope.aPlayPosiData[i].nearest_landmark.dist ? $scope.aPlayPosiData[i].nearest_landmark.dist/1000 + " KM from " + $scope.aPlayPosiData[i].nearest_landmark.name : "NA")
                 var stopPopup = '<div class="map-popup">' +
                     '<p class="pp-hd">Stop Info</p>' +
                     '<p>Strt Time: <span>' + $scope.aPlayPosiData[i].start_time + '</span></p>' +
                     '<p>End Time: <span>' + $scope.aPlayPosiData[i].end_time + '</span></p>' +
                     '<p>Residence : <span>' + SecondsTohhmmss($scope.aPlayPosiData[i].duration) + '</span></p>' +
                     '<p>Address &nbsp;&nbsp;&nbsp; : <span>' + $scope.aPlayPosiData[i].start_addr + '</span></p>' +
-                    '<p>Nearest Landmark : <span>' + $scope.aPlayPosiData[i].NearLandMark + '</span></p>' +
+                    '<p>Nearest Landmark : <span>' + NearLandMark + '</span></p>' +
                     '</div>';
                 var marker = L.marker([$scope.aPlayPosiData[i].stop.latitude, $scope.aPlayPosiData[i].stop.longitude], {icon: flagIcon}).bindPopup(stopPopup).openPopup().on('click', onMarkerClick);
                 marker.addTo(map);

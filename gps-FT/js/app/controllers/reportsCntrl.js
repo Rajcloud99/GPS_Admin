@@ -2,7 +2,7 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
     $rootScope.showSideBar = false;
     $rootScope.states = {};
     $rootScope.states.actItm = 'report';
-    $scope.aReportTypes = [];
+    //$rootScope.aReportTypes = [];
     $scope.aGroup  = [
         {
             name:'Select Device Group',
@@ -34,6 +34,7 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
         var oFeature = JSON.parse(response);
         if (oFeature) {
             if (oFeature.status == 'OK') {
+                $rootScope.aReportTypes = [];
                 if (oFeature.request == 'get_feature') {
                     if (oFeature.data && oFeature.data.permissions) {
                         for (var f = 0; f < oFeature.data.permissions.length; f++) {
@@ -41,139 +42,149 @@ materialAdmin.controller('reportsCtrl', function ($rootScope, $localStorage, $ui
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Halt Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_overspeed") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Overspeed Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_activity") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Activity Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_mileage") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Mileage Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_mileage2") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Kilometer Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_activity_interval") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Detailed Activity Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_geofence_schedule") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Trip Geofence Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_activity_trip") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Trip Activity Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_ac") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Ac Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "report_driver_activity") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Trip Overview Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                                 oAllow = {};
                                 oAllow.scope = 'report_driver_activity_single';
                                 oAllow.name = 'Trip Overview Report 2';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "driver_day_activity") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Duty and working Day report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             } else if (oFeature.data.permissions[f] == "vehicle_exceptions") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Vehicle Exception';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }else if (oFeature.data.permissions[f] == "details_analysis") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Details Analysis';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }
                             /*
                             else if (oFeature.data.permissions[f] == "report_combined_halts") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Combined Halts Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }*/
                             else if (oFeature.data.permissions[f] == "exception_report") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Exception Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }else if (oFeature.data.permissions[f] == "event_report") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Event Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }else if (oFeature.data.permissions[f] == "action_event_report") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Action Event Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }else if (oFeature.data.permissions[f] == "day_wise_tag_report") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Day Wise Tag Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }
                             else if (oFeature.data.permissions[f] == "report_activity_trip") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Trip Activity Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }
                             /*else if (oFeature.data.permissions[f] == "report_beat_analysis") {
                                 var oAllow = {};
                                 oAllow.scope = oFeature.data.permissions[f];
                                 oAllow.name = 'Beat Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }else{
                                 var oAllow = {};
                                 oAllow.scope = "report_beat_analysis";
                                 oAllow.name = 'Beat Report';
-                                $scope.aReportTypes.push(oAllow);
+                                $rootScope.aReportTypes.push(oAllow);
                             }
                              */
                         }
                         // var oAllow = {};
                         // oAllow.scope = "report_beat_analysis";
                         // oAllow.name = 'Beat Report';
-                        // $scope.aReportTypes.push(oAllow);
+                        // $rootScope.aReportTypes.push(oAllow);
                     }
                 }
             }
         }
     }
 
-    (function () {
+    $scope.getFeatures = function(){
         var feature = {
             request: "get_feature",
             feature: "reports"
         };
-        FeatureService.getFeature(feature, featureSuccess)
-    })();
+        FeatureService.getFeature(feature, featureSuccess);
+    }
+
+    
+    $scope.getFeatures();
+    
+    
+
+    // (function () {
+    //     $scope.getFeatures();
+    // })();
 
     // (function init () {
-    //     $route.reload();
+    //     //$route.reload();
+    //     
     // })();
     //*************** custome Date time Picker for multiple date selection in single form ************
     $scope.today = function () {

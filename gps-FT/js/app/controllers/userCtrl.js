@@ -126,6 +126,8 @@ materialAdmin.controller("myUserCtrl",['$rootScope', '$scope','$localStorage','$
                 obj2.stock = obj.stock || 0;
                 obj2.total_device = obj.total_device || 0;
                 obj2.password=obj.password||'';
+                obj2.email=obj.email||'';
+                obj2.pan=obj.pan||'';
               }
             })
           })
@@ -1066,6 +1068,11 @@ materialAdmin.controller("allocateDeviceCtrl",['$rootScope', '$scope', '$localSt
       if(selectedDevice){
         var alloDevice = {};
         alloDevice.request = 'associate_device';
+        if(selectedDevice && selectedDevice.length && selectedDevice[0].user_id){
+          alloDevice.isSelected_uid = true;
+        }else {
+          alloDevice.isSelected_uid = false;
+        }
         alloDevice.selected_uid = selectedDevice && selectedDevice[0].user_id || $scope.selectedUser.user_id;
         alloDevice.new_uid = $scope.selectedUserNew.user_id;
         alloDevice.login_uid = $localStorage.user.user_id;
